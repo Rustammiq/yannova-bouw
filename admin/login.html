@@ -1,86 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login | Yannova Ramen en Deuren</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="admin.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
     <div class="login-container">
-        <div class="login-background">
-            <div class="background-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
-            </div>
+      <div class="login-background">
+        <div class="background-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
         </div>
-        
-        <div class="login-form-container">
-            <div class="login-form">
-                <div class="login-header">
-                    <div class="logo">
-                        <i class="fas fa-home"></i>
-                        <span>Yannova</span>
-                    </div>
-                    <h1>Admin Login</h1>
-                    <p>Beveiligde toegang tot het dashboard</p>
-                </div>
+      </div>
 
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="username">
-                            <i class="fas fa-user"></i>
-                            Gebruikersnaam
-                        </label>
-                        <input type="text" id="username" name="username" required autocomplete="username">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">
-                            <i class="fas fa-lock"></i>
-                            Wachtwoord
-                        </label>
-                        <input type="password" id="password" name="password" required autocomplete="current-password">
-                        <button type="button" class="password-toggle" id="password-toggle" title="Wachtwoord tonen/verbergen" aria-label="Wachtwoord tonen of verbergen">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <div id="password-strength" class="password-strength"></div>
-                    </div>
-
-                    <div class="form-options">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="remember-me" name="remember-me">
-                            <span class="checkmark"></span>
-                            Onthouden
-                        </label>
-                        <a href="forgot-password.html" class="forgot-password-link">
-                            Wachtwoord vergeten?
-                        </a>
-                    </div>
-
-                    <button type="submit" class="login-btn" id="login-btn">
-                        <span class="btn-text">Inloggen</span>
-                        <span class="btn-loader">
-                            <i class="fas fa-spinner fa-spin"></i>
-                        </span>
-                    </button>
-
-                    <div class="error-message" id="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span id="error-text"></span>
-                    </div>
-                </form>
-
-                <div class="login-footer">
-                    <p>&copy; 2023 Yannova Ramen en Deuren. Alle rechten voorbehouden.</p>
-                </div>
+      <div class="login-form-container">
+        <div class="login-form">
+          <div class="login-header">
+            <div class="logo">
+              <i class="fas fa-home"></i>
+              <span>Yannova</span>
             </div>
+            <h1>Admin Login</h1>
+            <p>Beveiligde toegang tot het dashboard</p>
+          </div>
+
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">
+                <i class="fas fa-user"></i>
+                Gebruikersnaam
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                autocomplete="username"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">
+                <i class="fas fa-lock"></i>
+                Wachtwoord
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                id="password-toggle"
+                title="Wachtwoord tonen/verbergen"
+                aria-label="Wachtwoord tonen of verbergen"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+              <div id="password-strength" class="password-strength"></div>
+            </div>
+
+            <div class="form-options">
+              <label class="checkbox-container">
+                <input type="checkbox" id="remember-me" name="remember-me" />
+                <span class="checkmark"></span>
+                Onthouden
+              </label>
+              <a href="forgot-password.html" class="forgot-password-link">
+                Wachtwoord vergeten?
+              </a>
+            </div>
+
+            <button type="submit" class="login-btn" id="login-btn">
+              <span class="btn-text">Inloggen</span>
+              <span class="btn-loader">
+                <i class="fas fa-spinner fa-spin"></i>
+              </span>
+            </button>
+
+            <!-- Social Login Options -->
+            <div class="social-login-divider">
+              <span>of log in met</span>
+            </div>
+
+            <div class="social-login-buttons">
+              <button
+                type="button"
+                class="social-btn google-btn"
+                id="google-login"
+              >
+                <i class="fab fa-google"></i>
+                <span>Google</span>
+              </button>
+              <button
+                type="button"
+                class="social-btn microsoft-btn"
+                id="microsoft-login"
+              >
+                <i class="fab fa-microsoft"></i>
+                <span>Microsoft</span>
+              </button>
+              <button
+                type="button"
+                class="social-btn github-btn"
+                id="github-login"
+              >
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+              </button>
+            </div>
+
+            <!-- Quick Access Options -->
+            <div class="quick-access">
+              <button
+                type="button"
+                class="quick-access-btn"
+                id="biometric-login"
+              >
+                <i class="fas fa-fingerprint"></i>
+                <span>Biometrisch</span>
+              </button>
+              <button
+                type="button"
+                class="quick-access-btn"
+                id="magic-link-login"
+              >
+                <i class="fas fa-magic"></i>
+                <span>Magic Link</span>
+              </button>
+            </div>
+
+            <div class="error-message" id="error-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span id="error-text"></span>
+            </div>
+          </form>
+
+          <div class="login-footer">
+            <p>
+              &copy; 2023 Yannova Ramen en Deuren. Alle rechten voorbehouden.
+            </p>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="secure-login.js"></script>
-</body>
+    <script src="session-manager.js"></script>
+  </body>
 </html>

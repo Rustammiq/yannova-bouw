@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twee-Factor Authenticatie | Yannova Admin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+      .two-factor-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .two-factor-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .two-factor-header h2 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .two-factor-header p {
+        color: #6c757d;
+        font-size: 14px;
+      }
+
+      .qr-code-container {
+        text-align: center;
+        margin: 30px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+      }
+
+      .qr-code {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 20px;
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .backup-codes {
+        margin: 30px 0;
+        padding: 20px;
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+      }
+
+      .backup-codes h4 {
+        color: #856404;
+        margin-bottom: 15px;
+      }
+
+      .codes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      .code-item {
+        padding: 8px;
+        background: white;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      .verification-input {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .verification-input input {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        transition: border-color 0.3s;
+      }
+
+      .verification-input input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .trust-device {
+        margin: 20px 0;
+      }
+
+      .trust-device label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      .btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #e9ecef;
+        color: #6c757d;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .setup-steps {
+        margin: 30px 0;
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .step-number {
+        width: 30px;
+        height: 30px;
+        background: #667eea;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .step-content h4 {
+        margin-bottom: 5px;
+        color: #2c3e50;
+      }
+
+      .step-content p {
+        color: #6c757d;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .auth-methods {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .auth-method {
+        padding: 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .auth-method:hover,
+      .auth-method.selected {
+        border-color: #667eea;
+        background: #f0f4ff;
+      }
+
+      .auth-method i {
+        font-size: 32px;
+        color: #667eea;
+        margin-bottom: 10px;
+      }
+
+      .auth-method h4 {
+        margin: 0 0 5px 0;
+        font-size: 14px;
+        color: #2c3e50;
+      }
+
+      .auth-method p {
+        margin: 0;
+        font-size: 12px;
+        color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="two-factor-container">
+      <div class="two-factor-header">
+        <div class="logo">
+          <i class="fas fa-home"></i>
+          <span>Yannova</span>
+        </div>
+        <h2>Twee-Factor Authenticatie</h2>
+        <p>Beveilig uw account met een extra laag beveiliging</p>
+      </div>
+
+      <!-- Setup 2FA -->
+      <div id="setup-section" class="setup-section">
+        <div class="auth-methods">
+          <div class="auth-method selected" data-method="app">
+            <i class="fas fa-mobile-alt"></i>
+            <h4>Authenticator App</h4>
+            <p>Google Authenticator, Authy</p>
+          </div>
+          <div class="auth-method" data-method="sms">
+            <i class="fas fa-sms"></i>
+            <h4>SMS</h4>
+            <p>Code via SMS</p>
+          </div>
+          <div class="auth-method" data-method="email">
+            <i class="fas fa-envelope"></i>
+            <h4>E-mail</h4>
+            <p>Code via e-mail</p>
+          </div>
+        </div>
+
+        <div class="setup-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Kies uw authenticatie methode</h4>
+              <p>Selecteer hoe u verificatiecodes wilt ontvangen</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Scan de QR code</h4>
+              <p>Gebruik uw authenticator app om de QR code te scannen</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Voer de verificatiecode in</h4>
+              <p>Voer de 6-cijferige code uit uw app in</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-code-container" id="qr-container">
+          <div class="qr-code">
+            <i class="fas fa-qrcode" style="font-size: 64px; color: #ccc"></i>
+          </div>
+          <p><strong>Scan deze QR code met uw authenticator app</strong></p>
+          <p style="font-size: 12px; color: #6c757d; margin-top: 10px">
+            Kan niet scannen? Voer handmatig deze code in:<br />
+            <code
+              style="background: #f8f9fa; padding: 4px 8px; border-radius: 4px"
+              >JBSWY3DPEHPK3PXP</code
+            >
+          </p>
+        </div>
+
+        <div class="verification-input">
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+          <input
+            type="text"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+          />
+        </div>
+
+        <div class="trust-device">
+          <label>
+            <input type="checkbox" id="trust-device" />
+            <span>Vertrouw dit apparaat (30 dagen)</span>
+          </label>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="cancel-btn">Annuleren</button>
+          <button class="btn btn-primary" id="verify-btn">Verifiëren</button>
+        </div>
+      </div>
+
+      <!-- Backup Codes -->
+      <div class="backup-codes">
+        <h4><i class="fas fa-key"></i> Backup Codes</h4>
+        <p style="font-size: 14px; margin-bottom: 15px">
+          Bewaar deze codes op een veilige plek. U kunt ze gebruiken als u geen
+          toegang heeft tot uw authenticator app.
+        </p>
+        <div class="codes-grid">
+          <div class="code-item">1234-5678</div>
+          <div class="code-item">2345-6789</div>
+          <div class="code-item">3456-7890</div>
+          <div class="code-item">4567-8901</div>
+          <div class="code-item">5678-9012</div>
+          <div class="code-item">6789-0123</div>
+          <div class="code-item">7890-1234</div>
+          <div class="code-item">8901-2345</div>
+        </div>
+        <button class="btn btn-secondary" style="margin-top: 15px; width: 100%">
+          <i class="fas fa-download"></i> Download Codes
+        </button>
+      </div>
+    </div>
+
+    <script src="two-factor-auth.js"></script>
+  </body>
+</html>

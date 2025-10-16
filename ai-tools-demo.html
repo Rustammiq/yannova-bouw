@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Tools Bundle Demo - Yannova Bouw</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1em;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .tool-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+      }
+
+      .tool-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-color: #667eea;
+      }
+
+      .tool-card h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.4em;
+      }
+
+      .tool-card p {
+        color: #6c757d;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+      }
+
+      .result-area {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+        border-left: 4px solid #667eea;
+        display: none;
+      }
+
+      .result-area.show {
+        display: block;
+      }
+
+      .result-area h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .result-area pre {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-size: 0.9em;
+        border: 1px solid #dee2e6;
+      }
+
+      .status {
+        background: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        color: #1565c0;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 10px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .chat-demo {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      .chat-messages {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        background: white;
+        margin-bottom: 15px;
+      }
+
+      .chat-input {
+        display: flex;
+        gap: 10px;
+      }
+
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+
+      .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .message.user {
+        background: #e3f2fd;
+        text-align: right;
+        margin-left: 20%;
+      }
+
+      .message.assistant {
+        background: #f3e5f5;
+        margin-right: 20%;
+      }
+
+      .footer {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🤖 AI Tools Bundle Demo</h1>
+        <p>Yannova Bouw - Integrated AI Functionality Showcase</p>
+      </div>
+
+      <div class="content">
+        <div class="status" id="status">
+          <strong>Status:</strong>
+          <span id="statusText">Initializing AI Tools Bundle...</span>
+        </div>
+
+        <div class="tools-grid">
+          <!-- Gemini AI Tools Card -->
+          <div class="tool-card">
+            <h3>🎯 Gemini AI Tools</h3>
+            <p>
+              Content generation, video creation, project planning, and
+              analytics powered by Google Gemini AI.
+            </p>
+            <button class="btn" onclick="testContentGeneration()">
+              Generate Content
+            </button>
+            <button class="btn" onclick="testQuoteGeneration()">
+              Generate Quote
+            </button>
+            <button class="btn" onclick="testProjectPlan()">
+              Project Plan
+            </button>
+            <div class="result-area" id="geminiResult"></div>
+          </div>
+
+          <!-- AI Chatbot Card -->
+          <div class="tool-card">
+            <h3>💬 AI Chatbot</h3>
+            <p>
+              Intelligent customer service with knowledge base and conversation
+              context.
+            </p>
+            <div class="chat-demo">
+              <div class="chat-messages" id="chatMessages"></div>
+              <div class="chat-input">
+                <input
+                  type="text"
+                  id="chatInput"
+                  placeholder="Type your message..."
+                  onkeypress="handleChatKeyPress(event)"
+                />
+                <button class="btn" onclick="sendChatMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Quote Generator Card -->
+          <div class="tool-card">
+            <h3>📋 AI Quote Generator</h3>
+            <p>
+              Advanced quote generation with intelligent pricing engine and AI
+              recommendations.
+            </p>
+            <button class="btn" onclick="testDetailedQuote()">
+              Detailed Quote
+            </button>
+            <button class="btn" onclick="testRecommendations()">
+              Get Recommendations
+            </button>
+            <div class="result-area" id="quoteResult"></div>
+          </div>
+
+          <!-- Bundle Status Card -->
+          <div class="tool-card">
+            <h3>📊 Bundle Status</h3>
+            <p>Monitor the AI Tools Bundle performance and status.</p>
+            <button class="btn" onclick="checkBundleStatus()">
+              Check Status
+            </button>
+            <button class="btn btn-secondary" onclick="testAllTools()">
+              Test All Tools
+            </button>
+            <div class="result-area" id="statusResult"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2024 Yannova Bouw - AI Tools Bundle v1.0.0</p>
+      </div>
+    </div>
+
+    <!-- Include the AI Tools Bundle -->
+    <script src="assets/js/gemini-ai-tools.js"></script>
+    <script src="assets/js/yannova-ai-chatbot.js"></script>
+    <script src="assets/js/yannova-ai-quote-generator.js"></script>
+    <script src="assets/js/ai-tools-bundle.js"></script>
+
+    <script>
+      let bundle;
+      let isInitialized = false;
+
+      // Initialize the bundle
+      async function initializeBundle() {
+        try {
+          updateStatus("Creating AI Tools Bundle...");
+
+          bundle = await YannovaAIToolsBundle.create({
+            debugMode: true,
+            enableChatbot: true,
+            enableQuoteGenerator: true,
+            enableGeminiTools: true,
+          });
+
+          // Setup event listeners
+          bundle.on("bundle:initialized", (data) => {
+            updateStatus("✅ AI Tools Bundle initialized successfully!");
+            isInitialized = true;
+            console.log("Bundle initialized with instances:", data.instances);
+          });
+
+          bundle.on("bundle:error", (error) => {
+            updateStatus("❌ Error: " + error.message);
+            console.error("Bundle error:", error);
+          });
+
+          // Add event listeners for all tools
+          setupEventListeners();
+        } catch (error) {
+          updateStatus("❌ Failed to initialize: " + error.message);
+          console.error("Initialization error:", error);
+        }
+      }
+
+      function setupEventListeners() {
+        // Content generation events
+        bundle.on("content:generation:start", () => {
+          updateStatus("🔄 Generating content...");
+        });
+
+        bundle.on("content:generation:complete", (result) => {
+          updateStatus("✅ Content generated successfully!");
+          showResult("geminiResult", result);
+        });
+
+        // Quote generation events
+        bundle.on("quote:generation:start", () => {
+          updateStatus("🔄 Generating quote...");
+        });
+
+        bundle.on("quote:generation:complete", (result) => {
+          updateStatus("✅ Quote generated successfully!");
+          showResult("geminiResult", result);
+        });
+
+        // Chat events
+        bundle.on("chat:message:start", () => {
+          updateStatus("🔄 Processing chat message...");
+        });
+
+        bundle.on("chat:message:complete", (result) => {
+          updateStatus("✅ Chat message processed!");
+          addChatMessage("assistant", result.response);
+        });
+
+        // Detailed quote events
+        bundle.on("detailed-quote:generation:start", () => {
+          updateStatus("🔄 Generating detailed quote...");
+        });
+
+        bundle.on("detailed-quote:generation:complete", (result) => {
+          updateStatus("✅ Detailed quote generated!");
+          showResult("quoteResult", result);
+        });
+      }
+
+      function updateStatus(message) {
+        document.getElementById("statusText").textContent = message;
+      }
+
+      function showResult(elementId, data) {
+        const resultArea = document.getElementById(elementId);
+        resultArea.innerHTML = `
+                <h4>Result:</h4>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        resultArea.classList.add("show");
+      }
+
+      // Test functions
+      async function testContentGeneration() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          await bundle.generateContent({
+            contentType: "blog-post",
+            topic: "Energiezuinige ramen voor jouw woning",
+            length: "short",
+            tone: "professional",
+            keywords: ["energiezuinig", "ramen", "isolatie", "besparen"],
+          });
+        } catch (error) {
+          updateStatus("❌ Content generation failed: " + error.message);
+        }
+      }
+
+      async function testQuoteGeneration() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          await bundle.generateQuote({
+            projectType: "ramen-deuren",
+            size: 35,
+            complexity: "medium",
+            location: "Amsterdam",
+            urgency: "normal",
+          });
+        } catch (error) {
+          updateStatus("❌ Quote generation failed: " + error.message);
+        }
+      }
+
+      async function testProjectPlan() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          const result = await bundle.generateProjectPlan({
+            projectName: "Demo Project",
+            projectType: "renovatiewerken",
+            startDate: "2024-02-01",
+            duration: 4,
+            teamSize: 3,
+          });
+          showResult("geminiResult", result);
+          updateStatus("✅ Project plan generated successfully!");
+        } catch (error) {
+          updateStatus("❌ Project plan generation failed: " + error.message);
+        }
+      }
+
+      async function testDetailedQuote() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          await bundle.generateDetailedQuote({
+            klant: {
+              naam: "Demo Klant",
+              email: "demo@yannovabouw.ai",
+              telefoon: "+32 477 28 10 28",
+            },
+            projectType: "vervanging",
+            ramen: [
+              {
+                materiaal: "kunststof",
+                glas: "hr++",
+                aantal: 3,
+                afmetingen: { breedte: 120, hoogte: 140 },
+              },
+            ],
+            locatieType: "woning",
+            bouwjaar: 1995,
+          });
+        } catch (error) {
+          updateStatus("❌ Detailed quote generation failed: " + error.message);
+        }
+      }
+
+      async function testRecommendations() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          const requirements = {
+            projectType: "vervanging",
+            ramen: [{ materiaal: "kunststof" }],
+            locatieType: "woning",
+          };
+
+          const recommendations = bundle.getQuoteRecommendations(requirements);
+          showResult("quoteResult", recommendations);
+          updateStatus("✅ Recommendations generated successfully!");
+        } catch (error) {
+          updateStatus(
+            "❌ Recommendations generation failed: " + error.message,
+          );
+        }
+      }
+
+      async function checkBundleStatus() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          const status = await bundle.getBundleStatus();
+          showResult("statusResult", status);
+          updateStatus("✅ Bundle status retrieved!");
+        } catch (error) {
+          updateStatus("❌ Status check failed: " + error.message);
+        }
+      }
+
+      async function testAllTools() {
+        if (!isInitialized) {
+          alert("Please wait for the bundle to initialize");
+          return;
+        }
+
+        try {
+          updateStatus("🔄 Testing all tools...");
+          const results = await bundle.testAllTools();
+          showResult("statusResult", results);
+          updateStatus("✅ All tools tested!");
+        } catch (error) {
+          updateStatus("❌ Tools testing failed: " + error.message);
+        }
+      }
+
+      // Chat functions
+      function handleChatKeyPress(event) {
+        if (event.key === "Enter") {
+          sendChatMessage();
+        }
+      }
+
+      async function sendChatMessage() {
+        const input = document.getElementById("chatInput");
+        const message = input.value.trim();
+
+        if (!message || !isInitialized) {
+          return;
+        }
+
+        addChatMessage("user", message);
+        input.value = "";
+
+        try {
+          await bundle.processChatMessage(message);
+        } catch (error) {
+          addChatMessage(
+            "assistant",
+            "Sorry, er is een fout opgetreden: " + error.message,
+          );
+          updateStatus("❌ Chat message failed: " + error.message);
+        }
+      }
+
+      function addChatMessage(sender, message) {
+        const messagesContainer = document.getElementById("chatMessages");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${sender}`;
+        messageDiv.innerHTML = `
+                <strong>${sender === "user" ? "U" : "AI Assistant"}:</strong><br>
+                ${message}
+            `;
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", initializeBundle);
+    </script>
+  </body>
+</html>
