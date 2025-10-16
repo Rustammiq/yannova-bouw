@@ -521,6 +521,8 @@ section {
     gap: 4rem;
     align-items: center;
     position: relative;
+    margin-top: 3rem;
+    padding: 2rem 0;
 }
 
 .about-content::before {
@@ -591,6 +593,8 @@ section {
     border-radius: 15px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     transition: all 0.4s ease;
+    max-width: 100%;
+    height: auto;
 }
 
 .about-image::before {
@@ -616,6 +620,8 @@ section {
     display: block;
     transition: all 0.5s ease;
     filter: grayscale(20%);
+    border-radius: 15px;
+    object-fit: cover;
 }
 
 .about-image:hover {
@@ -702,23 +708,33 @@ section {
 .form-group textarea {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #333;
-    border-radius: 3px;
+    border: 1px solid #444;
+    border-radius: 8px;
     font-size: 1rem;
     background: #2a2a2a;
     color: #fff;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: #d4a574;
+    background: #333;
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
 }
 
 .form-group textarea {
     height: 120px;
     resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+    opacity: 0.8;
 }
 
 .btn-submit {
@@ -1903,19 +1919,19 @@ select:focus {
     display: inline-block;
     background: linear-gradient(135deg, var(--primary-color), #b8945f);
     color: var(--secondary-color);
-    padding: 1.2rem 2.5rem;
+    padding: 0.8rem 1.5rem;
     text-decoration: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 1.1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     transition: var(--transition);
     border: none;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(212, 165, 116, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
     border: 2px solid transparent;
 }
 
@@ -1932,8 +1948,8 @@ select:focus {
 
 .portfolio-btn:hover {
     background: linear-gradient(135deg, #b8945f, var(--primary-color));
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(212, 165, 116, 0.5);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
     border-color: rgba(255,255,255,0.3);
 }
 
@@ -1970,8 +1986,8 @@ select:focus {
     }
     
     .portfolio-btn {
-        padding: 1rem 2rem;
-        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
     }
 }
 

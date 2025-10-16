@@ -225,6 +225,12 @@ class SEOManager {
 
     // Method to track custom events
     trackEvent(eventName, parameters = {}) {
+        // Validate event name
+        if (!eventName || eventName === 'undefined') {
+            console.warn('Invalid event name:', eventName);
+            return;
+        }
+
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, parameters);
         }

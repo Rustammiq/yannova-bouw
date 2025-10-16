@@ -272,7 +272,7 @@ class YannovaQuoteGenerator {
     }
 
     isValidPhone(phone) {
-        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+        const phoneRegex = /^[+]?[0-9\s\-()]{10,}$/;
         return phoneRegex.test(phone);
     }
 
@@ -355,7 +355,7 @@ class YannovaQuoteGenerator {
                 this.populateForm();
             }
         } catch (error) {
-
+            this.log('Could not load saved data:', error, 'warn');
         }
     }
 
@@ -447,16 +447,29 @@ class YannovaQuoteGenerator {
         submitBtn.disabled = true;
 
         try {
+            // Transform data to match server expectations
+            const serverData = {
+                klantNaam: this.quoteData.contact.name,
+                email: this.quoteData.contact.email,
+                telefoon: this.quoteData.contact.phone,
+                projectType: this.quoteData.project.types?.join(', ') || 'Niet gespecificeerd',
+                opmerkingen: this.quoteData.measurements.notes || '',
+                voorkeuren: {
+                    material: this.quoteData.preferences.material || '',
+                    color: this.quoteData.preferences.color || '',
+                    timeline: this.quoteData.timeline.preferred || '',
+                    preferredDate: this.quoteData.timeline.date || ''
+                },
+                timestamp: new Date().toISOString(),
+                source: 'website'
+            };
+
             const response = await fetch('/api/quotes', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    ...this.quoteData,
-                    timestamp: new Date().toISOString(),
-                    source: 'website'
-                })
+                body: JSON.stringify(serverData)
             });
 
             const data = await response.json();
@@ -475,7 +488,7 @@ class YannovaQuoteGenerator {
                 throw new Error(data.error || 'Er is een fout opgetreden');
             }
         } catch (error) {
-            console.error('Quote submission error:', error);
+            this.log('Quote submission error:', error, 'error');
             this.showError('Er is een fout opgetreden bij het versturen van uw aanvraag. Probeer het later opnieuw.');
         } finally {
             submitBtn.innerHTML = originalText;
@@ -530,14 +543,53 @@ class YannovaQuoteGenerator {
         // Analytics tracking
         if (window.yannovaAnalytics) {
             window.yannovaAnalytics.trackCustomEvent(eventName, data);
+        } else {
+            // Store event for later processing if analytics not ready
+            if (!window.pendingAnalyticsEvents) {
+                window.pendingAnalyticsEvents = [];
+            }
+            window.pendingAnalyticsEvents.push({ eventName, data });
         }
 
         // Google Analytics 4 tracking
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, {
+        if (typeof window.gtag !== 'undefined') {
+            window.gtag('event', eventName, {
                 event_category: 'quote_generator',
                 ...data
             });
+        }
+
+        // Send to server analytics endpoint
+        try {
+            fetch('/api/analytics/event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventType: eventName,
+                    eventData: data
+                })
+            }).catch(error => {
+                this.log('Analytics tracking failed:', error, 'warn');
+            });
+        } catch (error) {
+            this.log('Analytics tracking failed:', error, 'warn');
+        }
+    }
+
+    log(message, data = null, level = 'log') {
+        if (typeof window !== 'undefined' && window.console) {
+            switch (level) {
+            case 'error':
+                console.error(message, data);
+                break;
+            case 'warn':
+                console.warn(message, data);
+                break;
+            default:
+                console.log(message, data);
+            }
         }
     }
 }

@@ -802,6 +802,8 @@ app.post('/api/quotes', async (req, res) => {
             });
         
         res.status(201).json({
+            success: true,
+            message: 'Quote successfully created',
             ...quote,
             id: quote.quote_id, // Return human-readable ID
             klantNaam: quote.klant_naam,

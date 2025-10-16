@@ -60,8 +60,8 @@ class PerformanceOptimizer {
             });
         }
 
-        // Add WebP support
-        this.addWebPSupport();
+        // Add WebP support - Disabled to prevent 404 errors
+        // this.addWebPSupport();
     }
 
     addWebPSupport() {

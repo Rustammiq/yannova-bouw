@@ -172,9 +172,15 @@ class YannovaAnalytics {
     }
 
     async sendEvent(eventType, eventData) {
+        // Validate event parameters
+        if (!eventType || eventType === 'undefined') {
+            console.warn('Invalid event type:', eventType);
+            return;
+        }
+
         const event = {
             type: eventType,
-            data: eventData,
+            data: eventData || {},
             sessionId: this.sessionId,
             timestamp: new Date().toISOString(),
             url: window.location.href,
@@ -250,6 +256,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Retry stored events on page load
     window.yannovaAnalytics.retryStoredEvents();
+
+    // Process any pending events from quote generator
+    if (window.pendingAnalyticsEvents) {
+        window.pendingAnalyticsEvents.forEach(({ eventName, data }) => {
+            window.yannovaAnalytics.trackCustomEvent(eventName, data);
+        });
+        window.pendingAnalyticsEvents = [];
+    }
 });
 
 // Export for use in other scripts

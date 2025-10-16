@@ -692,13 +692,27 @@ class EnhancedSEOManager {
     }
 
     trackEvent(eventName, parameters = {}) {
+        // Validate event name
+        if (!eventName || eventName === 'undefined') {
+            console.warn('Invalid event name:', eventName);
+            return;
+        }
+
         // Track events for analytics
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, parameters);
         }
 
-        // Also track in console for debugging
-
+        // Send to server analytics
+        if (window.yannovaAnalytics) {
+            window.yannovaAnalytics.trackCustomEvent(eventName, parameters);
+        } else {
+            // Store event for later processing if analytics not ready
+            if (!window.pendingAnalyticsEvents) {
+                window.pendingAnalyticsEvents = [];
+            }
+            window.pendingAnalyticsEvents.push({ eventName, data: parameters });
+        }
     }
 
     // Method to update meta tags dynamically
