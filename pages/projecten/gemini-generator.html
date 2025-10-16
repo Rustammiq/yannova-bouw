@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Project Generator - Yannova Ramen en Deuren</title>
+    <meta name="description" content="Genereer professionele project afbeeldingen met AI voor ramen, deuren en renovatie projecten">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/gemini-image-generator.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="../../index.html">
+                    <img src="../../assets/images/logo.png" alt="Yannova Ramen en Deuren" class="logo">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../diensten/">Diensten</a></li>
+                <li><a href="../projecten/">Projecten</a></li>
+                <li><a href="../over/">Over Ons</a></li>
+                <li><a href="../contact/">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero hero-small">
+            <div class="hero-content">
+                <h1>AI Project Generator</h1>
+                <p>Genereer professionele afbeeldingen voor uw projecten met behulp van kunstmatige intelligentie</p>
+            </div>
+        </section>
+
+        <!-- Generator Controls -->
+        <section class="gemini-controls">
+            <div class="container">
+                <h3>Project Afbeelding Generator</h3>
+                <p>Kies het type project en genereer realistische afbeeldingen voor uw portfolio.</p>
+                
+                <form id="imageGeneratorForm">
+                    <div class="control-group">
+                        <label for="projectType">Project Type</label>
+                        <select id="projectType" name="projectType" required>
+                            <option value="">Selecteer project type</option>
+                            <option value="ramen">Ramen Installatie</option>
+                            <option value="deuren">Deuren Installatie</option>
+                            <option value="renovatie">Renovatie Project</option>
+                            <option value="nieuwbouw">Nieuwbouw Project</option>
+                            <option value="onderhoud">Onderhoud & Service</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="buildingType">Gebouw Type</label>
+                        <select id="buildingType" name="buildingType">
+                            <option value="">Alle types</option>
+                            <option value="residential">Woning</option>
+                            <option value="commercial">Kantoor</option>
+                            <option value="industrial">Industrieel</option>
+                            <option value="retail">Winkel</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="style">Stijl</label>
+                        <select id="style" name="style">
+                            <option value="">Automatisch</option>
+                            <option value="modern">Modern</option>
+                            <option value="classic">Klassiek</option>
+                            <option value="contemporary">Hedendaags</option>
+                            <option value="minimalist">Minimalistisch</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="timeOfDay">Tijdstip</label>
+                        <select id="timeOfDay" name="timeOfDay">
+                            <option value="">Automatisch</option>
+                            <option value="morning">Ochtend</option>
+                            <option value="afternoon">Middag</option>
+                            <option value="golden hour">Gouden uur</option>
+                            <option value="blue hour">Blauwe uur</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="imageCount">Aantal afbeeldingen</label>
+                        <select id="imageCount" name="imageCount">
+                            <option value="1">1 afbeelding</option>
+                            <option value="3" selected>3 afbeeldingen</option>
+                            <option value="5">5 afbeeldingen</option>
+                            <option value="9">9 afbeeldingen</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generateBtn">
+                        <span class="btn-text">Afbeeldingen Genereren</span>
+                        <div class="spinner" style="display: none;"></div>
+                    </button>
+                </form>
+
+                <!-- Status Messages -->
+                <div id="statusMessage" style="display: none;"></div>
+            </div>
+        </section>
+
+        <!-- Generated Images -->
+        <section class="generated-images">
+            <div class="container">
+                <h3>Gegenereerde Afbeeldingen</h3>
+                <div id="imageContainer" class="image-container grid">
+                    <!-- Generated images will appear here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Gallery -->
+        <section class="project-gallery">
+            <div class="container">
+                <h3>Project Galerij</h3>
+                <p>Bekijk onze collectie van AI-gegenereerde project afbeeldingen</p>
+                
+                <div class="gallery-filters">
+                    <button class="filter-btn active" data-filter="all">Alle Projecten</button>
+                    <button class="filter-btn" data-filter="ramen">Ramen</button>
+                    <button class="filter-btn" data-filter="deuren">Deuren</button>
+                    <button class="filter-btn" data-filter="renovatie">Renovatie</button>
+                    <button class="filter-btn" data-filter="nieuwbouw">Nieuwbouw</button>
+                </div>
+
+                <div id="galleryContainer" class="image-container masonry">
+                    <!-- Gallery images will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="image-modal-content">
+            <img id="modalImage" src="" alt="">
+            <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Yannova Ramen en Deuren</h4>
+                    <p>Uw betrouwbare partner voor ramen, deuren en renovatie projecten.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Diensten</h4>
+                    <ul>
+                        <li><a href="../diensten/">Ramen</a></li>
+                        <li><a href="../diensten/">Deuren</a></li>
+                        <li><a href="../diensten/">Renovatie</a></li>
+                        <li><a href="../diensten/">Onderhoud</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 020-1234567</p>
+                    <p>✉️ info@yannovabouw.nl</p>
+                    <p>📍 Amsterdam, Nederland</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Yannova Ramen en Deuren. Alle rechten voorbehouden.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../assets/js/gemini-image-generator.js"></script>
+    <script src="../../assets/js/main.js"></script>
+    
+    <script>
+        // Initialize Gemini Image Generator
+        document.addEventListener('DOMContentLoaded', function() {
+            // Note: In a real implementation, you would need to provide a valid API key
+            const apiKey = 'YOUR_GEMINI_API_KEY'; // Replace with actual API key
+            const geminiGenerator = new GeminiImageGenerator(apiKey);
+            const imageManager = new ProjectImageManager(geminiGenerator);
+            const imageDisplay = new ImageDisplayHelper('imageContainer');
+            const galleryDisplay = new ImageDisplayHelper('galleryContainer');
+
+            // Form submission handler
+            document.getElementById('imageGeneratorForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const projectType = formData.get('projectType');
+                const options = {
+                    buildingType: formData.get('buildingType'),
+                    style: formData.get('style'),
+                    timeOfDay: formData.get('timeOfDay')
+                };
+                const imageCount = parseInt(formData.get('imageCount'));
+
+                if (!projectType) {
+                    showMessage('Selecteer een project type', 'error');
+                    return;
+                }
+
+                const generateBtn = document.getElementById('generateBtn');
+                const btnText = generateBtn.querySelector('.btn-text');
+                const spinner = generateBtn.querySelector('.spinner');
+
+                // Show loading state
+                generateBtn.disabled = true;
+                btnText.textContent = 'Genereren...';
+                spinner.style.display = 'block';
+
+                try {
+                    // Generate images
+                    const images = await imageManager.getProjectImages(
+                        `project_${Date.now()}`,
+                        projectType,
+                        { ...options, count: imageCount }
+                    );
+
+                    // Display images
+                    imageDisplay.displayImages(images, 'grid');
+                    showMessage(`${images.length} afbeeldingen succesvol gegenereerd!`, 'success');
+
+                    // Add to gallery
+                    loadGalleryImages();
+
+                } catch (error) {
+                    console.error('Error generating images:', error);
+                    showMessage('Er is een fout opgetreden bij het genereren van afbeeldingen.', 'error');
+                } finally {
+                    // Reset button state
+                    generateBtn.disabled = false;
+                    btnText.textContent = 'Afbeeldingen Genereren';
+                    spinner.style.display = 'none';
+                }
+            });
+
+            // Gallery filter functionality
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Filter images
+                    const filter = this.dataset.filter;
+                    filterGalleryImages(filter);
+                });
+            });
+
+            // Load initial gallery
+            loadGalleryImages();
+
+            // Helper functions
+            function showMessage(message, type) {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.textContent = message;
+                statusDiv.className = `${type}-message`;
+                statusDiv.style.display = 'block';
+
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+
+            async function loadGalleryImages() {
+                // Load sample gallery images
+                const sampleImages = [
+                    {
+                        url: 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Modern+Window+Installation',
+                        alt: 'Modern window installation project',
+                        title: 'Moderne Ramen Installatie',
+                        type: 'ramen'
+                    },
+                    {
+                        url: 'https://via.placeholder.com/400x300/2ECC71/FFFFFF?text=Professional+Door+Project',
+                        alt: 'Professional door installation',
+                        title: 'Professionele Deuren Project',
+                        type: 'deuren'
+                    },
+                    {
+                        url: 'https://via.placeholder.com/400x300/E74C3C/FFFFFF?text=Building+Renovation',
+                        alt: 'Building renovation project',
+                        title: 'Gebouw Renovatie',
+                        type: 'renovatie'
+                    },
+                    {
+                        url: 'https://via.placeholder.com/400x300/F39C12/FFFFFF?text=New+Construction',
+                        alt: 'New construction project',
+                        title: 'Nieuwbouw Project',
+                        type: 'nieuwbouw'
+                    }
+                ];
+
+                galleryDisplay.displayImages(sampleImages, 'masonry');
+            }
+
+            function filterGalleryImages(filter) {
+                const images = document.querySelectorAll('#galleryContainer .project-image-wrapper');
+                images.forEach(img => {
+                    const imageType = img.dataset.type || 'all';
+                    if (filter === 'all' || imageType === filter) {
+                        img.style.display = 'block';
+                    } else {
+                        img.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Modal functions
+        function openImageModal(imageUrl, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            modalImage.src = imageUrl;
+            modalImage.alt = title;
+            modal.classList.add('active');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on background click
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>

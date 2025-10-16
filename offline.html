@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Yannova Ramen en Deuren</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .offline-container {
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        .offline-icon {
+            font-size: 4rem;
+            color: #d4a574;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            color: #d4a574;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .retry-btn {
+            background: #d4a574;
+            color: #1a1a1a;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .retry-btn:hover {
+            background: #b8945f;
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .features h3 {
+            color: #d4a574;
+            margin-bottom: 1rem;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .features li:before {
+            content: "✓";
+            color: #d4a574;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        <h1>Je bent offline</h1>
+        <p>Geen internetverbinding gevonden. Controleer je netwerkverbinding en probeer het opnieuw.</p>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            Probeer opnieuw
+        </button>
+        
+        <div class="features">
+            <h3>Onze diensten:</h3>
+            <ul>
+                <li>Isolatiewerken</li>
+                <li>Renovatiewerken</li>
+                <li>Platedakken</li>
+                <li>Ramen en Deuren</li>
+                <li>Tuinaanleg</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-retry when connection is restored
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

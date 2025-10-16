@@ -1,0 +1,395 @@
+/**
+ * Gemini Image Generator Styles
+ * Styling voor de AI gegenereerde project afbeeldingen
+ */
+
+/* Container voor afbeeldingen */
+.image-container {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.image-container.grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.image-container.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 1rem 0;
+}
+
+.image-container.masonry {
+    column-count: 3;
+    column-gap: 1.5rem;
+}
+
+/* Project afbeelding wrapper */
+.project-image-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: #fff;
+    cursor: pointer;
+}
+
+.project-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Afbeelding zelf */
+.project-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.project-image-wrapper:hover .project-image {
+    transform: scale(1.05);
+}
+
+/* Overlay met acties */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-image-wrapper:hover .image-overlay {
+    opacity: 1;
+}
+
+/* Titel in overlay */
+.image-title {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Actie knoppen */
+.image-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-view,
+.btn-download {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-view {
+    background: #4A90E2;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #357ABD;
+    transform: translateY(-1px);
+}
+
+.btn-download {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-download:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Loading state */
+.image-loading {
+    position: relative;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.image-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4A90E2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Generator controls */
+.gemini-controls {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    border: 1px solid #e9ecef;
+}
+
+.gemini-controls h3 {
+    margin: 0 0 1.5rem 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.control-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.control-group select,
+.control-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.control-group select:focus,
+.control-group input:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.generate-btn {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+}
+
+.generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.generate-btn .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Error states */
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #f5c6cb;
+    margin: 1rem 0;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #c3e6cb;
+    margin: 1rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .image-container.grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .image-container.masonry {
+        column-count: 1;
+    }
+    
+    .image-container.carousel {
+        padding: 0.5rem 0;
+    }
+    
+    .project-image {
+        height: 200px;
+    }
+    
+    .image-overlay {
+        padding: 1rem;
+    }
+    
+    .image-title {
+        font-size: 1rem;
+    }
+    
+    .btn-view,
+    .btn-download {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .gemini-controls {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .btn-view,
+    .btn-download {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Modal voor afbeelding weergave */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.image-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+}
+
+.image-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.image-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Project type indicators */
+.project-type-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(74, 144, 226, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Animation voor nieuwe afbeeldingen */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project-image-wrapper.new {
+    animation: fadeInUp 0.6s ease;
+}

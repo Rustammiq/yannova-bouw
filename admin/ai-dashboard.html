@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dashboard - Yannova Admin</title>
+    <meta name="description" content="AI Dashboard voor content generatie en project management">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/ai-dashboard.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-logo">
+                <h1><i class="fas fa-robot"></i> AI Dashboard</h1>
+                <span class="admin-subtitle">Yannova Ramen en Deuren</span>
+            </div>
+            <div class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="ai-dashboard.html" class="admin-nav-link active">
+                    <i class="fas fa-robot"></i> AI Tools
+                </a>
+                <a href="quotes.html" class="admin-nav-link">
+                    <i class="fas fa-file-invoice"></i> Offerte
+                </a>
+                <a href="projects.html" class="admin-nav-link">
+                    <i class="fas fa-project-diagram"></i> Projecten
+                </a>
+                <a href="../index.html" class="admin-nav-link">
+                    <i class="fas fa-external-link-alt"></i> Website
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- AI Tools Grid -->
+        <section class="ai-tools-section">
+            <div class="section-header">
+                <h2>AI Tools & Generators</h2>
+                <p>Gebruik kunstmatige intelligentie om content te genereren en projecten te beheren</p>
+            </div>
+
+            <div class="ai-tools-grid">
+                <!-- Video Generator -->
+                <div class="ai-tool-card" data-tool="video-generator">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Generator</h3>
+                    <p>Genereer korte project video's en timelapse content</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('video-generator')">
+                        <i class="fas fa-play"></i> Start Generator
+                    </button>
+                </div>
+
+                <!-- Smart Content Writer -->
+                <div class="ai-tool-card" data-tool="content-writer">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3>Smart Content Writer</h3>
+                    <p>Automatische project beschrijvingen en SEO content</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('content-writer')">
+                        <i class="fas fa-edit"></i> Schrijf Content
+                    </button>
+                </div>
+
+                <!-- Intelligent Quote Generator -->
+                <div class="ai-tool-card" data-tool="quote-generator">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Intelligent Quote Generator</h3>
+                    <p>Realistische offertes met materialen en arbeid</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('quote-generator')">
+                        <i class="fas fa-file-invoice-dollar"></i> Genereer Offerte
+                    </button>
+                </div>
+
+                <!-- Project Planning AI -->
+                <div class="ai-tool-card" data-tool="project-planner">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Project Planning AI</h3>
+                    <p>Tijdlijnen, planning en taakverdeling</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('project-planner')">
+                        <i class="fas fa-tasks"></i> Plan Project
+                    </button>
+                </div>
+
+                <!-- Customer Service AI -->
+                <div class="ai-tool-card" data-tool="customer-service">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Customer Service AI</h3>
+                    <p>Automatische klantcommunicatie en support</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('customer-service')">
+                        <i class="fas fa-comments"></i> Klant Support
+                    </button>
+                </div>
+
+                <!-- Advanced Analytics -->
+                <div class="ai-tool-card" data-tool="analytics">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Project data analyse en inzichten</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('analytics')">
+                        <i class="fas fa-analytics"></i> Analyseer Data
+                    </button>
+                </div>
+
+                <!-- Report Generator -->
+                <div class="ai-tool-card" data-tool="report-generator">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Report Generator</h3>
+                    <p>Automatische rapporten en documenten</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('report-generator')">
+                        <i class="fas fa-file-export"></i> Genereer Rapport
+                    </button>
+                </div>
+
+                <!-- Design Assistant -->
+                <div class="ai-tool-card" data-tool="design-assistant">
+                    <div class="ai-tool-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Design Assistant</h3>
+                    <p>3D visualisaties en ontwerp suggesties</p>
+                    <div class="ai-tool-status">
+                        <span class="status-badge ready">Ready</span>
+                    </div>
+                    <button class="ai-tool-btn" onclick="openAITool('design-assistant')">
+                        <i class="fas fa-drafting-compass"></i> 3D Ontwerp
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity-section">
+            <div class="section-header">
+                <h3>Recent AI Activity</h3>
+                <button class="btn-secondary" onclick="refreshActivity()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="activity-list" id="activity-list">
+                <!-- Activity items will be loaded here -->
+            </div>
+        </section>
+
+        <!-- AI Settings -->
+        <section class="ai-settings-section">
+            <div class="section-header">
+                <h3>AI Settings</h3>
+            </div>
+            <div class="settings-grid">
+                <div class="setting-card">
+                    <h4>Gemini API Status</h4>
+                    <div class="setting-status">
+                        <span class="status-indicator" id="api-status"></span>
+                        <span id="api-status-text">Checking...</span>
+                    </div>
+                </div>
+                <div class="setting-card">
+                    <h4>Auto-Generation</h4>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-generation" aria-label="Automatische generatie inschakelen">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-card">
+                    <h4>Content Quality</h4>
+                    <select id="content-quality" aria-label="Selecteer content kwaliteit">
+                        <option value="standard">Standard</option>
+                        <option value="high" selected>High</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Tool Modals -->
+    <div id="ai-tool-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">AI Tool</h3>
+                <button class="modal-close" onclick="closeAITool()" title="Sluiten" aria-label="Modal sluiten">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Tool content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-robot fa-spin"></i>
+            <p>AI is working...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/ai-tools-bundle.js"></script>
+</body>
+</html>

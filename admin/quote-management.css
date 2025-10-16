@@ -1,0 +1,307 @@
+/* Quote Management Styles */
+.quotes-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.quotes-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quotes-table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    font-size: 14px;
+}
+
+.quotes-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+    color: #495057;
+}
+
+.quotes-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.quotes-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-in-progress {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.btn-view-quote,
+.btn-edit-quote {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 6px;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-view-quote:hover {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.btn-edit-quote:hover {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+/* Quote Details Modal */
+#quote-details-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #dee2e6;
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #495057;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #dee2e6;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.quote-details {
+    display: grid;
+    gap: 25px;
+}
+
+.quote-section {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #d4a574;
+}
+
+.quote-section h4 {
+    margin: 0 0 15px 0;
+    color: #495057;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.quote-section h5 {
+    margin: 15px 0 10px 0;
+    color: #6c757d;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.quote-section p {
+    margin: 8px 0;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.quote-section ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    color: #495057;
+}
+
+.quote-section li {
+    margin: 5px 0;
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 10001;
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification-success {
+    background-color: #28a745;
+}
+
+.notification-error {
+    background-color: #dc3545;
+}
+
+.notification-info {
+    background-color: #17a2b8;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quotes-table {
+        font-size: 12px;
+    }
+    
+    .quotes-table th,
+    .quotes-table td {
+        padding: 8px 6px;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 15px;
+    }
+    
+    .quote-section {
+        padding: 15px;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .quotes-table-container {
+        font-size: 11px;
+    }
+    
+    .quotes-table th,
+    .quotes-table td {
+        padding: 6px 4px;
+    }
+    
+    .btn-view-quote,
+    .btn-edit-quote {
+        padding: 4px;
+        margin: 0 1px;
+    }
+    
+    .modal-content {
+        margin: 5px;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.3rem;
+    }
+}

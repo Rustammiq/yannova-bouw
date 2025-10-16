@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management | Yannova Ramen en Deuren</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="content-management.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>Yannova</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item">
+                    <a href="dashboard.html">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <i class="fas fa-edit"></i>
+                    <span>Content Management</span>
+                </li>
+                <li class="menu-item">
+                    <a href="dashboard.html#quotes">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Offertes</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="dashboard.html#settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Instellingen</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="user-name">Admin</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Uitloggen</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1>Content Management</h1>
+                    <p>Beheer SEO, meta tags, afbeeldingen en tekst content</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="save-all-changes">
+                        <i class="fas fa-save"></i>
+                        Alle Wijzigingen Opslaan
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-sections">
+                <!-- SEO & Meta Tags Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-search"></i> SEO & Meta Tags</h2>
+                        <div class="section-controls">
+                            <button class="btn btn-secondary" id="preview-seo">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="seo-grid">
+                        <div class="seo-card">
+                            <h3>Basis SEO</h3>
+                            <div class="form-group">
+                                <label for="page-title">Pagina Titel</label>
+                                <input type="text" id="page-title" value="Yannova Ramen en Deuren | Professionele Ramen en Deuren">
+                                <div class="char-counter">
+                                    <span id="title-counter">0</span>/60 karakters
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="meta-description">Meta Beschrijving</label>
+                                <textarea id="meta-description" rows="3">Yannova Ramen en Deuren - Uw specialist in hoogwaardige ramen en deuren. Professionele installatie en advies voor uw woning.</textarea>
+                                <div class="char-counter">
+                                    <span id="description-counter">0</span>/160 karakters
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="meta-keywords">Meta Keywords</label>
+                                <input type="text" id="meta-keywords" value="ramen, deuren, schuifdeuren, garagedeuren, installatie, renovatie, isolatieglas">
+                            </div>
+                        </div>
+
+                        <div class="seo-card">
+                            <h3>Open Graph Tags</h3>
+                            <div class="form-group">
+                                <label for="og-title">OG Titel</label>
+                                <input type="text" id="og-title" value="Yannova Ramen en Deuren | Professionele Ramen en Deuren">
+                            </div>
+                            <div class="form-group">
+                                <label for="og-description">OG Beschrijving</label>
+                                <textarea id="og-description" rows="3">Uw specialist in hoogwaardige ramen en deuren. Professionele installatie en advies voor uw woning.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="og-image">OG Afbeelding URL</label>
+                                <input type="url" id="og-image" value="https://yannovabouw.nl/assets/images/about-team.jpg">
+                            </div>
+                        </div>
+
+                        <div class="seo-card">
+                            <h3>Structured Data</h3>
+                            <div class="form-group">
+                                <label for="business-name">Bedrijfsnaam</label>
+                                <input type="text" id="business-name" value="Yannova Ramen en Deuren">
+                            </div>
+                            <div class="form-group">
+                                <label for="business-phone">Telefoon</label>
+                                <input type="tel" id="business-phone" value="+31-123-456-789">
+                            </div>
+                            <div class="form-group">
+                                <label for="business-email">Email</label>
+                                <input type="email" id="business-email" value="info@yannovabouw.nl">
+                            </div>
+                            <div class="form-group">
+                                <label for="business-address">Adres</label>
+                                <textarea id="business-address" rows="3">Hoofdstraat 123, 1000 AB Amsterdam, Nederland</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Homepage Content Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-home"></i> Homepage Content</h2>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>Hero Sectie</h3>
+                            <div class="form-group">
+                                <label for="hero-title">Hoofdtitel</label>
+                                <input type="text" id="hero-title" value="Ramen en Deuren dromen?">
+                            </div>
+                            <div class="form-group">
+                                <label for="hero-subtitle">Ondertitel</label>
+                                <input type="text" id="hero-subtitle" value="Wij realiseren ze graag.">
+                            </div>
+                            <div class="form-group">
+                                <label for="hero-button-text">Knop Tekst</label>
+                                <input type="text" id="hero-button-text" value="Vraag een offerte aan">
+                            </div>
+                            <div class="form-group">
+                                <label for="hero-background">Achtergrond Afbeelding</label>
+                                <div class="image-upload">
+                                    <input type="file" id="hero-background" accept="image/*">
+                                    <div class="image-preview" id="hero-preview">
+                                        <img src="../assets/images/hero-bg.jpg" alt="Hero Background">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>Over Sectie</h3>
+                            <div class="form-group">
+                                <label for="about-title">Titel</label>
+                                <input type="text" id="about-title" value="Over">
+                            </div>
+                            <div class="form-group">
+                                <label for="about-subtitle">Ondertitel</label>
+                                <input type="text" id="about-subtitle" value="Uw specialist in ramen en deuren">
+                            </div>
+                            <div class="form-group">
+                                <label for="about-text">Tekst</label>
+                                <textarea id="about-text" rows="6">Een droomhuis realiseren met perfecte ramen en deuren is zoveel fijner met een toegewijde specialist aan uw zijde.
+
+Yannova Ramen en Deuren is uw ervaren partner voor hoogwaardige ramen en deuren. Wij realiseren zowel klassieke als moderne oplossingen voor particulieren en professionals en dit voor ieders budget.
+
+Van het eerste advies tot de oplevering: we gaan steeds voor perfectie.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="about-image">Team Afbeelding</label>
+                                <div class="image-upload">
+                                    <input type="file" id="about-image" accept="image/*">
+                                    <div class="image-preview" id="about-preview">
+                                        <img src="../assets/images/about-team.jpg" alt="About Team">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>Diensten Sectie</h3>
+                            <div class="form-group">
+                                <label for="services-title">Titel</label>
+                                <input type="text" id="services-title" value="Aanbod">
+                            </div>
+                            <div class="form-group">
+                                <label for="services-subtitle">Ondertitel</label>
+                                <input type="text" id="services-subtitle" value="Professionele oplossingen voor uw woning">
+                            </div>
+                            
+                            <div class="services-editor">
+                                <h4>Diensten Bewerken</h4>
+                                <div id="services-list">
+                                    <!-- Services will be loaded here -->
+                                </div>
+                                <button type="button" class="btn btn-secondary" id="add-service">
+                                    <i class="fas fa-plus"></i> Dienst Toevoegen
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>Contact Sectie</h3>
+                            <div class="form-group">
+                                <label for="contact-title">Titel</label>
+                                <input type="text" id="contact-title" value="Contact">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-subtitle">Ondertitel</label>
+                                <input type="text" id="contact-subtitle" value="Uw bouwplannen bespreken?">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-address">Adres</label>
+                                <input type="text" id="contact-address" value="Industrieweg 123, 1234 AB Amsterdam">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-phone">Telefoon</label>
+                                <input type="tel" id="contact-phone" value="+32 (0)477 28 10 28">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email</label>
+                                <input type="email" id="contact-email" value="info@yannova.nl">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-hours">Openingstijden</label>
+                                <input type="text" id="contact-hours" value="Ma-Vr: 8:00-18:00 | Za: 9:00-16:00">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Media Management Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-images"></i> Media Beheer</h2>
+                        <div class="section-controls">
+                            <button class="btn btn-primary" id="upload-media">
+                                <i class="fas fa-upload"></i> Upload Media
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="media-grid" id="media-grid">
+                        <!-- Media items will be loaded here -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Service Editor Modal -->
+    <div class="modal" id="service-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Dienst Bewerken</h3>
+                <button class="modal-close" id="close-service-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="service-icon">Icoon</label>
+                    <select id="service-icon">
+                        <option value="fas fa-window-maximize">Ramen</option>
+                        <option value="fas fa-door-open">Deuren</option>
+                        <option value="fas fa-door-closed">Schuifdeuren</option>
+                        <option value="fas fa-warehouse">Garagedeuren</option>
+                        <option value="fas fa-home">Woning</option>
+                        <option value="fas fa-building">Gebouw</option>
+                        <option value="fas fa-leaf">Duurzaam</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="service-title">Titel</label>
+                    <input type="text" id="service-title">
+                </div>
+                <div class="form-group">
+                    <label for="service-description">Beschrijving</label>
+                    <textarea id="service-description" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-service">Annuleren</button>
+                <button class="btn btn-primary" id="save-service">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="content-management.js"></script>
+</body>
+</html>

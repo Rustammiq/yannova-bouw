@@ -1,0 +1,54 @@
+{
+  "name": "yannovabouw-website",
+  "version": "2.0.0",
+  "description": "Yannova Ramen en Deuren - Professionele website met PWA functionaliteit",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 3000",
+    "dev": "python3 -m http.server 3000",
+    "build": "node build.js",
+    "build:watch": "nodemon --watch assets --ext css,js --exec 'npm run build'",
+    "serve": "python3 -m http.server 8080",
+    "test": "echo 'No tests specified'",
+    "lint:css": "echo 'CSS linting not configured'",
+    "lint:js": "eslint assets/js/**/*.js --fix",
+    "optimize": "npm run build && node scripts/optimize-performance.js",
+    "deploy": "npm run build && echo 'Ready for deployment'",
+    "analyze": "node analyze-project.js",
+    "performance": "npm run build && npm run serve",
+    "photos:optimize": "node optimize-photos.js",
+    "photos:install": "npm install sharp --save-dev",
+    "photos:setup": "mkdir -p assets/images/raw && echo 'Upload je fotos naar assets/images/raw/ en voer npm run photos:optimize uit'"
+  },
+  "keywords": [
+    "website",
+    "pwa",
+    "construction",
+    "windows",
+    "doors",
+    "yannova",
+    "responsive",
+    "performance"
+  ],
+  "author": "Yannova Ramen en Deuren",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.6.2",
+    "sharp": "^0.34.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yannova/yannovabouw-website.git"
+  },
+  "homepage": "https://yannovabouw.nl",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "cursor.ai": {
+    "model": "deepseek-r1-distill-qwen-32b",
+    "temperature": 0.1,
+    "max_tokens": 4096,
+    "top_p": 0.9,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "stop": ["```", "---", "###", "##", "#"],
+    "system_prompt": "Je bent een expert software engineer en code reviewer. Je specialiseert je in:\n- JavaScript/TypeScript, React, Node.js\n- Web development best practices\n- Code debugging en optimalisatie\n- Performance verbetering\n- Security best practices\n- Clean code principes\n- API design en database optimalisatie\n\nGeef altijd praktische, uitvoerbare oplossingen met code voorbeelden."
+  },
+  "coding": {
+    "preferred_language": "javascript",
+    "framework": "vanilla-js",
+    "code_style": "modern-es6",
+    "debugging": {
+      "enabled": true,
+      "breakpoints": true,
+      "console_logging": true,
+      "error_tracking": true
+    },
+    "linting": {
+      "enabled": true,
+      "rules": ["eslint", "prettier"],
+      "auto_fix": true
+    },
+    "testing": {
+      "framework": "jest",
+      "auto_generate": true,
+      "coverage_threshold": 80
+    }
+  },
+  "debugging": {
+    "strategies": [
+      "console_logging",
+      "breakpoint_analysis", 
+      "performance_profiling",
+      "memory_leak_detection",
+      "network_request_debugging",
+      "error_boundary_analysis"
+    ],
+    "tools": [
+      "browser_devtools",
+      "node_inspector",
+      "performance_monitor",
+      "memory_profiler"
+    ]
+  },
+  "ideation": {
+    "creativity_level": "high",
+    "brainstorming_techniques": [
+      "mind_mapping",
+      "scenario_planning",
+      "user_journey_mapping",
+      "technical_architecture_design",
+      "feature_prioritization"
+    ],
+    "innovation_focus": [
+      "user_experience",
+      "performance_optimization",
+      "scalability",
+      "maintainability",
+      "accessibility"
+    ]
+  },
+  "project_context": {
+    "type": "web_application",
+    "stack": ["html", "css", "javascript", "node.js", "supabase"],
+    "domain": "construction_services",
+    "features": [
+      "quote_generator",
+      "admin_dashboard", 
+      "chatbot_integration",
+      "contact_forms",
+      "responsive_design"
+    ],
+    "current_focus": "performance_optimization_and_accessibility"
+  },
+  "lm_studio": {
+    "server_url": "http://127.0.0.1:1234/v1",
+    "models": {
+      "primary": "deepseek-r1-distill-qwen-32b",
+      "fallback": "openelm-270m-instruct",
+      "embedding": "text-embedding-nomic-embed-text-v1.5"
+    },
+    "inference_settings": {
+      "temperature": 0.1,
+      "max_tokens": 4096,
+      "top_p": 0.9,
+      "frequency_penalty": 0.0,
+      "presence_penalty": 0.0
+    }
+  },
+  "ollama": {
+    "server_url": "http://localhost:11434",
+    "models": {
+      "primary": "deepseek-coder-v2:16b",
+      "fallback": "deepseek-coder-v2:16b",
+      "coding": "deepseek-coder-v2:16b"
+    },
+    "inference_settings": {
+      "temperature": 0.1,
+      "max_tokens": 4096,
+      "top_p": 0.9,
+      "frequency_penalty": 0.0,
+      "presence_penalty": 0.0
+    }
+  },
+  "workflow": {
+    "code_review": {
+      "enabled": true,
+      "focus_areas": [
+        "security_vulnerabilities",
+        "performance_issues", 
+        "accessibility_compliance",
+        "code_quality",
+        "best_practices"
+      ]
+    },
+    "debugging": {
+      "auto_analyze": true,
+      "suggest_fixes": true,
+      "explain_errors": true
+    },
+    "ideation": {
+      "brainstorm_sessions": true,
+      "feature_suggestions": true,
+      "architecture_recommendations": true
+    }
+  }
+}

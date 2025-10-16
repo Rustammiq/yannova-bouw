@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Yannova Ramen en Deuren</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="quote-management.css">
+    <link rel="stylesheet" href="../assets/css/gemini-image-generator.css">
+    <link rel="stylesheet" href="admin-image-generator.css">
+    
+    <!-- Socket.IO Client -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>Yannova</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-section="overview">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Overzicht</span>
+                </li>
+                <li class="menu-item" data-section="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat Geschiedenis</span>
+                </li>
+                <li class="menu-item" data-section="quotes">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Offertes</span>
+                </li>
+                <li class="menu-item" data-section="content">
+                    <i class="fas fa-edit"></i>
+                    <span>Content Management</span>
+                </li>
+                <li class="menu-item" data-section="image-generator">
+                    <i class="fas fa-image"></i>
+                    <span>AI Image Generator</span>
+                </li>
+                <li class="menu-item" data-section="ai-dashboard">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Dashboard</span>
+                </li>
+                <li class="menu-item" data-section="chatbot-config">
+                    <i class="fas fa-robot"></i>
+                    <span>Chatbot Config</span>
+                </li>
+                <li class="menu-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Instellingen</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="user-name">Admin</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Uitloggen</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 id="page-title">Dashboard Overzicht</h1>
+                    <p id="page-subtitle">Welkom terug, hier is uw overzicht</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span>127</span>
+                            <small>Bezoekers</small>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-comments"></i>
+                            <span>23</span>
+                            <small>Chats</small>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>2.3m</span>
+                            <small>Gem. tijd</small>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-sections">
+                <!-- Overview Section -->
+                <section id="overview-section" class="content-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>1,247</h3>
+                                <p>Paginaweergaven</p>
+                                <span class="stat-change positive">+12%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>89</h3>
+                                <p>Chat gesprekken</p>
+                                <span class="stat-change positive">+8%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>2.3m</h3>
+                                <p>Gem. sessietijd</p>
+                                <span class="stat-change negative">-3%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-thumbs-up"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>94%</h3>
+                                <p>Tevredenheid</p>
+                                <span class="stat-change positive">+2%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Chat Activiteit</h3>
+                                <div class="chart-controls">
+                                    <select id="chat-period" title="Selecteer periode voor chat activiteit">
+                                        <option value="7">Laatste 7 dagen</option>
+                                        <option value="30">Laatste 30 dagen</option>
+                                        <option value="90">Laatste 90 dagen</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="chatChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Populaire Vragen</h3>
+                            </div>
+                            <div class="questions-list">
+                                <div class="question-item">
+                                    <span class="question-text">Wat zijn jullie openingstijden?</span>
+                                    <span class="question-count">23x</span>
+                                </div>
+                                <div class="question-item">
+                                    <span class="question-text">Kunnen jullie een offerte maken?</span>
+                                    <span class="question-count">18x</span>
+                                </div>
+                                <div class="question-item">
+                                    <span class="question-text">Wat kost isolatieglas?</span>
+                                    <span class="question-count">15x</span>
+                                </div>
+                                <div class="question-item">
+                                    <span class="question-text">Hoe lang duurt een installatie?</span>
+                                    <span class="question-count">12x</span>
+                                </div>
+                                <div class="question-item">
+                                    <span class="question-text">Welke garantie bieden jullie?</span>
+                                    <span class="question-count">9x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat-section" class="content-section">
+                    <div class="chat-container">
+                        <!-- Chat History Panel -->
+                        <div class="chat-history-panel">
+                            <div class="section-header">
+                                <h2>Chat Geschiedenis</h2>
+                                <div class="section-controls">
+                                    <input type="text" id="chat-search" placeholder="Zoek in gesprekken...">
+                                    <select id="chat-filter" title="Filter gesprekken op periode">
+                                        <option value="all">Alle gesprekken</option>
+                                        <option value="today">Vandaag</option>
+                                        <option value="week">Deze week</option>
+                                        <option value="month">Deze maand</option>
+                                    </select>
+                                    <button class="export-btn" id="export-chats">
+                                        <i class="fas fa-download"></i>
+                                        Exporteren
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="chat-list" id="chat-list">
+                                <!-- Chat items will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- AI Assistant Panel -->
+                        <div class="ai-assistant-panel">
+                            <div class="ai-chatbot-container">
+                                <div class="ai-chatbot-header">
+                                    <div class="ai-chatbot-title">
+                                        <i class="fas fa-robot"></i>
+                                        <span>Admin AI Assistent</span>
+                                    </div>
+                                    <div class="ai-chatbot-status">
+                                        <span class="status-indicator online"></span>
+                                        <small>Online</small>
+                                    </div>
+                                </div>
+
+                                <div class="ai-chatbot-messages" id="ai-chatbot-messages">
+                                    <div class="ai-message bot">
+                                        <div class="message-avatar">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div class="message-content">
+                                            <p>Hallo! Ik ben uw Admin AI Assistent. Ik kan u helpen met:</p>
+                                            <ul>
+                                                <li>📊 Dashboard inzichten en analytics</li>
+                                                <li>💬 Chat gesprekken analyseren</li>
+                                                <li>📋 Offerte beheer ondersteuning</li>
+                                                <li>⚙️ Systeem configuratie hulp</li>
+                                                <li>📈 Rapportage en exports</li>
+                                            </ul>
+                                            <p>Stel gerust uw vraag!</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ai-chatbot-input-container">
+                                    <div class="ai-input-wrapper">
+                                        <input type="text" id="ai-chatbot-input" placeholder="Vraag iets aan de AI assistent...">
+                                        <button id="ai-chatbot-send" title="Verstuur bericht" aria-label="Verstuur bericht aan AI assistent">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics-section" class="content-section">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Website Performance</h3>
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <h3>User Engagement</h3>
+                            <canvas id="engagementChart"></canvas>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <h3>Traffic Sources</h3>
+                            <canvas id="trafficChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quotes Section -->
+                <section id="quotes-section" class="content-section">
+                    <div class="section-header">
+                        <h2>Offerte Beheer</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="refresh-quotes">
+                                <i class="fas fa-sync"></i> Ververs
+                            </button>
+                            <button class="btn btn-secondary" id="export-quotes">
+                                <i class="fas fa-download"></i> Exporteer CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quote Filters -->
+                    <div class="filters-bar">
+                        <div class="filter-group">
+                            <label for="status-filter">Status:</label>
+                            <select id="status-filter">
+                                <option value="all">Alle Statussen</option>
+                                <option value="pending">In behandeling</option>
+                                <option value="in-progress">In uitvoering</option>
+                                <option value="completed">Voltooid</option>
+                                <option value="cancelled">Geannuleerd</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-quotes">Zoeken:</label>
+                            <input type="text" id="search-quotes" placeholder="Klantnaam of email...">
+                        </div>
+                        <div class="filter-group">
+                            <label for="date-range">Periode:</label>
+                            <input type="date" id="date-from" placeholder="Van">
+                            <input type="date" id="date-to" placeholder="Tot">
+                        </div>
+                    </div>
+
+                    <!-- Quote Statistics -->
+                    <div class="quote-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-quotes">0</h3>
+                                <p>Totaal Offertes</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="pending-quotes">0</h3>
+                                <p>In behandeling</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-euro-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-value">€0</h3>
+                                <p>Totale Waarde</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="avg-value">€0</h3>
+                                <p>Gemiddelde Waarde</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quotes Table -->
+                    <div class="table-container">
+                        <table class="quotes-table" id="quotes-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Klant</th>
+                                    <th>Email</th>
+                                    <th>Project Type</th>
+                                    <th>Status</th>
+                                    <th>Geschatte Waarde</th>
+                                    <th>Datum</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quotes-tbody">
+                                <!-- Quotes will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="quotes-pagination">
+                        <button class="btn btn-secondary" id="prev-page" disabled>
+                            <i class="fas fa-chevron-left"></i> Vorige
+                        </button>
+                        <span class="page-info" id="page-info">Pagina 1 van 1</span>
+                        <button class="btn btn-secondary" id="next-page" disabled>
+                            Volgende <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- AI Dashboard Section -->
+                <section id="ai-dashboard-section" class="content-section">
+                    <div class="section-header">
+                        <h2>AI Dashboard</h2>
+                        <div class="section-actions">
+                            <a href="ai-dashboard.html" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-robot"></i> Open AI Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="ai-dashboard-preview">
+                        <div class="preview-grid">
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <h3>Video Generator</h3>
+                                <p>Genereer korte project video's en timelapse content</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-pen-fancy"></i>
+                                </div>
+                                <h3>Smart Content Writer</h3>
+                                <p>Automatische project beschrijvingen en SEO content</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <h3>Intelligent Quote Generator</h3>
+                                <p>Realistische offertes met materialen en arbeid</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h3>Project Planning AI</h3>
+                                <p>Tijdlijnen, planning en taakverdeling</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <h3>Customer Service AI</h3>
+                                <p>Automatische klantcommunicatie en support</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3>Advanced Analytics</h3>
+                                <p>Project data analyse en inzichten</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <h3>Report Generator</h3>
+                                <p>Automatische rapporten en documenten</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-icon">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <h3>Design Assistant</h3>
+                                <p>3D visualisaties en ontwerp suggesties</p>
+                                <span class="status-badge ready">Ready</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-footer">
+                            <p><i class="fas fa-info-circle"></i> Klik op "Open AI Dashboard" om alle AI tools te gebruiken</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chatbot Configuration Section -->
+                <section id="chatbot-config-section" class="content-section">
+                    <div class="section-header">
+                        <h2>Chatbot Configuratie & AI Training</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="test-chatbot">
+                                <i class="fas fa-play"></i> Test Chatbot
+                            </button>
+                            <button class="btn btn-secondary" id="export-knowledge">
+                                <i class="fas fa-download"></i> Exporteer Kennis
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- API Configuration -->
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h3><i class="fas fa-cog"></i> API Configuratie</h3>
+                            <div class="config-section">
+                                <div class="setting-item">
+                                    <label for="ai-provider">AI Provider</label>
+                                    <select id="ai-provider">
+                                        <option value="openai">OpenAI GPT</option>
+                                        <option value="anthropic">Anthropic Claude</option>
+                                        <option value="google">Google Gemini</option>
+                                        <option value="custom">Custom API</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="api-key">API Key</label>
+                                    <div class="input-with-toggle">
+                                        <input type="password" id="api-key" placeholder="Voer je API key in">
+                                        <button type="button" class="toggle-password" id="toggle-api-key" title="Toon/verberg API key">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="api-endpoint">API Endpoint</label>
+                                    <input type="url" id="api-endpoint" placeholder="https://api.openai.com/v1/chat/completions">
+                                </div>
+                                <div class="setting-item">
+                                    <label for="model-name">Model</label>
+                                    <select id="model-name">
+                                        <option value="gpt-4">GPT-4</option>
+                                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                                        <option value="claude-3-sonnet">Claude 3 Sonnet</option>
+                                        <option value="claude-3-haiku">Claude 3 Haiku</option>
+                                        <option value="gemini-pro">Gemini Pro</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="temperature">Temperature (0.0 - 2.0)</label>
+                                    <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7">
+                                    <span class="range-value" id="temperature-value">0.7</span>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="max-tokens">Max Tokens</label>
+                                    <input type="number" id="max-tokens" min="100" max="4000" value="1000">
+                                </div>
+                                <button class="btn btn-primary" id="save-api-config">
+                                    <i class="fas fa-save"></i> Opslaan Configuratie
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="config-card">
+                            <h3><i class="fas fa-brain"></i> AI Training & Kennis</h3>
+                            <div class="config-section">
+                                <div class="training-tabs">
+                                    <button class="tab-btn active" data-tab="knowledge-base">Kennisbank</button>
+                                    <button class="tab-btn" data-tab="training-data">Training Data</button>
+                                    <button class="tab-btn" data-tab="responses">Responses</button>
+                                </div>
+
+                                <!-- Knowledge Base Tab -->
+                                <div class="tab-content active" id="knowledge-base-tab">
+                                    <div class="knowledge-actions">
+                                        <button class="btn btn-primary" id="add-knowledge">
+                                            <i class="fas fa-plus"></i> Nieuwe Kennis
+                                        </button>
+                                        <button class="btn btn-primary" id="add-image-knowledge">
+                                            <i class="fas fa-image"></i> Voeg Foto Toe
+                                        </button>
+                                        <button class="btn btn-primary" id="add-web-content">
+                                            <i class="fas fa-globe"></i> Web Content
+                                        </button>
+                                        <button class="btn btn-secondary" id="import-knowledge">
+                                            <i class="fas fa-upload"></i> Importeer
+                                        </button>
+                                    </div>
+                                    <div class="knowledge-filters">
+                                        <select id="knowledge-type-filter" title="Filter op kennis type">
+                                            <option value="all">Alle Types</option>
+                                            <option value="text">Tekst</option>
+                                            <option value="image">Afbeeldingen</option>
+                                            <option value="web">Web Content</option>
+                                        </select>
+                                        <select id="knowledge-category-filter" title="Filter op categorie">
+                                            <option value="all">Alle Categorieën</option>
+                                            <option value="algemeen">Algemeen</option>
+                                            <option value="producten">Producten</option>
+                                            <option value="offertes">Offertes</option>
+                                            <option value="contact">Contact</option>
+                                        </select>
+                                    </div>
+                                    <div class="knowledge-list" id="knowledge-list">
+                                        <!-- Knowledge items will be loaded here -->
+                                    </div>
+                                </div>
+
+                                <!-- Training Data Tab -->
+                                <div class="tab-content" id="training-data-tab">
+                                    <div class="training-actions">
+                                        <button class="btn btn-primary" id="add-training-example">
+                                            <i class="fas fa-plus"></i> Voeg Voorbeeld Toe
+                                        </button>
+                                        <button class="btn btn-secondary" id="train-model">
+                                            <i class="fas fa-graduation-cap"></i> Train Model
+                                        </button>
+                                    </div>
+                                    <div class="training-examples" id="training-examples">
+                                        <!-- Training examples will be loaded here -->
+                                    </div>
+                                </div>
+
+                                <!-- Responses Tab -->
+                                <div class="tab-content" id="responses-tab">
+                                    <div class="response-templates" id="response-templates">
+                                        <!-- Response templates will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-card">
+                            <h3><i class="fas fa-chart-line"></i> Performance & Analytics</h3>
+                            <div class="config-section">
+                                <div class="performance-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Totaal Gesprekken</span>
+                                        <span class="stat-value" id="total-conversations">0</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Succesvolle Antwoorden</span>
+                                        <span class="stat-value" id="successful-responses">0</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Gemiddelde Response Tijd</span>
+                                        <span class="stat-value" id="avg-response-time">0ms</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Tevredenheid Score</span>
+                                        <span class="stat-value" id="satisfaction-score">0%</span>
+                                    </div>
+                                </div>
+                                <div class="performance-chart">
+                                    <canvas id="performance-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-card">
+                            <h3><i class="fas fa-comments"></i> Live Chat Test</h3>
+                            <div class="config-section">
+                                <div class="chat-test-container">
+                                    <div class="chat-test-messages" id="chat-test-messages">
+                                        <div class="test-message bot">
+                                            <div class="message-avatar">
+                                                <i class="fas fa-robot"></i>
+                                            </div>
+                                            <div class="message-content">
+                                                <p>Hallo! Ik ben de test chatbot. Stel me een vraag om te testen hoe ik reageer.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chat-test-input">
+                                        <input type="text" id="test-message-input" placeholder="Type je test bericht...">
+                                        <button id="send-test-message" title="Verstuur test bericht">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Image Generator Section -->
+                <section id="image-generator-section" class="content-section">
+                    <div class="section-header">
+                        <h2>AI Image Generator</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="generate-images-btn">
+                                <i class="fas fa-magic"></i> Genereer Afbeeldingen
+                            </button>
+                            <button class="btn btn-secondary" id="clear-gallery-btn">
+                                <i class="fas fa-trash"></i> Wis Galerij
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="image-generator-container">
+                        <!-- Generator Controls -->
+                        <div class="gemini-controls">
+                            <div class="control-row">
+                                <div class="control-group">
+                                    <label for="admin-project-type">Project Type</label>
+                                    <select id="admin-project-type" name="projectType" required>
+                                        <option value="">Selecteer project type</option>
+                                        <option value="ramen">Ramen Installatie</option>
+                                        <option value="deuren">Deuren Installatie</option>
+                                        <option value="renovatie">Renovatie Project</option>
+                                        <option value="nieuwbouw">Nieuwbouw Project</option>
+                                        <option value="onderhoud">Onderhoud & Service</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="admin-building-type">Gebouw Type</label>
+                                    <select id="admin-building-type" name="buildingType">
+                                        <option value="">Alle types</option>
+                                        <option value="residential">Woning</option>
+                                        <option value="commercial">Kantoor</option>
+                                        <option value="industrial">Industrieel</option>
+                                        <option value="retail">Winkel</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="admin-style">Stijl</label>
+                                    <select id="admin-style" name="style">
+                                        <option value="">Automatisch</option>
+                                        <option value="modern">Modern</option>
+                                        <option value="classic">Klassiek</option>
+                                        <option value="contemporary">Hedendaags</option>
+                                        <option value="minimalist">Minimalistisch</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-row">
+                                <div class="control-group">
+                                    <label for="admin-time-of-day">Tijdstip</label>
+                                    <select id="admin-time-of-day" name="timeOfDay">
+                                        <option value="">Automatisch</option>
+                                        <option value="morning">Ochtend</option>
+                                        <option value="afternoon">Middag</option>
+                                        <option value="golden hour">Gouden uur</option>
+                                        <option value="blue hour">Blauwe uur</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="admin-image-count">Aantal afbeeldingen</label>
+                                    <select id="admin-image-count" name="imageCount">
+                                        <option value="1">1 afbeelding</option>
+                                        <option value="3" selected>3 afbeeldingen</option>
+                                        <option value="5">5 afbeeldingen</option>
+                                        <option value="9">9 afbeeldingen</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="admin-image-usage">Gebruik voor</label>
+                                    <select id="admin-image-usage" name="imageUsage">
+                                        <option value="gallery">Project Galerij</option>
+                                        <option value="homepage">Homepage</option>
+                                        <option value="services">Diensten Pagina</option>
+                                        <option value="about">Over Ons Pagina</option>
+                                        <option value="marketing">Marketing Materiaal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-row">
+                                <div class="control-group full-width">
+                                    <label for="admin-custom-prompt">Aangepaste Prompt (optioneel)</label>
+                                    <textarea id="admin-custom-prompt" name="customPrompt" rows="3" 
+                                        placeholder="Voeg extra details toe aan de AI prompt voor meer specifieke afbeeldingen..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generated Images -->
+                        <div class="generated-images-section">
+                            <h3>Gegenereerde Afbeeldingen</h3>
+                            <div id="admin-image-container" class="image-container grid">
+                                <!-- Generated images will appear here -->
+                            </div>
+                        </div>
+
+                        <!-- Website Integration -->
+                        <div class="website-integration-section">
+                            <h3>Website Integratie</h3>
+                            <div class="integration-options">
+                                <div class="integration-card">
+                                    <h4>Homepage Hero</h4>
+                                    <p>Plaats afbeelding als hero achtergrond</p>
+                                    <button class="btn btn-outline" onclick="integrateImage('homepage-hero')">
+                                        <i class="fas fa-home"></i> Integreer
+                                    </button>
+                                </div>
+                                <div class="integration-card">
+                                    <h4>Project Galerij</h4>
+                                    <p>Voeg toe aan project galerij</p>
+                                    <button class="btn btn-outline" onclick="integrateImage('project-gallery')">
+                                        <i class="fas fa-images"></i> Integreer
+                                    </button>
+                                </div>
+                                <div class="integration-card">
+                                    <h4>Diensten Sectie</h4>
+                                    <p>Gebruik in diensten overzicht</p>
+                                    <button class="btn btn-outline" onclick="integrateImage('services-section')">
+                                        <i class="fas fa-cogs"></i> Integreer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="settings-section" class="content-section">
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h3>Chatbot Instellingen</h3>
+                            <div class="setting-item">
+                                <label for="chatbot-enabled">Chatbot Status</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="chatbot-enabled" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label for="welcome-message">Welkomstbericht</label>
+                                <textarea id="welcome-message" rows="3">Hallo! Ik ben de Yannova assistent. Hoe kan ik u vandaag helpen?</textarea>
+                            </div>
+                            <div class="setting-item">
+                                <label for="response-time">Response Tijd (seconden)</label>
+                                <input type="number" id="response-time" value="2" min="1" max="10">
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Notificaties</h3>
+                            <div class="setting-item">
+                                <label for="email-notifications">Email Notificaties</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="email-notifications" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label for="dashboard-updates">Dashboard Updates</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="dashboard-updates" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="../assets/js/gemini-image-generator.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="quotes-management.js"></script>
+    <script src="admin-image-generator.js"></script>
+</body>
+</html>

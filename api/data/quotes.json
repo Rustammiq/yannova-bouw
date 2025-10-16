@@ -1,0 +1,113 @@
+[
+  {
+    "id": "QUO-1703123456789-demo123",
+    "klantNaam": "Jan de Vries",
+    "email": "jan.devries@email.com",
+    "telefoon": "+31 6 12345678",
+    "projectType": "renovatie",
+    "ramen": [
+      {
+        "type": "dubbelglas",
+        "aantal": "3",
+        "maten": "120x80"
+      },
+      {
+        "type": "energiezuinig",
+        "aantal": "2",
+        "maten": "150x100"
+      }
+    ],
+    "deuren": [
+      {
+        "type": "buitendeur",
+        "aantal": "1",
+        "maten": "90x210"
+      },
+      {
+        "type": "binnendeur",
+        "aantal": "4",
+        "maten": "80x200"
+      }
+    ],
+    "extraDiensten": [],
+    "voorkeuren": {
+      "materiaal": "kunststof",
+      "kleur": "wit",
+      "stijl": "modern",
+      "budget": "10000-25000"
+    },
+    "opmerkingen": "Graag energiezuinige oplossingen voor optimale isolatie.",
+    "status": "pending",
+    "timestamp": "2024-01-15T10:30:00.000Z",
+    "estimatedValue": 12400
+  },
+  {
+    "id": "QUO-1703123456790-demo456",
+    "klantNaam": "Maria Bakker",
+    "email": "maria.bakker@email.com",
+    "telefoon": "+31 6 87654321",
+    "projectType": "nieuwbouw",
+    "ramen": [
+      {
+        "type": "drievoudigglas",
+        "aantal": "8",
+        "maten": "140x120"
+      }
+    ],
+    "deuren": [
+      {
+        "type": "schuifdeur",
+        "aantal": "2",
+        "maten": "200x220"
+      },
+      {
+        "type": "garagedeur",
+        "aantal": "1",
+        "maten": "250x220"
+      }
+    ],
+    "extraDiensten": [],
+    "voorkeuren": {
+      "materiaal": "aluminium",
+      "kleur": "zwart",
+      "stijl": "minimalistisch",
+      "budget": "boven-25000"
+    },
+    "opmerkingen": "Moderne architectuur met grote glaspartijen.",
+    "status": "in-progress",
+    "timestamp": "2024-01-14T14:15:00.000Z",
+    "estimatedValue": 25600
+  },
+  {
+    "id": "QUO-1703123456791-demo789",
+    "klantNaam": "Erik Janssen",
+    "email": "erik.janssen@email.com",
+    "telefoon": "+31 6 11223344",
+    "projectType": "vervanging",
+    "ramen": [
+      {
+        "type": "dubbelglas",
+        "aantal": "5",
+        "maten": "100x80"
+      }
+    ],
+    "deuren": [
+      {
+        "type": "binnendeur",
+        "aantal": "3",
+        "maten": "80x200"
+      }
+    ],
+    "extraDiensten": [],
+    "voorkeuren": {
+      "materiaal": "hout",
+      "kleur": "natuur",
+      "stijl": "klassiek",
+      "budget": "5000-10000"
+    },
+    "opmerkingen": "Klassieke uitstraling behouden.",
+    "status": "completed",
+    "timestamp": "2024-01-13T09:45:00.000Z",
+    "estimatedValue": 7200
+  }
+]
