@@ -194,7 +194,7 @@ class YannovaAnalytics {
             await fetch(`${this.apiBaseUrl}/analytics/event`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(event)
             });
@@ -223,7 +223,7 @@ class YannovaAnalytics {
                     await fetch(`${this.apiBaseUrl}/analytics/event`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(event)
                     });

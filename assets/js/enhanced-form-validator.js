@@ -107,42 +107,42 @@ class EnhancedFormValidator {
 
         // Specific field validations
         switch (field.type) {
-            case 'email':
-                if (!this.isValidEmail(value)) {
-                    this.showFieldError(field, 'Voer een geldig emailadres in');
-                    return false;
-                }
-                break;
-            case 'tel':
-                if (!this.isValidPhone(value)) {
-                    this.showFieldError(field, 'Voer een geldig telefoonnummer in');
-                    return false;
-                }
-                break;
+        case 'email':
+            if (!this.isValidEmail(value)) {
+                this.showFieldError(field, 'Voer een geldig emailadres in');
+                return false;
+            }
+            break;
+        case 'tel':
+            if (!this.isValidPhone(value)) {
+                this.showFieldError(field, 'Voer een geldig telefoonnummer in');
+                return false;
+            }
+            break;
         }
 
         // Custom validations based on field name
         switch (fieldName) {
-            case 'bericht':
-                if (value.length < 10) {
-                    this.showFieldError(field, 'Bericht moet minimaal 10 tekens bevatten');
-                    return false;
-                }
-                if (value.length > 1000) {
-                    this.showFieldError(field, 'Bericht mag maximaal 1000 tekens bevatten');
-                    return false;
-                }
-                break;
-            case 'naam':
-                if (value.length < 2) {
-                    this.showFieldError(field, 'Naam moet minimaal 2 tekens bevatten');
-                    return false;
-                }
-                if (!/^[a-zA-Z\s\u00c0-\u017f]+$/.test(value)) {
-                    this.showFieldError(field, 'Naam mag alleen letters en spaties bevatten');
-                    return false;
-                }
-                break;
+        case 'bericht':
+            if (value.length < 10) {
+                this.showFieldError(field, 'Bericht moet minimaal 10 tekens bevatten');
+                return false;
+            }
+            if (value.length > 1000) {
+                this.showFieldError(field, 'Bericht mag maximaal 1000 tekens bevatten');
+                return false;
+            }
+            break;
+        case 'naam':
+            if (value.length < 2) {
+                this.showFieldError(field, 'Naam moet minimaal 2 tekens bevatten');
+                return false;
+            }
+            if (!/^[a-zA-Z\s\u00c0-\u017f]+$/.test(value)) {
+                this.showFieldError(field, 'Naam mag alleen letters en spaties bevatten');
+                return false;
+            }
+            break;
         }
 
         return true;

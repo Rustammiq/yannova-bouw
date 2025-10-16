@@ -110,24 +110,24 @@ class AdminAIDashboard {
 
     getToolContent(toolName) {
         switch (toolName) {
-            case 'video-generator':
-                return this.getVideoGeneratorContent();
-            case 'content-writer':
-                return this.getContentWriterContent();
-            case 'quote-generator':
-                return this.getQuoteGeneratorContent();
-            case 'project-planner':
-                return this.getProjectPlannerContent();
-            case 'customer-service':
-                return this.getCustomerServiceContent();
-            case 'analytics':
-                return this.getAnalyticsContent();
-            case 'report-generator':
-                return this.getReportGeneratorContent();
-            case 'design-assistant':
-                return this.getDesignAssistantContent();
-            default:
-                return '<p>Tool not found</p>';
+        case 'video-generator':
+            return this.getVideoGeneratorContent();
+        case 'content-writer':
+            return this.getContentWriterContent();
+        case 'quote-generator':
+            return this.getQuoteGeneratorContent();
+        case 'project-planner':
+            return this.getProjectPlannerContent();
+        case 'customer-service':
+            return this.getCustomerServiceContent();
+        case 'analytics':
+            return this.getAnalyticsContent();
+        case 'report-generator':
+            return this.getReportGeneratorContent();
+        case 'design-assistant':
+            return this.getDesignAssistantContent();
+        default:
+            return '<p>Tool not found</p>';
         }
     }
 

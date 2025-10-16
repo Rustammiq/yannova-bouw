@@ -118,45 +118,45 @@ class SEOManager {
 
     setStructuredData() {
         const structuredData = {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Yannova Ramen en Deuren",
-            "description": "Specialist in hoogwaardige ramen en deuren",
-            "url": "https://yannova.nl",
-            "telephone": "+32 (0)477 28 10 28",
-            "email": "info@yannova.nl",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Industrieweg 123",
-                "addressLocality": "Amsterdam",
-                "postalCode": "1234 AB",
-                "addressCountry": "NL"
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            'name': 'Yannova Ramen en Deuren',
+            'description': 'Specialist in hoogwaardige ramen en deuren',
+            'url': 'https://yannova.nl',
+            'telephone': '+32 (0)477 28 10 28',
+            'email': 'info@yannova.nl',
+            'address': {
+                '@type': 'PostalAddress',
+                'streetAddress': 'Industrieweg 123',
+                'addressLocality': 'Amsterdam',
+                'postalCode': '1234 AB',
+                'addressCountry': 'NL'
             },
-            "openingHours": [
-                "Mo-Fr 08:00-18:00",
-                "Sa 09:00-16:00"
+            'openingHours': [
+                'Mo-Fr 08:00-18:00',
+                'Sa 09:00-16:00'
             ],
-            "serviceArea": {
-                "@type": "GeoCircle",
-                "geoMidpoint": {
-                    "@type": "GeoCoordinates",
-                    "latitude": "52.3676",
-                    "longitude": "4.9041"
+            'serviceArea': {
+                '@type': 'GeoCircle',
+                'geoMidpoint': {
+                    '@type': 'GeoCoordinates',
+                    'latitude': '52.3676',
+                    'longitude': '4.9041'
                 },
-                "geoRadius": "50000"
+                'geoRadius': '50000'
             },
-            "services": [
-                "Ramen installatie",
-                "Deuren installatie",
-                "Schuifdeuren",
-                "Garagedeuren",
-                "Renovatie",
-                "Onderhoud"
+            'services': [
+                'Ramen installatie',
+                'Deuren installatie',
+                'Schuifdeuren',
+                'Garagedeuren',
+                'Renovatie',
+                'Onderhoud'
             ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "127"
+            'aggregateRating': {
+                '@type': 'AggregateRating',
+                'ratingValue': '4.8',
+                'reviewCount': '127'
             }
         };
 

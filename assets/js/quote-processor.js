@@ -151,7 +151,7 @@ class YannovaQuoteProcessor {
             'Afmetingen uit transcript');
         
         // Add extracted data to prompt
-        prompt += `\n\nEXTRACTED DATA FROM VOICE INPUT:\n`;
+        prompt += '\n\nEXTRACTED DATA FROM VOICE INPUT:\n';
         prompt += `- Naam: ${extractedData.naam}\n`;
         prompt += `- Afmetingen: ${JSON.stringify(extractedData.afmetingen)}\n`;
         prompt += `- Materiaal voorkeur: ${extractedData.materiaal}\n`;
@@ -171,7 +171,7 @@ class YannovaQuoteProcessor {
             const response = await fetch('/api/ai/process-quote', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ prompt: prompt })
             });

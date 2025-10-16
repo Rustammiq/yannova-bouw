@@ -104,18 +104,18 @@ class ContactForm {
 
         // Specific validations
         switch (fieldName) {
-            case 'email':
-                if (!this.isValidEmail(value)) {
-                    this.showFieldError(field, 'Voer een geldig emailadres in');
-                    return false;
-                }
-                break;
-            case 'bericht':
-                if (value.length < 10) {
-                    this.showFieldError(field, 'Bericht moet minimaal 10 tekens bevatten');
-                    return false;
-                }
-                break;
+        case 'email':
+            if (!this.isValidEmail(value)) {
+                this.showFieldError(field, 'Voer een geldig emailadres in');
+                return false;
+            }
+            break;
+        case 'bericht':
+            if (value.length < 10) {
+                this.showFieldError(field, 'Bericht moet minimaal 10 tekens bevatten');
+                return false;
+            }
+            break;
         }
 
         return true;

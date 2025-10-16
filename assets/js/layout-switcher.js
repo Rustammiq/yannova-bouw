@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cards.forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(50px) scale(0.9)';
-        card.style.transition = `opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)`;
+        card.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         card.style.transitionDelay = `${index * 0.1}s`;
         observer.observe(card);
     });

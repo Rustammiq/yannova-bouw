@@ -21,7 +21,7 @@ class GeminiImageGenerator {
             const response = await fetch(`${this.baseUrl}/generate-image`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     projectType,
@@ -100,7 +100,7 @@ class GeminiImageGenerator {
         const response = await fetch(`${this.baseUrl}/models/${this.model}:generateContent?key=${this.apiKey}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(requestBody)
         });

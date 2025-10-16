@@ -124,60 +124,60 @@ class EnhancedSEOManager {
 
     getStructuredData() {
         const baseData = {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": this.siteName,
-            "description": "Uw specialist in isolatiewerken, renovatiewerken, platedakken, ramen en deuren, en tuinaanleg in Amsterdam en omgeving",
-            "url": this.baseUrl,
-            "logo": `${this.baseUrl}/assets/images/logo.png`,
-            "image": `${this.baseUrl}${this.defaultImage}`,
-            "telephone": "+32 (0)477 28 10 28",
-            "email": "info@yannovabouw.ai",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Industrieweg 123",
-                "addressLocality": "Amsterdam",
-                "postalCode": "1234 AB",
-                "addressCountry": "NL"
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            'name': this.siteName,
+            'description': 'Uw specialist in isolatiewerken, renovatiewerken, platedakken, ramen en deuren, en tuinaanleg in Amsterdam en omgeving',
+            'url': this.baseUrl,
+            'logo': `${this.baseUrl}/assets/images/logo.png`,
+            'image': `${this.baseUrl}${this.defaultImage}`,
+            'telephone': '+32 (0)477 28 10 28',
+            'email': 'info@yannovabouw.ai',
+            'address': {
+                '@type': 'PostalAddress',
+                'streetAddress': 'Industrieweg 123',
+                'addressLocality': 'Amsterdam',
+                'postalCode': '1234 AB',
+                'addressCountry': 'NL'
             },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 52.3676,
-                "longitude": 4.9041
+            'geo': {
+                '@type': 'GeoCoordinates',
+                'latitude': 52.3676,
+                'longitude': 4.9041
             },
-            "openingHours": [
-                "Mo-Fr 08:00-18:00",
-                "Sa 09:00-16:00"
+            'openingHours': [
+                'Mo-Fr 08:00-18:00',
+                'Sa 09:00-16:00'
             ],
-            "serviceArea": {
-                "@type": "GeoCircle",
-                "geoMidpoint": {
-                    "@type": "GeoCoordinates",
-                    "latitude": 52.3676,
-                    "longitude": 4.9041
+            'serviceArea': {
+                '@type': 'GeoCircle',
+                'geoMidpoint': {
+                    '@type': 'GeoCoordinates',
+                    'latitude': 52.3676,
+                    'longitude': 4.9041
                 },
-                "geoRadius": "50000"
+                'geoRadius': '50000'
             },
-            "services": [
-                "Isolatiewerken",
-                "Renovatiewerken",
-                "Platedakken",
-                "Ramen en Deuren",
-                "Tuinaanleg",
-                "Energiebesparing",
-                "Duurzame oplossingen"
+            'services': [
+                'Isolatiewerken',
+                'Renovatiewerken',
+                'Platedakken',
+                'Ramen en Deuren',
+                'Tuinaanleg',
+                'Energiebesparing',
+                'Duurzame oplossingen'
             ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "127",
-                "bestRating": "5",
-                "worstRating": "1"
+            'aggregateRating': {
+                '@type': 'AggregateRating',
+                'ratingValue': '4.8',
+                'reviewCount': '127',
+                'bestRating': '5',
+                'worstRating': '1'
             },
-            "sameAs": [
-                "https://www.facebook.com/yannovabouw",
-                "https://www.linkedin.com/company/yannovabouw",
-                "https://www.instagram.com/yannovabouw"
+            'sameAs': [
+                'https://www.facebook.com/yannovabouw',
+                'https://www.linkedin.com/company/yannovabouw',
+                'https://www.instagram.com/yannovabouw'
             ]
         };
 
@@ -190,108 +190,108 @@ class EnhancedSEOManager {
         const pageData = this.getPageData();
 
         switch (this.currentPage) {
-            case 'diensten':
-                return {
-                    "@type": "Service",
-                    "serviceType": "Bouw en Renovatie",
-                    "provider": {
-                        "@type": "LocalBusiness",
-                        "name": this.siteName
-                    },
-                    "areaServed": {
-                        "@type": "City",
-                        "name": "Amsterdam"
-            },
-            "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                        "name": "Yannova Diensten",
-                "itemListElement": [
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Service",
-                                    "name": "Isolatiewerken"
-                                }
-                            },
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Renovatiewerken"
-                                }
-                            },
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Platedakken"
-                        }
-                    },
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Service",
-                                    "name": "Ramen en Deuren"
-                        }
-                    },
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Service",
-                                    "name": "Tuinaanleg"
-                        }
-                    }
-                ]
-            }
-        };
-
-            case 'projecten':
-                return {
-                    "@type": "ItemList",
-                    "name": "Yannova Projecten",
-                    "description": "Onze realisaties en projecten",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                            "item": {
-                                "@type": "CreativeWork",
-                                "name": "Modern Appartement Renovatie",
-                                "description": "Volledige renovatie van ramen en deuren"
-                            }
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                            "item": {
-                                "@type": "CreativeWork",
-                                "name": "Villa Renovatie",
-                                "description": "Luxe oplossingen voor historische villa"
+        case 'diensten':
+            return {
+                '@type': 'Service',
+                'serviceType': 'Bouw en Renovatie',
+                'provider': {
+                    '@type': 'LocalBusiness',
+                    'name': this.siteName
+                },
+                'areaServed': {
+                    '@type': 'City',
+                    'name': 'Amsterdam'
+                },
+                'hasOfferCatalog': {
+                    '@type': 'OfferCatalog',
+                    'name': 'Yannova Diensten',
+                    'itemListElement': [
+                        {
+                            '@type': 'Offer',
+                            'itemOffered': {
+                                '@type': 'Service',
+                                'name': 'Isolatiewerken'
                             }
                         },
                         {
-                            "@type": "ListItem",
-                            "position": 3,
-                            "item": {
-                                "@type": "CreativeWork",
-                                "name": "Energiezuinige Woning",
-                                "description": "Isolatieglas en duurzame deuren"
+                            '@type': 'Offer',
+                            'itemOffered': {
+                                '@type': 'Service',
+                                'name': 'Renovatiewerken'
+                            }
+                        },
+                        {
+                            '@type': 'Offer',
+                            'itemOffered': {
+                                '@type': 'Service',
+                                'name': 'Platedakken'
+                            }
+                        },
+                        {
+                            '@type': 'Offer',
+                            'itemOffered': {
+                                '@type': 'Service',
+                                'name': 'Ramen en Deuren'
+                            }
+                        },
+                        {
+                            '@type': 'Offer',
+                            'itemOffered': {
+                                '@type': 'Service',
+                                'name': 'Tuinaanleg'
                             }
                         }
                     ]
-                };
+                }
+            };
 
-            case 'contact':
-                return {
-                    "@type": "ContactPage",
-                    "mainEntity": {
-                        "@type": "LocalBusiness",
-                        "name": this.siteName
+        case 'projecten':
+            return {
+                '@type': 'ItemList',
+                'name': 'Yannova Projecten',
+                'description': 'Onze realisaties en projecten',
+                'itemListElement': [
+                    {
+                        '@type': 'ListItem',
+                        'position': 1,
+                        'item': {
+                            '@type': 'CreativeWork',
+                            'name': 'Modern Appartement Renovatie',
+                            'description': 'Volledige renovatie van ramen en deuren'
+                        }
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 2,
+                        'item': {
+                            '@type': 'CreativeWork',
+                            'name': 'Villa Renovatie',
+                            'description': 'Luxe oplossingen voor historische villa'
+                        }
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 3,
+                        'item': {
+                            '@type': 'CreativeWork',
+                            'name': 'Energiezuinige Woning',
+                            'description': 'Isolatieglas en duurzame deuren'
+                        }
                     }
-                };
+                ]
+            };
 
-            default:
-                return {};
+        case 'contact':
+            return {
+                '@type': 'ContactPage',
+                'mainEntity': {
+                    '@type': 'LocalBusiness',
+                    'name': this.siteName
+                }
+            };
+
+        default:
+            return {};
         }
     }
 
@@ -379,9 +379,9 @@ class EnhancedSEOManager {
         }
 
         // Track page load time
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    const perfData = performance.getEntriesByType('navigation')[0];
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
                 if (perfData) {
                     const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
                     this.trackEvent('page_load_time', {
@@ -389,8 +389,8 @@ class EnhancedSEOManager {
                         page: this.currentPage
                     });
                 }
-                }, 0);
-            });
+            }, 0);
+        });
     }
 
     trackWebVitals() {
@@ -466,22 +466,22 @@ class EnhancedSEOManager {
         ];
 
         switch (this.currentPage) {
-            case 'over':
-                breadcrumbs.push({ name: 'Over Ons', url: '/pages/over/' });
-                break;
-            case 'diensten':
-                breadcrumbs.push({ name: 'Diensten', url: '/pages/diensten/' });
-                break;
-            case 'projecten':
-                breadcrumbs.push({ name: 'Projecten', url: '/pages/projecten/' });
-                break;
-            case 'contact':
-                breadcrumbs.push({ name: 'Contact', url: '/pages/contact/' });
-                break;
-            case 'ai-generator':
-                breadcrumbs.push({ name: 'Projecten', url: '/pages/projecten/' });
-                breadcrumbs.push({ name: 'AI Generator', url: '/pages/projecten/gemini-generator.html' });
-                break;
+        case 'over':
+            breadcrumbs.push({ name: 'Over Ons', url: '/pages/over/' });
+            break;
+        case 'diensten':
+            breadcrumbs.push({ name: 'Diensten', url: '/pages/diensten/' });
+            break;
+        case 'projecten':
+            breadcrumbs.push({ name: 'Projecten', url: '/pages/projecten/' });
+            break;
+        case 'contact':
+            breadcrumbs.push({ name: 'Contact', url: '/pages/contact/' });
+            break;
+        case 'ai-generator':
+            breadcrumbs.push({ name: 'Projecten', url: '/pages/projecten/' });
+            breadcrumbs.push({ name: 'AI Generator', url: '/pages/projecten/gemini-generator.html' });
+            break;
         }
 
         return breadcrumbs.map((crumb, index) => {
@@ -523,20 +523,20 @@ class EnhancedSEOManager {
     getFAQData() {
         return [
             {
-                question: "Welke diensten biedt Yannova aan?",
-                answer: "Yannova biedt isolatiewerken, renovatiewerken, platedakken, ramen en deuren, en tuinaanleg. Wij zijn gespecialiseerd in duurzame oplossingen voor energiebesparing en woningverbetering."
+                question: 'Welke diensten biedt Yannova aan?',
+                answer: 'Yannova biedt isolatiewerken, renovatiewerken, platedakken, ramen en deuren, en tuinaanleg. Wij zijn gespecialiseerd in duurzame oplossingen voor energiebesparing en woningverbetering.'
             },
             {
-                question: "In welk gebied werkt Yannova?",
-                answer: "Wij bedienen Amsterdam en de hele regio Noord-Holland. Onze lokale kennis en ervaring zorgen voor de beste resultaten in uw specifieke omgeving."
+                question: 'In welk gebied werkt Yannova?',
+                answer: 'Wij bedienen Amsterdam en de hele regio Noord-Holland. Onze lokale kennis en ervaring zorgen voor de beste resultaten in uw specifieke omgeving.'
             },
             {
-                question: "Hoe lang duurt een gemiddeld project?",
-                answer: "De duur van een project hangt af van de omvang en complexiteit. Een gemiddeld isolatieproject duurt 1-3 dagen, terwijl een complete renovatie 2-6 weken kan duren."
+                question: 'Hoe lang duurt een gemiddeld project?',
+                answer: 'De duur van een project hangt af van de omvang en complexiteit. Een gemiddeld isolatieproject duurt 1-3 dagen, terwijl een complete renovatie 2-6 weken kan duren.'
             },
             {
-                question: "Biedt Yannova garantie op werk?",
-                answer: "Ja, wij bieden uitgebreide garantie op al ons werk. Isolatiewerken hebben 25 jaar garantie, ramen en deuren 10 jaar, en renovatiewerken 5 jaar garantie."
+                question: 'Biedt Yannova garantie op werk?',
+                answer: 'Ja, wij bieden uitgebreide garantie op al ons werk. Isolatiewerken hebben 25 jaar garantie, ramen en deuren 10 jaar, en renovatiewerken 5 jaar garantie.'
             }
         ];
     }
@@ -582,22 +582,22 @@ class EnhancedSEOManager {
     getReviewData() {
         return [
             {
-                author: "Jan de Vries",
+                author: 'Jan de Vries',
                 rating: 5,
-                text: "Uitstekende service! Onze dakisolatie is perfect uitgevoerd en we merken direct het verschil in comfort en energiekosten.",
-                date: "2024-01-15"
+                text: 'Uitstekende service! Onze dakisolatie is perfect uitgevoerd en we merken direct het verschil in comfort en energiekosten.',
+                date: '2024-01-15'
             },
             {
-                author: "Maria van der Berg",
+                author: 'Maria van der Berg',
                 rating: 5,
-                text: "Professioneel team dat onze renovatie tot in de perfectie heeft uitgevoerd. Zeker een aanrader!",
-                date: "2024-01-10"
+                text: 'Professioneel team dat onze renovatie tot in de perfectie heeft uitgevoerd. Zeker een aanrader!',
+                date: '2024-01-10'
             },
             {
-                author: "Peter Jansen",
+                author: 'Peter Jansen',
                 rating: 4,
-                text: "Goede kwaliteit ramen en deuren. Installatie was netjes en op tijd. Tevreden klant!",
-                date: "2024-01-05"
+                text: 'Goede kwaliteit ramen en deuren. Installatie was netjes en op tijd. Tevreden klant!',
+                date: '2024-01-05'
             }
         ];
     }
