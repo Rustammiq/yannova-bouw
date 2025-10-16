@@ -139,7 +139,7 @@ class PerformanceMonitor {
     }
 
     logMetric(name, value) {
-        console.log('Performance metric: ' + name + ' = ' + value + 'ms');
+
 
         // Send to analytics if available
         if (typeof gtag !== 'undefined') {
@@ -154,12 +154,11 @@ class PerformanceMonitor {
     logResourceTiming(entry) {
         const loadTime = entry.responseEnd - entry.startTime;
         if (loadTime > 1000) { // Resources taking longer than 1s
-            }ms)`);
+
         }
     }
 
     logInteraction(type, target) {
-
 
         if (typeof gtag !== 'undefined') {
             gtag('event', 'user_interaction', {

@@ -101,7 +101,7 @@ class YannovaQuoteGenerator {
     }
 
     // Analytics tracking
-    this.trackEvent('quote_modal_opened');
+    this.trackEvent('quote_modal_opened', {});
   }
 
   closeModal() {
@@ -110,7 +110,7 @@ class YannovaQuoteGenerator {
     document.body.style.overflow = '';
 
     // Analytics tracking
-    this.trackEvent('quote_modal_closed');
+    this.trackEvent('quote_modal_closed', {});
   }
 
   nextStep() {
@@ -540,6 +540,17 @@ class YannovaQuoteGenerator {
   }
 
   trackEvent(eventName, data = {}) {
+    // Validate parameters
+    if (!eventName || eventName === 'undefined') {
+
+      return;
+    }
+
+    if (!data || typeof data !== 'object') {
+
+      data = {};
+    }
+
     // Analytics tracking
     if (window.yannovaAnalytics) {
       window.yannovaAnalytics.trackCustomEvent(eventName, data);
@@ -585,10 +596,10 @@ class YannovaQuoteGenerator {
         console.error(message, data);
         break;
       case 'warn':
-        console.warn(message, data);
+
         break;
       default:
-        console.log(message, data);
+
       }
     }
   }

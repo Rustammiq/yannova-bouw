@@ -694,7 +694,7 @@ class EnhancedSEOManager {
   trackEvent(eventName, parameters = {}) {
     // Validate event name
     if (!eventName || eventName === 'undefined') {
-      console.warn('Invalid event name:', eventName);
+
       return;
     }
 

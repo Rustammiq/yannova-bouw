@@ -1,0 +1,121 @@
+# Yannova Bouw - Project Rules
+
+## Project Overview
+Yannova Bouw is een Nederlandse bouwbedrijf website met focus op ramen, deuren en renovatie. Het project gebruikt moderne webtechnologieën en heeft een admin dashboard voor content management.
+
+## Code Style & Standards
+
+### JavaScript/Node.js
+- Gebruik ES6+ syntax waar mogelijk
+- Consistent gebruik van const/let (geen var)
+- Async/await prefereren boven promises
+- JSDoc comments voor functies
+- ESLint configuratie volgen (.eslintrc.js)
+
+### HTML/CSS
+- Semantische HTML5 elementen gebruiken
+- CSS Grid en Flexbox voor layouts
+- Mobile-first responsive design
+- BEM naming convention voor CSS classes
+- Consistent gebruik van Nederlandse class namen waar relevant
+
+### File Organization
+- Assets in `/assets/` directory (css, js, images, videos)
+- Admin functionaliteit in `/admin/` directory
+- API endpoints in `/api/` directory
+- Components in `/components/` directory
+- Pages in `/pages/` directory
+
+## Technology Stack
+- Frontend: Vanilla JavaScript, HTML5, CSS3
+- Backend: Node.js, Express
+- Database: Supabase (PostgreSQL)
+- AI Integration: Google Gemini API
+- Build Tools: Custom build scripts
+- Performance: Service Workers, lazy loading
+
+## Language & Content
+- Primaire taal: Nederlands
+- Alle user-facing content in het Nederlands
+- Code comments kunnen Engels zijn
+- Variabele namen in Engels
+- Class names kunnen Nederlands zijn voor content-gerelateerde elementen
+
+## Security Guidelines
+- Input validatie op alle formulieren
+- CSRF protection implementeren
+- Rate limiting voor API endpoints
+- Secure headers configureren
+- Admin routes beschermen met authenticatie
+
+## Performance Requirements
+- Lighthouse score >90 voor alle categorieën
+- Lazy loading voor images en videos
+- Minificatie van CSS/JS voor productie
+- Service Worker voor offline functionaliteit
+- Image optimization (WebP format waar mogelijk)
+
+## SEO Best Practices
+- Meta tags voor alle pagina's
+- Structured data markup
+- Sitemap.xml onderhouden
+- Robots.txt configureren
+- Alt tags voor alle images
+
+## Admin Dashboard
+- Secure login systeem
+- Content management voor quotes
+- AI-powered image generation
+- Analytics dashboard
+- Quote management systeem
+
+## API Guidelines
+- RESTful API design
+- Consistent error handling
+- Request/response logging
+- Environment variables voor configuratie
+- Middleware voor authenticatie
+
+## Development Workflow
+- Feature branches gebruiken
+- Code reviews voor belangrijke wijzigingen
+- Testing voor nieuwe functionaliteit
+- Performance monitoring
+- Regular security audits
+
+## File Naming Conventions
+- Kebab-case voor bestandsnamen
+- Descriptive namen die functionaliteit aangeven
+- Versie nummers in comments, niet in bestandsnamen
+- Minified versies met .min suffix
+
+## Dependencies
+- Minimale externe dependencies
+- Regular updates voor security patches
+- Lock files committen (package-lock.json)
+- Documentatie van custom dependencies
+
+## Error Handling
+- Graceful degradation
+- User-friendly error messages in het Nederlands
+- Console logging voor development
+- Error tracking voor productie
+
+## Accessibility
+- WCAG 2.1 AA compliance
+- Keyboard navigation support
+- Screen reader compatibility
+- Color contrast compliance
+- Focus indicators
+
+## Browser Support
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Progressive enhancement
+- Fallbacks voor oude browsers
+- Mobile responsive design
+
+## Deployment
+- Vercel voor hosting
+- Environment-specific configuraties
+- Build process automatisering
+- Performance monitoring post-deployment

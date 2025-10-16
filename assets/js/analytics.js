@@ -174,7 +174,7 @@ class YannovaAnalytics {
   async sendEvent(eventType, eventData) {
     // Validate event parameters
     if (!eventType || eventType === 'undefined') {
-      console.warn('Invalid event type:', eventType);
+
       return;
     }
 
@@ -237,6 +237,17 @@ class YannovaAnalytics {
 
   // Public methods for external use
   trackCustomEvent(eventName, eventData) {
+    // Validate parameters before sending
+    if (!eventName || eventName === 'undefined' || typeof eventName !== 'string') {
+
+      return;
+    }
+
+    if (!eventData || typeof eventData !== 'object') {
+
+      eventData = {};
+    }
+
     this.sendEvent(eventName, eventData);
   }
 
@@ -257,13 +268,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Retry stored events on page load
   window.yannovaAnalytics.retryStoredEvents();
 
-  // Process any pending events from quote generator
-  if (window.pendingAnalyticsEvents) {
-    window.pendingAnalyticsEvents.forEach(({ eventName, data }) => {
-      window.yannovaAnalytics.trackCustomEvent(eventName, data);
-    });
-    window.pendingAnalyticsEvents = [];
-  }
+    // Process any pending events from quote generator
+    if (window.pendingAnalyticsEvents) {
+      window.pendingAnalyticsEvents.forEach(({ eventName, data }) => {
+        // Validate pending events before processing
+        if (eventName && eventName !== 'undefined') {
+          window.yannovaAnalytics.trackCustomEvent(eventName, data);
+        } else {
+
+        }
+      });
+      window.pendingAnalyticsEvents = [];
+    }
 });
 
 // Export for use in other scripts

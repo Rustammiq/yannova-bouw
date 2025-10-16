@@ -10,7 +10,10 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures: {
+      templateStrings: true
+    }
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',

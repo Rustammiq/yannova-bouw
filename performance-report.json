@@ -81,15 +81,9 @@
     "totalSizeMB": 24.75
   },
   "codeOptimization": {
-    "totalFiles": 18,
-    "totalLines": 9227,
-    "issues": [
-      {
-        "file": "quote-generator.js",
-        "type": "console.log",
-        "count": 1
-      }
-    ]
+    "totalFiles": 19,
+    "totalLines": 9299,
+    "issues": []
   },
   "recommendations": [
     {
@@ -157,19 +151,6 @@
           "file": "gallery/hero/construction-5.jpg",
           "size": 2226,
           "recommendation": "Compress or convert to WebP"
-        }
-      ]
-    },
-    {
-      "type": "code",
-      "priority": "medium",
-      "message": "Code quality issues found",
-      "impact": "Maintainability",
-      "details": [
-        {
-          "file": "quote-generator.js",
-          "type": "console.log",
-          "count": 1
         }
       ]
     }
