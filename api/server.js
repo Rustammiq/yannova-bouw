@@ -22,7 +22,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: process.env.NODE_ENV === 'production' ? ['https://yannova.nl'] : "*",
+        origin: process.env.NODE_ENV === 'production' ? ['https://yannovabouw.ai'] : "*",
         methods: ["GET", "POST"]
     }
 });
@@ -46,7 +46,7 @@ app.use(security.getSecurityHeaders());
 app.use('/api/admin', security.getAdminRateLimit());
 app.use('/api', security.getGeneralRateLimit());
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? ['https://yannova.nl'] : true,
+    origin: process.env.NODE_ENV === 'production' ? ['https://yannovabouw.ai'] : true,
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -668,7 +668,7 @@ async function processChatMessage(message) {
         'ramen': 'Wij leveren hoogwaardige ramen in verschillende stijlen en materialen. Van klassiek tot modern, met energiezuinig isolatieglas voor optimaal comfort en energiebesparing.',
         'deuren': 'Onze deuren zijn volledig op maat gemaakt. We leveren zowel binnendeuren als veilige buitendeuren in verschillende stijlen en materialen.',
         'prijzen': 'Prijzen zijn afhankelijk van maat, materiaal en specificaties. Voor een exacte prijsopgave maken we graag een vrijblijvende offerte op maat voor u.',
-        'contact': 'U kunt ons bereiken via telefoon +32 (0)477 28 10 28, email info@yannova.nl of bezoek ons op Industrieweg 123 in Amsterdam.',
+        'contact': 'U kunt ons bereiken via telefoon +32 (0)477 28 10 28, email info@yannovabouw.ai of bezoek ons op Industrieweg 123 in Amsterdam.',
         'garantie': 'Op al onze ramen en deuren geven wij uitgebreide garantie. De exacte garantievoorwaarden verschillen per product en leverancier.',
         'installatie': 'Wij verzorgen de volledige installatie van uw ramen en deuren. Onze ervaren monteurs zorgen voor een professionele en nette installatie.',
         'default': 'Bedankt voor uw vraag! Voor specifieke informatie kunt u ons bellen op +32 (0)477 28 10 28 of een bericht sturen via ons contactformulier. Onze specialisten helpen u graag verder.'
@@ -1387,10 +1387,10 @@ function getDefaultContent() {
             metaKeywords: 'ramen, deuren, schuifdeuren, garagedeuren, installatie, renovatie, isolatieglas',
             ogTitle: 'Yannova Ramen en Deuren | Professionele Ramen en Deuren',
             ogDescription: 'Uw specialist in hoogwaardige ramen en deuren. Professionele installatie en advies voor uw woning.',
-            ogImage: 'https://yannovabouw.nl/assets/images/about-team.jpg',
+            ogImage: 'https://yannovabouw.ai/assets/images/about-team.jpg',
             businessName: 'Yannova Ramen en Deuren',
             businessPhone: '+31-123-456-789',
-            businessEmail: 'info@yannovabouw.nl',
+            businessEmail: 'info@yannovabouw.ai',
             businessAddress: 'Hoofdstraat 123, 1000 AB Amsterdam, Nederland'
         },
         homepage: {
@@ -1437,7 +1437,7 @@ function getDefaultContent() {
                 subtitle: 'Uw bouwplannen bespreken?',
                 address: 'Industrieweg 123, 1234 AB Amsterdam',
                 phone: '+32 (0)477 28 10 28',
-                email: 'info@yannova.nl',
+                email: 'info@yannovabouw.ai',
                 hours: 'Ma-Vr: 8:00-18:00 | Za: 9:00-16:00'
             }
         },

@@ -33,7 +33,7 @@ Allow: /*.webp
 Allow: /*.svg
 
 # Sitemap location
-Sitemap: https://yannovabouw.nl/sitemap.xml
+Sitemap: https://yannovabouw.ai/sitemap.xml
 
 # Crawl delay (be respectful)
 Crawl-delay: 1

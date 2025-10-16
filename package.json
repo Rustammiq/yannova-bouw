@@ -47,7 +47,7 @@
     "type": "git",
     "url": "https://github.com/Rustammiq/yannova-bouw.git"
   },
-  "homepage": "https://rustammiq.github.io/yannova-bouw/",
+  "homepage": "https://yannovabouw.ai/",
   "dependencies": {
     "@google/generative-ai": "^0.24.1"
   }

@@ -14,7 +14,7 @@
 class EnhancedSEOManager {
     constructor() {
         this.currentPage = this.getCurrentPage();
-        this.baseUrl = 'https://yannovabouw.nl';
+        this.baseUrl = 'https://yannovabouw.ai';
         this.siteName = 'Yannova Ramen en Deuren';
         this.defaultImage = '/assets/images/about-team.jpg';
         this.init();
@@ -132,7 +132,7 @@ class EnhancedSEOManager {
             "logo": `${this.baseUrl}/assets/images/logo.png`,
             "image": `${this.baseUrl}${this.defaultImage}`,
             "telephone": "+32 (0)477 28 10 28",
-            "email": "info@yannova.nl",
+            "email": "info@yannovabouw.ai",
             "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Industrieweg 123",
@@ -319,7 +319,7 @@ class EnhancedSEOManager {
                     <span itemprop="addressCountry">NL</span>
                 </div>
                 <div itemprop="telephone">+32 (0)477 28 10 28</div>
-                <div itemprop="email">info@yannova.nl</div>
+                <div itemprop="email">info@yannovabouw.ai</div>
                 <div itemprop="url">${this.baseUrl}</div>
             </div>
         `;

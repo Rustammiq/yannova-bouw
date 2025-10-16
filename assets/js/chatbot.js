@@ -552,7 +552,7 @@ class YannovaChatbot {
     handleQuickAction(action) {
         const responses = {
             offerte: "Voor een offerte kunt u ons contactformulier invullen of bellen naar +32 (0)477 28 10 28. We maken graag een afspraak om uw wensen te bespreken.",
-            contact: "U kunt ons bereiken via:\n📞 Telefoon: +32 (0)477 28 10 28\n📧 Email: info@yannova.nl\n📍 Adres: Industrieweg 123, 1234 AB Amsterdam",
+            contact: "U kunt ons bereiken via:\n📞 Telefoon: +32 (0)477 28 10 28\n📧 Email: info@yannovabouw.ai\n📍 Adres: Industrieweg 123, 1234 AB Amsterdam",
             openingstijden: "Onze openingstijden zijn:\n🕐 Maandag t/m Vrijdag: 8:00 - 18:00\n🕐 Zaterdag: 9:00 - 16:00\n🕐 Zondag: Gesloten"
         };
 
@@ -585,7 +585,7 @@ class YannovaChatbot {
             'garagedeuren': 'Professionele garagedeuren met hoge isolatiewaarden. Veilig, duurzaam en stijlvol.',
             'renovatie': 'We helpen graag bij uw renovatieproject. Van advies tot uitvoering, alles onder één dak.',
             'nieuwbouw': 'Voor nieuwbouwprojecten werken we samen met architecten en aannemers voor perfecte integratie.',
-            'contact': 'U kunt ons bereiken via telefoon +32 (0)477 28 10 28, email info@yannova.nl of het contactformulier op onze website.',
+            'contact': 'U kunt ons bereiken via telefoon +32 (0)477 28 10 28, email info@yannovabouw.ai of het contactformulier op onze website.',
             'adres': 'Ons adres is Industrieweg 123, 1234 AB Amsterdam.',
             'openingstijden': 'Ma-Vr: 8:00-18:00, Za: 9:00-16:00, Zo: gesloten.',
             'ervaring': 'We hebben meer dan 15 jaar ervaring in de branche met duizenden tevreden klanten.',

@@ -5,17 +5,17 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://yannovabouw.nl/</loc>
+    <loc>https://yannovabouw.ai/</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://yannovabouw.nl/assets/images/hero-bg.jpg</image:loc>
+      <image:loc>https://yannovabouw.ai/assets/images/hero-bg.jpg</image:loc>
       <image:title>Yannova Ramen en Deuren - Isolatiewerken, Renovatiewerken, Platedakken</image:title>
       <image:caption>Uw specialist in isolatiewerken, renovatiewerken, platedakken, ramen en deuren, en tuinaanleg</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://yannovabouw.nl/assets/images/about-team.jpg</image:loc>
+      <image:loc>https://yannovabouw.ai/assets/images/about-team.jpg</image:loc>
       <image:title>Yannova Team - Ervaren Vakmensen</image:title>
       <image:caption>Ons team van ervaren vakmensen met 15+ jaar ervaring</image:caption>
     </image:image>
@@ -23,7 +23,7 @@
 
   <!-- Over Ons -->
   <url>
-    <loc>https://yannovabouw.nl/pages/over/</loc>
+    <loc>https://yannovabouw.ai/pages/over/</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -31,7 +31,7 @@
 
   <!-- Diensten -->
   <url>
-    <loc>https://yannovabouw.nl/pages/diensten/</loc>
+    <loc>https://yannovabouw.ai/pages/diensten/</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -39,7 +39,7 @@
 
   <!-- Projecten -->
   <url>
-    <loc>https://yannovabouw.nl/pages/projecten/</loc>
+    <loc>https://yannovabouw.ai/pages/projecten/</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -47,7 +47,7 @@
 
   <!-- AI Generator -->
   <url>
-    <loc>https://yannovabouw.nl/pages/projecten/gemini-generator.html</loc>
+    <loc>https://yannovabouw.ai/pages/projecten/gemini-generator.html</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -55,7 +55,7 @@
 
   <!-- Contact -->
   <url>
-    <loc>https://yannovabouw.nl/pages/contact/</loc>
+    <loc>https://yannovabouw.ai/pages/contact/</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -63,7 +63,7 @@
 
   <!-- Service Pages -->
   <url>
-    <loc>https://yannovabouw.nl/#diensten</loc>
+    <loc>https://yannovabouw.ai/#diensten</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -71,7 +71,7 @@
 
   <!-- Isolatiewerken -->
   <url>
-    <loc>https://yannovabouw.nl/#isolatiewerken</loc>
+    <loc>https://yannovabouw.ai/#isolatiewerken</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -79,7 +79,7 @@
 
   <!-- Renovatiewerken -->
   <url>
-    <loc>https://yannovabouw.nl/#renovatiewerken</loc>
+    <loc>https://yannovabouw.ai/#renovatiewerken</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -87,7 +87,7 @@
 
   <!-- Platedakken -->
   <url>
-    <loc>https://yannovabouw.nl/#platedakken</loc>
+    <loc>https://yannovabouw.ai/#platedakken</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -95,7 +95,7 @@
 
   <!-- Ramen en Deuren -->
   <url>
-    <loc>https://yannovabouw.nl/#ramen-deuren</loc>
+    <loc>https://yannovabouw.ai/#ramen-deuren</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -103,7 +103,7 @@
 
   <!-- Tuinaanleg -->
   <url>
-    <loc>https://yannovabouw.nl/#tuinaanleg</loc>
+    <loc>https://yannovabouw.ai/#tuinaanleg</loc>
     <lastmod>2024-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

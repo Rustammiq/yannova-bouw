@@ -904,7 +904,7 @@ class YannovaChatbotEnhanced {
     handleQuickAction(action) {
         const responses = {
             offerte: "Voor een offerte kunt u ons contactformulier invullen of bellen naar +32 (0)477 28 10 28. We maken graag een afspraak om uw wensen te bespreken.",
-            contact: "U kunt ons bereiken via:\n📞 Telefoon: +32 (0)477 28 10 28\n📧 Email: info@yannova.nl\n📍 Adres: Industrieweg 123, 1234 AB Amsterdam",
+            contact: "U kunt ons bereiken via:\n📞 Telefoon: +32 (0)477 28 10 28\n📧 Email: info@yannovabouw.ai\n📍 Adres: Industrieweg 123, 1234 AB Amsterdam",
             openingstijden: "Onze openingstijden zijn:\n🕐 Maandag t/m Vrijdag: 8:00 - 18:00\n🕐 Zaterdag: 9:00 - 16:00\n🕐 Zondag: Gesloten",
             garantie: "Op al onze ramen en deuren geven wij uitgebreide garantie. De garantievoorwaarden verschillen per product en leverancier. Neem contact op voor specifieke informatie."
         };
