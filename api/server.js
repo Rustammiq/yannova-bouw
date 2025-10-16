@@ -22,12 +22,13 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: process.env.NODE_ENV === 'production' ? ['https://yannovabouw.ai'] : "*",
-        methods: ["GET", "POST"]
+        origin: process.env.NODE_ENV === 'production' ? ['https://yannovabouw.ai'] : '*',
+        methods: ['GET', 'POST']
     }
 });
 
 const PORT = process.env.PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // WebSocket connection management
 const connectedAdmins = new Map();
@@ -77,6 +78,19 @@ app.use('/api/ai-tools', aiToolsApi);
 
 // WebSocket connection handling
 io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+    
+    // Join admin room for real-time updates
+    socket.on('join-admin-room', () => {
+        socket.join('admin-room');
+        console.log('Admin joined room:', socket.id);
+    });
+    
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+    });
+});
 
 // Chatbot API endpoints
 app.post('/api/chatbot', async (req, res) => {
@@ -277,77 +291,77 @@ app.post('/api/admin/login',
         password: { required: true, type: 'text', minLength: 6, maxLength: 100 }
     }),
     async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const clientIP = req.ip || req.connection.remoteAddress;
+        try {
+            const { username, password } = req.body;
+            const clientIP = req.ip || req.connection.remoteAddress;
 
-        // Check if IP is blocked
-        if (security.isIPBlocked(clientIP)) {
-            security.logSecurityEvent('BLOCKED_IP_ATTEMPT', { ip: clientIP, username });
-            return res.status(429).json({
-                success: false,
-                message: 'IP adres is geblokkeerd vanwege te veel mislukte pogingen'
-            });
-        }
-        
-        // Authenticate with Supabase
-        const { data: user, error } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('username', username)
-            .eq('is_active', true)
-            .single();
-
-        const isValidPassword = user ? await bcrypt.compare(password, user.password_hash) : false;
-
-        if (error || !user || !isValidPassword) {
-            // Record failed attempt
-            security.recordFailedAttempt(clientIP);
-            security.logSecurityEvent('FAILED_LOGIN', { ip: clientIP, username });
-            
-            return res.status(401).json({
-                success: false,
-                message: 'Ongeldige gebruikersnaam of wachtwoord'
-            });
-        }
-
-        // Clear failed attempts for successful login
-        security.clearFailedAttempts(clientIP);
-        
-        // Update last login
-        await supabase
-            .from('admin_users')
-            .update({ last_login: new Date().toISOString() })
-            .eq('id', user.id);
-
-        // Generate JWT token using security middleware
-        const token = security.generateJWT({
-            username: user.username, 
-            role: user.role,
-            userId: user.id,
-            loginTime: new Date().toISOString()
-        });
-        
-        // Log successful login
-        security.logSecurityEvent('SUCCESSFUL_LOGIN', { ip: clientIP, username, role: user.role });
-        
-        res.json({
-            success: true,
-            token: token,
-            user: {
-                username: user.username,
-                role: user.role,
-                email: user.email
+            // Check if IP is blocked
+            if (security.isIPBlocked(clientIP)) {
+                security.logSecurityEvent('BLOCKED_IP_ATTEMPT', { ip: clientIP, username });
+                return res.status(429).json({
+                    success: false,
+                    message: 'IP adres is geblokkeerd vanwege te veel mislukte pogingen'
+                });
             }
-        });
-    } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Er is een fout opgetreden'
-        });
-    }
-});
+            
+            // Authenticate with Supabase
+            const { data: user, error } = await supabase
+                .from('admin_users')
+                .select('*')
+                .eq('username', username)
+                .eq('is_active', true)
+                .single();
+
+            const isValidPassword = user ? await bcrypt.compare(password, user.password_hash) : false;
+
+            if (error || !user || !isValidPassword) {
+                // Record failed attempt
+                security.recordFailedAttempt(clientIP);
+                security.logSecurityEvent('FAILED_LOGIN', { ip: clientIP, username });
+                
+                return res.status(401).json({
+                    success: false,
+                    message: 'Ongeldige gebruikersnaam of wachtwoord'
+                });
+            }
+
+            // Clear failed attempts for successful login
+            security.clearFailedAttempts(clientIP);
+            
+            // Update last login
+            await supabase
+                .from('admin_users')
+                .update({ last_login: new Date().toISOString() })
+                .eq('id', user.id);
+
+            // Generate JWT token using security middleware
+            const token = security.generateJWT({
+                username: user.username, 
+                role: user.role,
+                userId: user.id,
+                loginTime: new Date().toISOString()
+            });
+            
+            // Log successful login
+            security.logSecurityEvent('SUCCESSFUL_LOGIN', { ip: clientIP, username, role: user.role });
+            
+            res.json({
+                success: true,
+                token: token,
+                user: {
+                    username: user.username,
+                    role: user.role,
+                    email: user.email
+                }
+            });
+        } catch (error) {
+            console.error('Login error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Er is een fout opgetreden'
+            });
+        }
+    });
 
 // Admin chat history
 app.get('/api/admin/chat-history', security.authenticateAdmin(), async (req, res) => {
@@ -1454,4 +1468,3 @@ server.listen(PORT, () => {
 });
 
 module.exports = app;
-});
