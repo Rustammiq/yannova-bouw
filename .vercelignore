@@ -1,0 +1,68 @@
+# Development files
+node_modules/
+.git/
+.gitignore
+*.log
+*.tmp
+*.temp
+
+# Build artifacts
+dist/
+build/
+.next/
+.nuxt/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test/
+tests/
+__tests__/
+*.test.js
+*.spec.js
+jest.config.js
+jest.setup.js
+
+# Documentation
+*.md
+docs/
+documentation/
+
+# Development scripts
+analyze-project.js
+analyze.sh
+optimize-photos.js
+performance-optimizer.js
+seo-optimizer.js
+build.js
+scripts/
+
+# CLI tools
+gemini-cli.js
+gemini-cli-demo.js
+test-gemini-cli.js
+
+# Backup files
+*.backup
+*.bak
+server.js.backup
+
+# Cache
+.cache/
+.parcel-cache/

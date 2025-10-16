@@ -1,215 +1,215 @@
 // AI Quote Processing Engine voor Yannova Ramen en Deuren
 class YannovaQuoteProcessor {
-    constructor() {
-        this.scenarios = {
-            'raamvervanging': this.getRaamvervangingPrompt(),
-            'gevelrenovatie': this.getGevelrenovatiePrompt(),
-            'schuifpui': this.getSchuifpuiPrompt(),
-            'dakramen': this.getDakramenPrompt(),
-            'nieuwbouw': this.getNieuwbouwPrompt()
-        };
-        this.init();
+  constructor() {
+    this.scenarios = {
+      'raamvervanging': this.getRaamvervangingPrompt(),
+      'gevelrenovatie': this.getGevelrenovatiePrompt(),
+      'schuifpui': this.getSchuifpuiPrompt(),
+      'dakramen': this.getDakramenPrompt(),
+      'nieuwbouw': this.getNieuwbouwPrompt()
+    };
+    this.init();
+  }
+
+  init() {
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    // Listen for voice input from chatbot
+    document.addEventListener('quoteRequest', (e) => {
+      this.processQuoteRequest(e.detail);
+    });
+  }
+
+  async processQuoteRequest(voiceInput) {
+    try {
+      // Analyze voice input to determine scenario
+      const scenario = this.detectScenario(voiceInput);
+
+      // Extract structured data from voice input
+      const extractedData = this.extractDataFromVoice(voiceInput);
+
+      // Generate AI prompt based on scenario
+      const aiPrompt = this.generateAIPrompt(scenario, extractedData);
+
+      // Send to AI processing service
+      const quote = await this.sendToAI(aiPrompt);
+
+      // Process and format the response
+      const formattedQuote = this.formatQuoteResponse(quote);
+
+      // Return to chatbot or quote generator
+      this.deliverQuote(formattedQuote);
+
+    } catch (error) {
+      console.error('Quote processing error:', error);
+      this.handleError(error);
+    }
+  }
+
+  detectScenario(voiceInput) {
+    const input = voiceInput.toLowerCase();
+
+    if (input.includes('dakkapel') || input.includes('dakraam')) {
+      return 'dakramen';
+    } else if (input.includes('schuifpui') || input.includes('schuifdeur')) {
+      return 'schuifpui';
+    } else if (input.includes('nieuwbouw') || input.includes('nieuwe woning')) {
+      return 'nieuwbouw';
+    } else if (input.includes('alle ramen') || input.includes('gevel') || input.includes('rijtjeshuis')) {
+      return 'gevelrenovatie';
+    } else {
+      return 'raamvervanging'; // Default scenario
+    }
+  }
+
+  extractDataFromVoice(voiceInput) {
+    const data = {
+      naam: this.extractName(voiceInput),
+      afmetingen: this.extractDimensions(voiceInput),
+      materiaal: this.extractMaterial(voiceInput),
+      glasType: this.extractGlassType(voiceInput),
+      kleur: this.extractColor(voiceInput),
+      extraWensen: this.extractExtraWishes(voiceInput),
+      locatie: this.extractLocation(voiceInput)
+    };
+
+    return data;
+  }
+
+  extractName(input) {
+    const nameMatch = input.match(/(?:ik ben|mijn naam is|dit is)\s+([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    return nameMatch ? nameMatch[1] : 'Onbekend';
+  }
+
+  extractDimensions(input) {
+    const dimensions = [];
+
+    // Pattern for dimensions like "150 bij 120 centimeter"
+    const dimPattern = /(\d+)\s*(?:bij|x|×)\s*(\d+)\s*(?:cm|centimeter|meter)/gi;
+    let match;
+
+    while ((match = dimPattern.exec(input)) !== null) {
+      dimensions.push({
+        breedte: parseInt(match[1]),
+        hoogte: parseInt(match[2]),
+        eenheid: match[0].includes('meter') ? 'meter' : 'cm'
+      });
     }
 
-    init() {
-        this.setupEventListeners();
-    }
+    return dimensions;
+  }
 
-    setupEventListeners() {
-        // Listen for voice input from chatbot
-        document.addEventListener('quoteRequest', (e) => {
-            this.processQuoteRequest(e.detail);
-        });
-    }
+  extractMaterial(input) {
+    if (input.includes('kunststof') || input.includes('pvc')) {return 'kunststof';}
+    if (input.includes('aluminium')) {return 'aluminium';}
+    if (input.includes('hout') || input.includes('houten')) {return 'hout';}
+    return 'geen voorkeur';
+  }
 
-    async processQuoteRequest(voiceInput) {
-        try {
-            // Analyze voice input to determine scenario
-            const scenario = this.detectScenario(voiceInput);
-            
-            // Extract structured data from voice input
-            const extractedData = this.extractDataFromVoice(voiceInput);
-            
-            // Generate AI prompt based on scenario
-            const aiPrompt = this.generateAIPrompt(scenario, extractedData);
-            
-            // Send to AI processing service
-            const quote = await this.sendToAI(aiPrompt);
-            
-            // Process and format the response
-            const formattedQuote = this.formatQuoteResponse(quote);
-            
-            // Return to chatbot or quote generator
-            this.deliverQuote(formattedQuote);
-            
-        } catch (error) {
-            console.error('Quote processing error:', error);
-            this.handleError(error);
-        }
-    }
+  extractGlassType(input) {
+    if (input.includes('triple') || input.includes('hr+++')) {return 'HR+++ triple glas';}
+    if (input.includes('dubbel') || input.includes('hr++')) {return 'HR++ dubbel glas';}
+    if (input.includes('hr+')) {return 'HR+ glas';}
+    return 'HR++ dubbel glas'; // Default
+  }
 
-    detectScenario(voiceInput) {
-        const input = voiceInput.toLowerCase();
-        
-        if (input.includes('dakkapel') || input.includes('dakraam')) {
-            return 'dakramen';
-        } else if (input.includes('schuifpui') || input.includes('schuifdeur')) {
-            return 'schuifpui';
-        } else if (input.includes('nieuwbouw') || input.includes('nieuwe woning')) {
-            return 'nieuwbouw';
-        } else if (input.includes('alle ramen') || input.includes('gevel') || input.includes('rijtjeshuis')) {
-            return 'gevelrenovatie';
-        } else {
-            return 'raamvervanging'; // Default scenario
-        }
-    }
+  extractColor(input) {
+    if (input.includes('wit')) {return 'wit';}
+    if (input.includes('zwart')) {return 'zwart';}
+    if (input.includes('grijs') || input.includes('antraciet')) {return 'grijs';}
+    if (input.includes('bruin')) {return 'bruin';}
+    return 'wit'; // Default
+  }
 
-    extractDataFromVoice(voiceInput) {
-        const data = {
-            naam: this.extractName(voiceInput),
-            afmetingen: this.extractDimensions(voiceInput),
-            materiaal: this.extractMaterial(voiceInput),
-            glasType: this.extractGlassType(voiceInput),
-            kleur: this.extractColor(voiceInput),
-            extraWensen: this.extractExtraWishes(voiceInput),
-            locatie: this.extractLocation(voiceInput)
-        };
-        
-        return data;
-    }
+  extractExtraWishes(input) {
+    const wishes = [];
+    if (input.includes('zonwering')) {wishes.push('zonwering');}
+    if (input.includes('screen') || input.includes('horren')) {wishes.push('screens');}
+    if (input.includes('elektrisch')) {wishes.push('elektrische bediening');}
+    if (input.includes('inbraakwerend')) {wishes.push('inbraakwerend');}
+    return wishes;
+  }
 
-    extractName(input) {
-        const nameMatch = input.match(/(?:ik ben|mijn naam is|dit is)\s+([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-        return nameMatch ? nameMatch[1] : 'Onbekend';
-    }
+  extractLocation(input) {
+    if (input.includes('woonkamer')) {return 'woonkamer';}
+    if (input.includes('slaapkamer')) {return 'slaapkamer';}
+    if (input.includes('keuken')) {return 'keuken';}
+    if (input.includes('voorkant')) {return 'voorkant';}
+    if (input.includes('achterkant')) {return 'achterkant';}
+    return 'niet gespecificeerd';
+  }
 
-    extractDimensions(input) {
-        const dimensions = [];
-        
-        // Pattern for dimensions like "150 bij 120 centimeter"
-        const dimPattern = /(\d+)\s*(?:bij|x|×)\s*(\d+)\s*(?:cm|centimeter|meter)/gi;
-        let match;
-        
-        while ((match = dimPattern.exec(input)) !== null) {
-            dimensions.push({
-                breedte: parseInt(match[1]),
-                hoogte: parseInt(match[2]),
-                eenheid: match[0].includes('meter') ? 'meter' : 'cm'
-            });
-        }
-        
-        return dimensions;
-    }
+  generateAIPrompt(scenario, extractedData) {
+    const basePrompt = this.scenarios[scenario];
 
-    extractMaterial(input) {
-        if (input.includes('kunststof') || input.includes('pvc')) return 'kunststof';
-        if (input.includes('aluminium')) return 'aluminium';
-        if (input.includes('hout') || input.includes('houten')) return 'hout';
-        return 'geen voorkeur';
-    }
+    // Replace placeholders with extracted data
+    let prompt = basePrompt.replace(/\[uit transcript halen\]/g, extractedData.naam);
+    prompt = prompt.replace(/\[uit transcript\]/g, extractedData.afmetingen.length > 0 ?
+      `${extractedData.afmetingen.length}x raam ${extractedData.afmetingen[0].breedte}x${extractedData.afmetingen[0].hoogte}cm` :
+      'Afmetingen uit transcript');
 
-    extractGlassType(input) {
-        if (input.includes('triple') || input.includes('hr+++')) return 'HR+++ triple glas';
-        if (input.includes('dubbel') || input.includes('hr++')) return 'HR++ dubbel glas';
-        if (input.includes('hr+')) return 'HR+ glas';
-        return 'HR++ dubbel glas'; // Default
-    }
+    // Add extracted data to prompt
+    prompt += '\n\nEXTRACTED DATA FROM VOICE INPUT:\n';
+    prompt += `- Naam: ${extractedData.naam}\n`;
+    prompt += `- Afmetingen: ${JSON.stringify(extractedData.afmetingen)}\n`;
+    prompt += `- Materiaal voorkeur: ${extractedData.materiaal}\n`;
+    prompt += `- Glas type: ${extractedData.glasType}\n`;
+    prompt += `- Kleur: ${extractedData.kleur}\n`;
+    prompt += `- Extra wensen: ${extractedData.extraWensen.join(', ')}\n`;
+    prompt += `- Locatie: ${extractedData.locatie}\n`;
 
-    extractColor(input) {
-        if (input.includes('wit')) return 'wit';
-        if (input.includes('zwart')) return 'zwart';
-        if (input.includes('grijs') || input.includes('antraciet')) return 'grijs';
-        if (input.includes('bruin')) return 'bruin';
-        return 'wit'; // Default
-    }
+    return prompt;
+  }
 
-    extractExtraWishes(input) {
-        const wishes = [];
-        if (input.includes('zonwering')) wishes.push('zonwering');
-        if (input.includes('screen') || input.includes('horren')) wishes.push('screens');
-        if (input.includes('elektrisch')) wishes.push('elektrische bediening');
-        if (input.includes('inbraakwerend')) wishes.push('inbraakwerend');
-        return wishes;
-    }
+  async sendToAI(prompt) {
+    // This would integrate with OpenAI, Claude, or other AI service
+    // For now, we'll simulate the response
 
-    extractLocation(input) {
-        if (input.includes('woonkamer')) return 'woonkamer';
-        if (input.includes('slaapkamer')) return 'slaapkamer';
-        if (input.includes('keuken')) return 'keuken';
-        if (input.includes('voorkant')) return 'voorkant';
-        if (input.includes('achterkant')) return 'achterkant';
-        return 'niet gespecificeerd';
-    }
+    try {
+      const response = await fetch('/api/ai/process-quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: prompt })
+      });
 
-    generateAIPrompt(scenario, extractedData) {
-        const basePrompt = this.scenarios[scenario];
-        
-        // Replace placeholders with extracted data
-        let prompt = basePrompt.replace(/\[uit transcript halen\]/g, extractedData.naam);
-        prompt = prompt.replace(/\[uit transcript\]/g, extractedData.afmetingen.length > 0 ? 
-            `${extractedData.afmetingen.length}x raam ${extractedData.afmetingen[0].breedte}x${extractedData.afmetingen[0].hoogte}cm` : 
-            'Afmetingen uit transcript');
-        
-        // Add extracted data to prompt
-        prompt += `\n\nEXTRACTED DATA FROM VOICE INPUT:\n`;
-        prompt += `- Naam: ${extractedData.naam}\n`;
-        prompt += `- Afmetingen: ${JSON.stringify(extractedData.afmetingen)}\n`;
-        prompt += `- Materiaal voorkeur: ${extractedData.materiaal}\n`;
-        prompt += `- Glas type: ${extractedData.glasType}\n`;
-        prompt += `- Kleur: ${extractedData.kleur}\n`;
-        prompt += `- Extra wensen: ${extractedData.extraWensen.join(', ')}\n`;
-        prompt += `- Locatie: ${extractedData.locatie}\n`;
-        
-        return prompt;
+      const data = await response.json();
+      return data.quote;
+    } catch (error) {
+      // Fallback to local processing
+      return this.generateLocalQuote(prompt);
     }
+  }
 
-    async sendToAI(prompt) {
-        // This would integrate with OpenAI, Claude, or other AI service
-        // For now, we'll simulate the response
-        
-        try {
-            const response = await fetch('/api/ai/process-quote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ prompt: prompt })
-            });
-            
-            const data = await response.json();
-            return data.quote;
-        } catch (error) {
-            // Fallback to local processing
-            return this.generateLocalQuote(prompt);
-        }
-    }
+  generateLocalQuote(prompt) {
+    // Local fallback quote generation
+    return {
+      scenario: 'raamvervanging',
+      totalPrice: 2500,
+      breakdown: {
+        materials: 1800,
+        labor: 500,
+        extras: 200
+      },
+      timeline: '4-6 weken',
+      summary: 'Offerte gegenereerd op basis van uw spraakinput'
+    };
+  }
 
-    generateLocalQuote(prompt) {
-        // Local fallback quote generation
-        return {
-            scenario: 'raamvervanging',
-            totalPrice: 2500,
-            breakdown: {
-                materials: 1800,
-                labor: 500,
-                extras: 200
-            },
-            timeline: '4-6 weken',
-            summary: 'Offerte gegenereerd op basis van uw spraakinput'
-        };
-    }
+  formatQuoteResponse(quote) {
+    return {
+      success: true,
+      quote: quote,
+      timestamp: new Date().toISOString(),
+      formatted: this.formatForDisplay(quote)
+    };
+  }
 
-    formatQuoteResponse(quote) {
-        return {
-            success: true,
-            quote: quote,
-            timestamp: new Date().toISOString(),
-            formatted: this.formatForDisplay(quote)
-        };
-    }
-
-    formatForDisplay(quote) {
-        return `
+  formatForDisplay(quote) {
+    return `
 🎯 OFFERTE OVERZICHT
 
 💰 Totaalprijs: €${quote.totalPrice?.toLocaleString() || 'Op aanvraag'}
@@ -222,50 +222,50 @@ ${quote.summary || 'Offerte gegenereerd op basis van uw aanvraag'}
 - Telefoon: +32 (0)477 28 10 28
 - Email: info@yannova.nl
         `;
+  }
+
+  deliverQuote(formattedQuote) {
+    // Send quote to chatbot
+    if (window.yannovaChatbot) {
+      window.yannovaChatbot.addMessage({
+        text: formattedQuote.formatted
+      }, 'bot');
     }
 
-    deliverQuote(formattedQuote) {
-        // Send quote to chatbot
-        if (window.yannovaChatbot) {
-            window.yannovaChatbot.addMessage({
-                text: formattedQuote.formatted
-            }, 'bot');
-        }
-        
-        // Also trigger quote generator if needed
-        if (window.yannovaQuoteGenerator) {
-            window.yannovaQuoteGenerator.openModal();
-        }
-        
-        // Track analytics
-        if (window.yannovaAnalytics) {
-            window.yannovaAnalytics.trackQuoteGeneration({
-                scenario: formattedQuote.quote.scenario,
-                price: formattedQuote.quote.totalPrice,
-                source: 'voice_input'
-            });
-        }
+    // Also trigger quote generator if needed
+    if (window.yannovaQuoteGenerator) {
+      window.yannovaQuoteGenerator.openModal();
     }
 
-    handleError(error) {
-        const errorMessage = `
+    // Track analytics
+    if (window.yannovaAnalytics) {
+      window.yannovaAnalytics.trackQuoteGeneration({
+        scenario: formattedQuote.quote.scenario,
+        price: formattedQuote.quote.totalPrice,
+        source: 'voice_input'
+      });
+    }
+  }
+
+  handleError(error) {
+    const errorMessage = `
 ❌ Er is een fout opgetreden bij het verwerken van uw aanvraag.
 
 Probeer het opnieuw of neem contact op via:
 📞 +32 (0)477 28 10 28
 📧 info@yannova.nl
         `;
-        
-        if (window.yannovaChatbot) {
-            window.yannovaChatbot.addMessage({
-                text: errorMessage
-            }, 'bot');
-        }
-    }
 
-    // Scenario-specific prompts
-    getRaamvervangingPrompt() {
-        return `Je bent een expert in ramen en deuren voor woningen. Genereer een professionele offerte voor raamvervanging op basis van de volgende informatie:
+    if (window.yannovaChatbot) {
+      window.yannovaChatbot.addMessage({
+        text: errorMessage
+      }, 'bot');
+    }
+  }
+
+  // Scenario-specific prompts
+  getRaamvervangingPrompt() {
+    return `Je bent een expert in ramen en deuren voor woningen. Genereer een professionele offerte voor raamvervanging op basis van de volgende informatie:
 
 KLANTGEGEVENS:
 - Naam: [uit transcript halen]
@@ -305,10 +305,10 @@ EXTRA INFORMATIE:
 - Energielabel: A++ (door HR++ glas)
 
 GENEREER OFFERTE IN JSON FORMAAT.`;
-    }
+  }
 
-    getGevelrenovatiePrompt() {
-        return `COMPLETE GEVELRENOVATIE OFFERTE
+  getGevelrenovatiePrompt() {
+    return `COMPLETE GEVELRENOVATIE OFFERTE
 
 PROJECTTYPE: Totaalrenovatie ramen + voordeur rijtjeshuis
 URGENTIE: Normaal (4-8 weken levertijd)
@@ -399,10 +399,10 @@ ENERGIEBESPARING:
 - CO2 reductie: ±800kg per jaar
 
 GENEREER VOLLEDIGE OFFERTE MET ALLE DETAILS.`;
-    }
+  }
 
-    getSchuifpuiPrompt() {
-        return `SCHUIFPUI OFFERTE - MODERNE WONING
+  getSchuifpuiPrompt() {
+    return `SCHUIFPUI OFFERTE - MODERNE WONING
 
 PROJECT TYPE: Schuifpui nieuwbouw/aanbouw
 WONINGTYPE: Moderne vrijstaande woning met aanbouw
@@ -508,10 +508,10 @@ ENERGIEPRESTATIE:
 - Gemiddelde besparing: €200/jaar vs standaard glas
 
 GENEREER COMPLETE OFFERTE MET TECHNISCHE TEKENINGEN EN 3D VISUALISATIE.`;
-    }
+  }
 
-    getDakramenPrompt() {
-        return `DAKKAPEL RAMEN OFFERTE
+  getDakramenPrompt() {
+    return `DAKKAPEL RAMEN OFFERTE
 
 PROJECT: Ramen plaatsing in bestaande dakkapel
 WONINGTYPE: Eengezinswoning met dakkapel
@@ -618,10 +618,10 @@ LET OP - DAKKAPEL SPECIFIEK:
 ⚠️ Steigerwerk mogelijk nodig (afhankelijk hoogte)
 
 GENEREER OFFERTE + INCLUSIEF OPMETING AFSPRAAK VOORSTEL.`;
-    }
+  }
 
-    getNieuwbouwPrompt() {
-        return `COMPLETE NIEUWBOUW PAKKET - VRIJSTAANDE VILLA
+  getNieuwbouwPrompt() {
+    return `COMPLETE NIEUWBOUW PAKKET - VRIJSTAANDE VILLA
 
 PROJECT TYPE: Totaallevering ramen + deuren nieuwbouw
 WONINGTYPE: Vrijstaande villa moderne architectuur
@@ -878,15 +878,15 @@ GENEREER COMPLETE OFFERTE MET:
 - Kleurstalen digitaal
 - Planning Gantt chart
 - Energie-calculatie detail`;
-    }
+  }
 }
 
 // Initialize quote processor when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.yannovaQuoteProcessor = new YannovaQuoteProcessor();
+  window.yannovaQuoteProcessor = new YannovaQuoteProcessor();
 });
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = YannovaQuoteProcessor;
+  module.exports = YannovaQuoteProcessor;
 }

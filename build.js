@@ -93,6 +93,9 @@ class BuildScript {
             // Generate service worker
             this.generateServiceWorker();
             
+            // Run performance analysis
+            await this.runPerformanceAnalysis();
+            
             console.log('✅ Build completed successfully!');
             console.log(`📁 Output directory: ${this.outputDir}`);
             
@@ -368,6 +371,18 @@ self.addEventListener('fetch', event => {
                 fs.copyFileSync(srcPath, destPath);
             }
         });
+    }
+    
+    async runPerformanceAnalysis() {
+        console.log('📊 Running performance analysis...');
+        
+        try {
+            const PerformanceOptimizer = require('./scripts/performance-analyzer');
+            const optimizer = new PerformanceOptimizer();
+            await optimizer.run();
+        } catch (error) {
+            console.log('⚠️ Performance analysis failed:', error.message);
+        }
     }
 }
 

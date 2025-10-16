@@ -4,135 +4,135 @@
  */
 
 class AdminAIDashboard {
-    constructor() {
-        this.currentTool = null;
-        this.geminiAPI = new GeminiAITools();
-        this.init();
+  constructor() {
+    this.currentTool = null;
+    this.geminiAPI = new GeminiAITools();
+    this.init();
+  }
+
+  init() {
+    this.checkAPIStatus();
+    this.loadRecentActivity();
+    this.setupEventListeners();
+    this.initializeSettings();
+  }
+
+  setupEventListeners() {
+    // Auto-generation toggle
+    document.getElementById('auto-generation').addEventListener('change', (e) => {
+      this.updateSetting('autoGeneration', e.target.checked);
+    });
+
+    // Content quality selector
+    document.getElementById('content-quality').addEventListener('change', (e) => {
+      this.updateSetting('contentQuality', e.target.value);
+    });
+
+    // Modal close on outside click
+    document.getElementById('ai-tool-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'ai-tool-modal') {
+        this.closeAITool();
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeAITool();
+      }
+    });
+  }
+
+  async checkAPIStatus() {
+    const statusIndicator = document.getElementById('api-status');
+    const statusText = document.getElementById('api-status-text');
+
+    statusIndicator.className = 'status-indicator connecting';
+    statusText.textContent = 'Checking...';
+
+    try {
+      const response = await fetch('/api/gemini/status');
+      if (response.ok) {
+        statusIndicator.className = 'status-indicator connected';
+        statusText.textContent = 'Connected';
+      } else {
+        throw new Error('API not available');
+      }
+    } catch (error) {
+      statusIndicator.className = 'status-indicator';
+      statusText.textContent = 'Disconnected';
+      console.error('API Status Check Failed:', error);
     }
+  }
 
-    init() {
-        this.checkAPIStatus();
-        this.loadRecentActivity();
-        this.setupEventListeners();
-        this.initializeSettings();
+  openAITool(toolName) {
+    this.currentTool = toolName;
+    const modal = document.getElementById('ai-tool-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+
+    // Update modal title
+    modalTitle.textContent = this.getToolTitle(toolName);
+
+    // Load tool content
+    modalBody.innerHTML = this.getToolContent(toolName);
+
+    // Show modal
+    modal.style.display = 'block';
+    modal.classList.add('fade-in');
+
+    // Focus first input
+    const firstInput = modalBody.querySelector('input, select, textarea');
+    if (firstInput) {
+      firstInput.focus();
     }
+  }
 
-    setupEventListeners() {
-        // Auto-generation toggle
-        document.getElementById('auto-generation').addEventListener('change', (e) => {
-            this.updateSetting('autoGeneration', e.target.checked);
-        });
+  closeAITool() {
+    const modal = document.getElementById('ai-tool-modal');
+    modal.style.display = 'none';
+    this.currentTool = null;
+  }
 
-        // Content quality selector
-        document.getElementById('content-quality').addEventListener('change', (e) => {
-            this.updateSetting('contentQuality', e.target.value);
-        });
+  getToolTitle(toolName) {
+    const titles = {
+      'video-generator': 'Video Generator',
+      'content-writer': 'Smart Content Writer',
+      'quote-generator': 'Intelligent Quote Generator',
+      'project-planner': 'Project Planning AI',
+      'customer-service': 'Customer Service AI',
+      'analytics': 'Advanced Analytics',
+      'report-generator': 'Report Generator',
+      'design-assistant': 'Design Assistant'
+    };
+    return titles[toolName] || 'AI Tool';
+  }
 
-        // Modal close on outside click
-        document.getElementById('ai-tool-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'ai-tool-modal') {
-                this.closeAITool();
-            }
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.closeAITool();
-            }
-        });
+  getToolContent(toolName) {
+    switch (toolName) {
+    case 'video-generator':
+      return this.getVideoGeneratorContent();
+    case 'content-writer':
+      return this.getContentWriterContent();
+    case 'quote-generator':
+      return this.getQuoteGeneratorContent();
+    case 'project-planner':
+      return this.getProjectPlannerContent();
+    case 'customer-service':
+      return this.getCustomerServiceContent();
+    case 'analytics':
+      return this.getAnalyticsContent();
+    case 'report-generator':
+      return this.getReportGeneratorContent();
+    case 'design-assistant':
+      return this.getDesignAssistantContent();
+    default:
+      return '<p>Tool not found</p>';
     }
+  }
 
-    async checkAPIStatus() {
-        const statusIndicator = document.getElementById('api-status');
-        const statusText = document.getElementById('api-status-text');
-
-        statusIndicator.className = 'status-indicator connecting';
-        statusText.textContent = 'Checking...';
-
-        try {
-            const response = await fetch('/api/gemini/status');
-            if (response.ok) {
-                statusIndicator.className = 'status-indicator connected';
-                statusText.textContent = 'Connected';
-            } else {
-                throw new Error('API not available');
-            }
-        } catch (error) {
-            statusIndicator.className = 'status-indicator';
-            statusText.textContent = 'Disconnected';
-            console.error('API Status Check Failed:', error);
-        }
-    }
-
-    openAITool(toolName) {
-        this.currentTool = toolName;
-        const modal = document.getElementById('ai-tool-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-
-        // Update modal title
-        modalTitle.textContent = this.getToolTitle(toolName);
-
-        // Load tool content
-        modalBody.innerHTML = this.getToolContent(toolName);
-
-        // Show modal
-        modal.style.display = 'block';
-        modal.classList.add('fade-in');
-
-        // Focus first input
-        const firstInput = modalBody.querySelector('input, select, textarea');
-        if (firstInput) {
-            firstInput.focus();
-        }
-    }
-
-    closeAITool() {
-        const modal = document.getElementById('ai-tool-modal');
-        modal.style.display = 'none';
-        this.currentTool = null;
-    }
-
-    getToolTitle(toolName) {
-        const titles = {
-            'video-generator': 'Video Generator',
-            'content-writer': 'Smart Content Writer',
-            'quote-generator': 'Intelligent Quote Generator',
-            'project-planner': 'Project Planning AI',
-            'customer-service': 'Customer Service AI',
-            'analytics': 'Advanced Analytics',
-            'report-generator': 'Report Generator',
-            'design-assistant': 'Design Assistant'
-        };
-        return titles[toolName] || 'AI Tool';
-    }
-
-    getToolContent(toolName) {
-        switch (toolName) {
-            case 'video-generator':
-                return this.getVideoGeneratorContent();
-            case 'content-writer':
-                return this.getContentWriterContent();
-            case 'quote-generator':
-                return this.getQuoteGeneratorContent();
-            case 'project-planner':
-                return this.getProjectPlannerContent();
-            case 'customer-service':
-                return this.getCustomerServiceContent();
-            case 'analytics':
-                return this.getAnalyticsContent();
-            case 'report-generator':
-                return this.getReportGeneratorContent();
-            case 'design-assistant':
-                return this.getDesignAssistantContent();
-            default:
-                return '<p>Tool not found</p>';
-        }
-    }
-
-    getVideoGeneratorContent() {
-        return `
+  getVideoGeneratorContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="video-project-type">Project Type</label>
@@ -179,10 +179,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getContentWriterContent() {
-        return `
+  getContentWriterContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="content-type">Content Type</label>
@@ -234,10 +234,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getQuoteGeneratorContent() {
-        return `
+  getQuoteGeneratorContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="quote-project-type">Project Type</label>
@@ -289,10 +289,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getProjectPlannerContent() {
-        return `
+  getProjectPlannerContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="planner-project-name">Project Name</label>
@@ -341,10 +341,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getCustomerServiceContent() {
-        return `
+  getCustomerServiceContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="cs-query-type">Query Type</label>
@@ -382,10 +382,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getAnalyticsContent() {
-        return `
+  getAnalyticsContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="analytics-data-type">Data Type</label>
@@ -428,10 +428,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getReportGeneratorContent() {
-        return `
+  getReportGeneratorContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="report-type">Report Type</label>
@@ -484,10 +484,10 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
-    }
+  }
 
-    getDesignAssistantContent() {
-        return `
+  getDesignAssistantContent() {
+    return `
             <div class="tool-form">
                 <div class="form-group">
                     <label for="design-project-type">Project Type</label>
@@ -535,213 +535,213 @@ class AdminAIDashboard {
                 </div>
             </div>
         `;
+  }
+
+  async generateVideo() {
+    this.showLoading();
+
+    const projectType = document.getElementById('video-project-type').value;
+    const duration = document.getElementById('video-duration').value;
+    const style = document.getElementById('video-style').value;
+    const description = document.getElementById('video-description').value;
+
+    try {
+      const result = await this.geminiAPI.generateVideo({
+        projectType,
+        duration: parseInt(duration),
+        style,
+        description
+      });
+
+      this.displayVideoResults(result);
+      this.addActivity('Video Generated', `${projectType} video created`);
+    } catch (error) {
+      this.showError('Failed to generate video: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateVideo() {
-        this.showLoading();
+  async generateContent() {
+    this.showLoading();
 
-        const projectType = document.getElementById('video-project-type').value;
-        const duration = document.getElementById('video-duration').value;
-        const style = document.getElementById('video-style').value;
-        const description = document.getElementById('video-description').value;
+    const contentType = document.getElementById('content-type').value;
+    const topic = document.getElementById('content-topic').value;
+    const length = document.getElementById('content-length').value;
+    const tone = document.getElementById('content-tone').value;
+    const keywords = document.getElementById('content-keywords').value;
 
-        try {
-            const result = await this.geminiAPI.generateVideo({
-                projectType,
-                duration: parseInt(duration),
-                style,
-                description
-            });
+    try {
+      const result = await this.geminiAPI.generateContent({
+        contentType,
+        topic,
+        length,
+        tone,
+        keywords: keywords.split(',').map(k => k.trim())
+      });
 
-            this.displayVideoResults(result);
-            this.addActivity('Video Generated', `${projectType} video created`);
-        } catch (error) {
-            this.showError('Failed to generate video: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayContentResults(result);
+      this.addActivity('Content Generated', `${contentType} content created`);
+    } catch (error) {
+      this.showError('Failed to generate content: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateContent() {
-        this.showLoading();
+  async generateQuote() {
+    this.showLoading();
 
-        const contentType = document.getElementById('content-type').value;
-        const topic = document.getElementById('content-topic').value;
-        const length = document.getElementById('content-length').value;
-        const tone = document.getElementById('content-tone').value;
-        const keywords = document.getElementById('content-keywords').value;
+    const projectType = document.getElementById('quote-project-type').value;
+    const size = document.getElementById('quote-size').value;
+    const complexity = document.getElementById('quote-complexity').value;
+    const location = document.getElementById('quote-location').value;
+    const urgency = document.getElementById('quote-urgency').value;
 
-        try {
-            const result = await this.geminiAPI.generateContent({
-                contentType,
-                topic,
-                length,
-                tone,
-                keywords: keywords.split(',').map(k => k.trim())
-            });
+    try {
+      const result = await this.geminiAPI.generateQuote({
+        projectType,
+        size: parseInt(size),
+        complexity,
+        location,
+        urgency
+      });
 
-            this.displayContentResults(result);
-            this.addActivity('Content Generated', `${contentType} content created`);
-        } catch (error) {
-            this.showError('Failed to generate content: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayQuoteResults(result);
+      this.addActivity('Quote Generated', `${projectType} quote created`);
+    } catch (error) {
+      this.showError('Failed to generate quote: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateQuote() {
-        this.showLoading();
+  async generateProjectPlan() {
+    this.showLoading();
 
-        const projectType = document.getElementById('quote-project-type').value;
-        const size = document.getElementById('quote-size').value;
-        const complexity = document.getElementById('quote-complexity').value;
-        const location = document.getElementById('quote-location').value;
-        const urgency = document.getElementById('quote-urgency').value;
+    const projectName = document.getElementById('planner-project-name').value;
+    const projectType = document.getElementById('planner-project-type').value;
+    const startDate = document.getElementById('planner-start-date').value;
+    const duration = document.getElementById('planner-duration').value;
+    const teamSize = document.getElementById('planner-team-size').value;
 
-        try {
-            const result = await this.geminiAPI.generateQuote({
-                projectType,
-                size: parseInt(size),
-                complexity,
-                location,
-                urgency
-            });
+    try {
+      const result = await this.geminiAPI.generateProjectPlan({
+        projectName,
+        projectType,
+        startDate,
+        duration: parseInt(duration),
+        teamSize
+      });
 
-            this.displayQuoteResults(result);
-            this.addActivity('Quote Generated', `${projectType} quote created`);
-        } catch (error) {
-            this.showError('Failed to generate quote: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayProjectPlanResults(result);
+      this.addActivity('Project Plan Generated', `${projectName} plan created`);
+    } catch (error) {
+      this.showError('Failed to generate project plan: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateProjectPlan() {
-        this.showLoading();
+  async generateCustomerResponse() {
+    this.showLoading();
 
-        const projectName = document.getElementById('planner-project-name').value;
-        const projectType = document.getElementById('planner-project-type').value;
-        const startDate = document.getElementById('planner-start-date').value;
-        const duration = document.getElementById('planner-duration').value;
-        const teamSize = document.getElementById('planner-team-size').value;
+    const queryType = document.getElementById('cs-query-type').value;
+    const customerQuery = document.getElementById('cs-customer-query').value;
+    const responseTone = document.getElementById('cs-response-tone').value;
 
-        try {
-            const result = await this.geminiAPI.generateProjectPlan({
-                projectName,
-                projectType,
-                startDate,
-                duration: parseInt(duration),
-                teamSize
-            });
+    try {
+      const result = await this.geminiAPI.generateCustomerResponse({
+        queryType,
+        customerQuery,
+        responseTone
+      });
 
-            this.displayProjectPlanResults(result);
-            this.addActivity('Project Plan Generated', `${projectName} plan created`);
-        } catch (error) {
-            this.showError('Failed to generate project plan: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayCustomerResponseResults(result);
+      this.addActivity('Customer Response Generated', `${queryType} response created`);
+    } catch (error) {
+      this.showError('Failed to generate customer response: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateCustomerResponse() {
-        this.showLoading();
+  async generateAnalytics() {
+    this.showLoading();
 
-        const queryType = document.getElementById('cs-query-type').value;
-        const customerQuery = document.getElementById('cs-customer-query').value;
-        const responseTone = document.getElementById('cs-response-tone').value;
+    const dataType = document.getElementById('analytics-data-type').value;
+    const period = document.getElementById('analytics-period').value;
+    const metrics = document.getElementById('analytics-metrics').value;
 
-        try {
-            const result = await this.geminiAPI.generateCustomerResponse({
-                queryType,
-                customerQuery,
-                responseTone
-            });
+    try {
+      const result = await this.geminiAPI.generateAnalytics({
+        dataType,
+        period,
+        metrics
+      });
 
-            this.displayCustomerResponseResults(result);
-            this.addActivity('Customer Response Generated', `${queryType} response created`);
-        } catch (error) {
-            this.showError('Failed to generate customer response: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayAnalyticsResults(result);
+      this.addActivity('Analytics Generated', `${dataType} analysis created`);
+    } catch (error) {
+      this.showError('Failed to generate analytics: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateAnalytics() {
-        this.showLoading();
+  async generateReport() {
+    this.showLoading();
 
-        const dataType = document.getElementById('analytics-data-type').value;
-        const period = document.getElementById('analytics-period').value;
-        const metrics = document.getElementById('analytics-metrics').value;
+    const reportType = document.getElementById('report-type').value;
+    const period = document.getElementById('report-period').value;
+    const format = document.getElementById('report-format').value;
 
-        try {
-            const result = await this.geminiAPI.generateAnalytics({
-                dataType,
-                period,
-                metrics
-            });
+    try {
+      const result = await this.geminiAPI.generateReport({
+        reportType,
+        period,
+        format
+      });
 
-            this.displayAnalyticsResults(result);
-            this.addActivity('Analytics Generated', `${dataType} analysis created`);
-        } catch (error) {
-            this.showError('Failed to generate analytics: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayReportResults(result);
+      this.addActivity('Report Generated', `${reportType} report created`);
+    } catch (error) {
+      this.showError('Failed to generate report: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateReport() {
-        this.showLoading();
+  async generateDesign() {
+    this.showLoading();
 
-        const reportType = document.getElementById('report-type').value;
-        const period = document.getElementById('report-period').value;
-        const format = document.getElementById('report-format').value;
+    const projectType = document.getElementById('design-project-type').value;
+    const description = document.getElementById('design-description').value;
+    const style = document.getElementById('design-style').value;
+    const quality = document.getElementById('design-quality').value;
 
-        try {
-            const result = await this.geminiAPI.generateReport({
-                reportType,
-                period,
-                format
-            });
+    try {
+      const result = await this.geminiAPI.generateDesign({
+        projectType,
+        description,
+        style,
+        quality
+      });
 
-            this.displayReportResults(result);
-            this.addActivity('Report Generated', `${reportType} report created`);
-        } catch (error) {
-            this.showError('Failed to generate report: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
+      this.displayDesignResults(result);
+      this.addActivity('Design Generated', `${projectType} design created`);
+    } catch (error) {
+      this.showError('Failed to generate design: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
+  }
 
-    async generateDesign() {
-        this.showLoading();
+  displayVideoResults(result) {
+    const resultsContainer = document.getElementById('video-results');
+    const videoList = document.getElementById('video-list');
 
-        const projectType = document.getElementById('design-project-type').value;
-        const description = document.getElementById('design-description').value;
-        const style = document.getElementById('design-style').value;
-        const quality = document.getElementById('design-quality').value;
-
-        try {
-            const result = await this.geminiAPI.generateDesign({
-                projectType,
-                description,
-                style,
-                quality
-            });
-
-            this.displayDesignResults(result);
-            this.addActivity('Design Generated', `${projectType} design created`);
-        } catch (error) {
-            this.showError('Failed to generate design: ' + error.message);
-        } finally {
-            this.hideLoading();
-        }
-    }
-
-    displayVideoResults(result) {
-        const resultsContainer = document.getElementById('video-results');
-        const videoList = document.getElementById('video-list');
-
-        videoList.innerHTML = `
+    videoList.innerHTML = `
             <div class="result-item">
                 <h5>Generated Video</h5>
                 <p><strong>Project:</strong> ${result.projectType}</p>
@@ -762,14 +762,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayContentResults(result) {
-        const resultsContainer = document.getElementById('content-results');
-        const contentOutput = document.getElementById('content-output');
+  displayContentResults(result) {
+    const resultsContainer = document.getElementById('content-results');
+    const contentOutput = document.getElementById('content-output');
 
-        contentOutput.innerHTML = `
+    contentOutput.innerHTML = `
             <div class="result-item">
                 <h5>Generated Content</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -786,14 +786,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayQuoteResults(result) {
-        const resultsContainer = document.getElementById('quote-results');
-        const quoteOutput = document.getElementById('quote-output');
+  displayQuoteResults(result) {
+    const resultsContainer = document.getElementById('quote-results');
+    const quoteOutput = document.getElementById('quote-output');
 
-        quoteOutput.innerHTML = `
+    quoteOutput.innerHTML = `
             <div class="result-item">
                 <h5>Generated Quote</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -819,14 +819,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayProjectPlanResults(result) {
-        const resultsContainer = document.getElementById('planner-results');
-        const plannerOutput = document.getElementById('planner-output');
+  displayProjectPlanResults(result) {
+    const resultsContainer = document.getElementById('planner-results');
+    const plannerOutput = document.getElementById('planner-output');
 
-        plannerOutput.innerHTML = `
+    plannerOutput.innerHTML = `
             <div class="result-item">
                 <h5>Project Plan: ${result.projectName}</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -855,14 +855,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayCustomerResponseResults(result) {
-        const resultsContainer = document.getElementById('cs-results');
-        const csOutput = document.getElementById('cs-output');
+  displayCustomerResponseResults(result) {
+    const resultsContainer = document.getElementById('cs-results');
+    const csOutput = document.getElementById('cs-output');
 
-        csOutput.innerHTML = `
+    csOutput.innerHTML = `
             <div class="result-item">
                 <h5>Generated Response</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -879,14 +879,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayAnalyticsResults(result) {
-        const resultsContainer = document.getElementById('analytics-results');
-        const analyticsOutput = document.getElementById('analytics-output');
+  displayAnalyticsResults(result) {
+    const resultsContainer = document.getElementById('analytics-results');
+    const analyticsOutput = document.getElementById('analytics-output');
 
-        analyticsOutput.innerHTML = `
+    analyticsOutput.innerHTML = `
             <div class="result-item">
                 <h5>Analytics Report</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -919,14 +919,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayReportResults(result) {
-        const resultsContainer = document.getElementById('report-results');
-        const reportOutput = document.getElementById('report-output');
+  displayReportResults(result) {
+    const resultsContainer = document.getElementById('report-results');
+    const reportOutput = document.getElementById('report-output');
 
-        reportOutput.innerHTML = `
+    reportOutput.innerHTML = `
             <div class="result-item">
                 <h5>Generated Report</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -943,14 +943,14 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    displayDesignResults(result) {
-        const resultsContainer = document.getElementById('design-results');
-        const designOutput = document.getElementById('design-output');
+  displayDesignResults(result) {
+    const resultsContainer = document.getElementById('design-results');
+    const designOutput = document.getElementById('design-output');
 
-        designOutput.innerHTML = `
+    designOutput.innerHTML = `
             <div class="result-item">
                 <h5>Generated Design</h5>
                 <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
@@ -968,26 +968,26 @@ class AdminAIDashboard {
             </div>
         `;
 
-        resultsContainer.style.display = 'block';
-    }
+    resultsContainer.style.display = 'block';
+  }
 
-    showLoading() {
-        document.getElementById('loading-overlay').style.display = 'block';
-    }
+  showLoading() {
+    document.getElementById('loading-overlay').style.display = 'block';
+  }
 
-    hideLoading() {
-        document.getElementById('loading-overlay').style.display = 'none';
-    }
+  hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
+  }
 
-    showError(message) {
-        alert('Error: ' + message);
-    }
+  showError(message) {
+    alert('Error: ' + message);
+  }
 
-    addActivity(title, description) {
-        const activityList = document.getElementById('activity-list');
-        const activityItem = document.createElement('div');
-        activityItem.className = 'activity-item';
-        activityItem.innerHTML = `
+  addActivity(title, description) {
+    const activityList = document.getElementById('activity-list');
+    const activityItem = document.createElement('div');
+    activityItem.className = 'activity-item';
+    activityItem.innerHTML = `
             <div class="activity-icon">
                 <i class="fas fa-robot"></i>
             </div>
@@ -998,25 +998,25 @@ class AdminAIDashboard {
             <div class="activity-time">${new Date().toLocaleTimeString()}</div>
         `;
 
-        activityList.insertBefore(activityItem, activityList.firstChild);
+    activityList.insertBefore(activityItem, activityList.firstChild);
 
-        // Keep only last 10 activities
-        while (activityList.children.length > 10) {
-            activityList.removeChild(activityList.lastChild);
-        }
+    // Keep only last 10 activities
+    while (activityList.children.length > 10) {
+      activityList.removeChild(activityList.lastChild);
+    }
+  }
+
+  loadRecentActivity() {
+    // Load recent activity from localStorage or API
+    const activities = JSON.parse(localStorage.getItem('ai-activities') || '[]');
+    const activityList = document.getElementById('activity-list');
+
+    if (activities.length === 0) {
+      activityList.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No recent activity</p>';
+      return;
     }
 
-    loadRecentActivity() {
-        // Load recent activity from localStorage or API
-        const activities = JSON.parse(localStorage.getItem('ai-activities') || '[]');
-        const activityList = document.getElementById('activity-list');
-
-        if (activities.length === 0) {
-            activityList.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No recent activity</p>';
-            return;
-        }
-
-        activityList.innerHTML = activities.map(activity => `
+    activityList.innerHTML = activities.map(activity => `
             <div class="activity-item">
                 <div class="activity-icon">
                     <i class="fas fa-robot"></i>
@@ -1028,135 +1028,135 @@ class AdminAIDashboard {
                 <div class="activity-time">${new Date(activity.timestamp).toLocaleTimeString()}</div>
             </div>
         `).join('');
+  }
+
+  refreshActivity() {
+    this.loadRecentActivity();
+  }
+
+  initializeSettings() {
+    // Load settings from localStorage
+    const settings = JSON.parse(localStorage.getItem('ai-settings') || '{}');
+
+    if (settings.autoGeneration !== undefined) {
+      document.getElementById('auto-generation').checked = settings.autoGeneration;
     }
 
-    refreshActivity() {
-        this.loadRecentActivity();
+    if (settings.contentQuality) {
+      document.getElementById('content-quality').value = settings.contentQuality;
     }
+  }
 
-    initializeSettings() {
-        // Load settings from localStorage
-        const settings = JSON.parse(localStorage.getItem('ai-settings') || '{}');
+  updateSetting(key, value) {
+    const settings = JSON.parse(localStorage.getItem('ai-settings') || '{}');
+    settings[key] = value;
+    localStorage.setItem('ai-settings', JSON.stringify(settings));
+  }
 
-        if (settings.autoGeneration !== undefined) {
-            document.getElementById('auto-generation').checked = settings.autoGeneration;
-        }
-
-        if (settings.contentQuality) {
-            document.getElementById('content-quality').value = settings.contentQuality;
-        }
+  // Utility methods
+  async copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
     }
+  }
 
-    updateSetting(key, value) {
-        const settings = JSON.parse(localStorage.getItem('ai-settings') || '{}');
-        settings[key] = value;
-        localStorage.setItem('ai-settings', JSON.stringify(settings));
-    }
+  downloadFile(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+  }
 
-    // Utility methods
-    async copyToClipboard(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            alert('Copied to clipboard!');
-        } catch (err) {
-            console.error('Failed to copy: ', err);
-        }
-    }
+  saveContent(content) {
+    // Save content to website
 
-    downloadFile(url, filename) {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        link.click();
-    }
+    alert('Content saved to website!');
+  }
 
-    saveContent(content) {
-        // Save content to website
+  downloadQuote(quote) {
+    // Generate and download quote PDF
 
-        alert('Content saved to website!');
-    }
+    alert('Quote downloaded!');
+  }
 
-    downloadQuote(quote) {
-        // Generate and download quote PDF
+  emailQuote(quote) {
+    // Email quote to customer
 
-        alert('Quote downloaded!');
-    }
+    alert('Quote emailed!');
+  }
 
-    emailQuote(quote) {
-        // Email quote to customer
+  downloadProjectPlan(plan) {
+    // Generate and download project plan
 
-        alert('Quote emailed!');
-    }
+    alert('Project plan downloaded!');
+  }
 
-    downloadProjectPlan(plan) {
-        // Generate and download project plan
+  saveProjectPlan(plan) {
+    // Save project plan to projects
 
-        alert('Project plan downloaded!');
-    }
+    alert('Project plan saved!');
+  }
 
-    saveProjectPlan(plan) {
-        // Save project plan to projects
+  sendResponse(response) {
+    // Send response to customer
 
-        alert('Project plan saved!');
-    }
+    alert('Response sent!');
+  }
 
-    sendResponse(response) {
-        // Send response to customer
+  downloadAnalytics(analytics) {
+    // Download analytics report
 
-        alert('Response sent!');
-    }
+    alert('Analytics report downloaded!');
+  }
 
-    downloadAnalytics(analytics) {
-        // Download analytics report
+  saveAnalytics(analytics) {
+    // Save analytics to dashboard
 
-        alert('Analytics report downloaded!');
-    }
+    alert('Analytics saved to dashboard!');
+  }
 
-    saveAnalytics(analytics) {
-        // Save analytics to dashboard
+  downloadReport(report) {
+    // Download report
 
-        alert('Analytics saved to dashboard!');
-    }
+    alert('Report downloaded!');
+  }
 
-    downloadReport(report) {
-        // Download report
+  emailReport(report) {
+    // Email report
 
-        alert('Report downloaded!');
-    }
+    alert('Report emailed!');
+  }
 
-    emailReport(report) {
-        // Email report
+  saveDesign(design) {
+    // Save design to gallery
 
-        alert('Report emailed!');
-    }
-
-    saveDesign(design) {
-        // Save design to gallery
-
-        alert('Design saved to gallery!');
-    }
+    alert('Design saved to gallery!');
+  }
 }
 
 // Global functions for HTML onclick handlers
 function openAITool(toolName) {
-    if (window.adminDashboard) {
-        window.adminDashboard.openAITool(toolName);
-    }
+  if (window.adminDashboard) {
+    window.adminDashboard.openAITool(toolName);
+  }
 }
 
 function closeAITool() {
-    if (window.adminDashboard) {
-        window.adminDashboard.closeAITool();
-    }
+  if (window.adminDashboard) {
+    window.adminDashboard.closeAITool();
+  }
 }
 
 function refreshActivity() {
-    if (window.adminDashboard) {
-        window.adminDashboard.refreshActivity();
-    }
+  if (window.adminDashboard) {
+    window.adminDashboard.refreshActivity();
+  }
 }
 
 // Initialize dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.adminDashboard = new AdminAIDashboard();
+  window.adminDashboard = new AdminAIDashboard();
 });

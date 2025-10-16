@@ -759,8 +759,8 @@ app.post('/api/quotes', async (req, res) => {
         // Calculate estimated value
         const estimatedValue = await calculateQuoteValue(
             quoteData.projectType,
-            JSON.stringify(quoteData.ramen || []),
-            JSON.stringify(quoteData.deuren || [])
+            quoteData.ramen || [],
+            quoteData.deuren || []
         );
         
         // Create new quote in Supabase
@@ -1088,19 +1088,43 @@ async function generateQuoteId() {
 }
 
 async function calculateQuoteValue(projectType, ramenJson, deurenJson) {
-    const { data, error } = await supabase
-        .rpc('calculate_quote_value', {
-            p_project_type: projectType,
-            p_ramen: ramenJson,
-            p_deuren: deurenJson
-        });
-    
-    if (error) {
-        console.error('Error calculating quote value:', error);
+    try {
+        // Parse JSON strings to objects if needed
+        let ramenData = ramenJson;
+        let deurenData = deurenJson;
+        
+        if (typeof ramenJson === 'string') {
+            ramenData = JSON.parse(ramenJson);
+        }
+        if (typeof deurenJson === 'string') {
+            deurenData = JSON.parse(deurenJson);
+        }
+        
+        // Ensure we have arrays
+        if (!Array.isArray(ramenData)) {
+            ramenData = [];
+        }
+        if (!Array.isArray(deurenData)) {
+            deurenData = [];
+        }
+        
+        const { data, error } = await supabase
+            .rpc('calculate_quote_value', {
+                p_project_type: projectType,
+                p_ramen: ramenData,
+                p_deuren: deurenData
+            });
+        
+        if (error) {
+            console.error('Error calculating quote value:', error);
+            return 5000; // Default value
+        }
+        
+        return data;
+    } catch (parseError) {
+        console.error('Error parsing JSON in calculateQuoteValue:', parseError);
         return 5000; // Default value
     }
-    
-    return data;
 }
 
 function generateQuotesCSV(quotes) {
@@ -1347,6 +1371,23 @@ app.post('/api/analytics/event', async (req, res) => {
     try {
         const { eventType, eventData } = req.body;
         
+        // Validate analytics event
+        if (!eventType || eventType === 'undefined') {
+            console.warn('Invalid analytics event type:', eventType);
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid event type'
+            });
+        }
+        
+        if (!eventData || typeof eventData !== 'object') {
+            console.warn('Invalid analytics event data:', eventData);
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid event data'
+            });
+        }
+        
         // Log analytics event (in production, save to database)
         console.log('Analytics Event:', {
             eventType,
@@ -1364,7 +1405,7 @@ app.post('/api/analytics/event', async (req, res) => {
         console.error('Analytics error:', error);
         res.status(500).json({
             success: false,
-            error: 'Er is een fout opgetreden bij het tracken van het event'
+            message: 'Analytics tracking failed'
         });
     }
 });

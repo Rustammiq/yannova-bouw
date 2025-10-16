@@ -82,7 +82,7 @@ class YannovaChatbotEnhanced {
     updateConnectionStatus(status) {
         const statusIndicator = document.getElementById('connection-status');
         if (statusIndicator) {
-            statusIndicator.className = `connection-status ${status}`;
+            statusIndicator.className = 'connection-status ' + status;
             statusIndicator.title = this.getStatusMessage(status);
         }
     }

@@ -1,60 +1,60 @@
 // Global Error Handler for Yannovabouw
 class ErrorHandler {
-    constructor() {
-        this.init();
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Global error handler
+    window.addEventListener('error', (event) => {
+      this.handleError(event.error, 'JavaScript Error');
+    });
+
+    // Unhandled promise rejection handler
+    window.addEventListener('unhandledrejection', (event) => {
+      this.handleError(event.reason, 'Unhandled Promise Rejection');
+    });
+
+    // Fetch error handler
+    this.interceptFetch();
+  }
+
+  handleError(error, type) {
+    console.error(`${type}:`, error);
+
+    // Send to analytics if available
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'exception', {
+        'description': error.message || error,
+        'fatal': false
+      });
     }
 
-    init() {
-        // Global error handler
-        window.addEventListener('error', (event) => {
-            this.handleError(event.error, 'JavaScript Error');
-        });
-
-        // Unhandled promise rejection handler
-        window.addEventListener('unhandledrejection', (event) => {
-            this.handleError(event.reason, 'Unhandled Promise Rejection');
-        });
-
-        // Fetch error handler
-        this.interceptFetch();
+    // Show user-friendly message for critical errors
+    if (this.isCriticalError(error)) {
+      this.showUserError();
     }
+  }
 
-    handleError(error, type) {
-        console.error(`${type}:`, error);
-        
-        // Send to analytics if available
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'exception', {
-                'description': error.message || error,
-                'fatal': false
-            });
-        }
+  isCriticalError(error) {
+    // Define what constitutes a critical error
+    const criticalPatterns = [
+      'NetworkError',
+      'Failed to fetch',
+      'ChunkLoadError',
+      'Loading chunk'
+    ];
 
-        // Show user-friendly message for critical errors
-        if (this.isCriticalError(error)) {
-            this.showUserError();
-        }
-    }
+    return criticalPatterns.some(pattern =>
+      error.message && error.message.includes(pattern)
+    );
+  }
 
-    isCriticalError(error) {
-        // Define what constitutes a critical error
-        const criticalPatterns = [
-            'NetworkError',
-            'Failed to fetch',
-            'ChunkLoadError',
-            'Loading chunk'
-        ];
-
-        return criticalPatterns.some(pattern => 
-            error.message && error.message.includes(pattern)
-        );
-    }
-
-    showUserError() {
-        // Create error notification
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-notification';
-        errorDiv.innerHTML = `
+  showUserError() {
+    // Create error notification
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-notification';
+    errorDiv.innerHTML = `
             <div class="error-content">
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>Er is een probleem opgetreden. De pagina wordt opnieuw geladen.</span>
@@ -62,9 +62,9 @@ class ErrorHandler {
             </div>
         `;
 
-        // Add styles
-        const style = document.createElement('style');
-        style.textContent = `
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
             .error-notification {
                 position: fixed;
                 top: 20px;
@@ -105,37 +105,37 @@ class ErrorHandler {
             }
         `;
 
-        document.head.appendChild(style);
-        document.body.appendChild(errorDiv);
+    document.head.appendChild(style);
+    document.body.appendChild(errorDiv);
 
-        // Auto-remove after 10 seconds
-        setTimeout(() => {
-            if (errorDiv.parentNode) {
-                errorDiv.parentNode.removeChild(errorDiv);
-            }
-        }, 10000);
-    }
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+      if (errorDiv.parentNode) {
+        errorDiv.parentNode.removeChild(errorDiv);
+      }
+    }, 10000);
+  }
 
-    interceptFetch() {
-        const originalFetch = window.fetch;
-        window.fetch = async (...args) => {
-            try {
-                const response = await originalFetch(...args);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                return response;
-            } catch (error) {
-                this.handleError(error, 'Fetch Error');
-                throw error;
-            }
-        };
-    }
+  interceptFetch() {
+    const originalFetch = window.fetch;
+    window.fetch = async(...args) => {
+      try {
+        const response = await originalFetch(...args);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        return response;
+      } catch (error) {
+        this.handleError(error, 'Fetch Error');
+        throw error;
+      }
+    };
+  }
 }
 
 // Initialize error handler
 document.addEventListener('DOMContentLoaded', () => {
-    new ErrorHandler();
+  new ErrorHandler();
 });

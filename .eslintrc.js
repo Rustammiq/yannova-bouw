@@ -1,43 +1,78 @@
 module.exports = {
-    env: {
-        browser: true,
-        es2021: true,
-        node: true
-    },
-    extends: [
-        'eslint:recommended'
-    ],
-    parserOptions: {
-        ecmaVersion: 12,
-        sourceType: 'module'
-    },
-    rules: {
-        // Disable console statements in production
-        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-        
-        // Code quality rules
-        'no-unused-vars': 'warn',
-        'no-undef': 'error',
-        'no-duplicate-imports': 'error',
-        'no-var': 'error',
-        'prefer-const': 'error',
-        
-        // Style rules
-        'indent': ['error', 4],
-        'quotes': ['error', 'single'],
-        'semi': ['error', 'always'],
-        'comma-dangle': ['error', 'never'],
-        'object-curly-spacing': ['error', 'always'],
-        'array-bracket-spacing': ['error', 'never']
-    },
-    globals: {
-        // Browser globals
-        'window': 'readonly',
-        'document': 'readonly',
-        'navigator': 'readonly',
-        'console': 'readonly',
-        
-        // Custom globals
-        'supabase': 'readonly'
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+    jest: true
+  },
+  extends: [
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: {
+      templateStrings: true
     }
+  },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-unused-vars': 'warn',
+    'no-var': 'error',
+    'prefer-const': 'error',
+    'eqeqeq': 'error',
+    'curly': 'error',
+    'indent': ['error', 2],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'always'],
+    'no-trailing-spaces': 'error',
+    'eol-last': 'error',
+    'comma-dangle': ['error', 'never'],
+    'object-curly-spacing': ['error', 'always'],
+    'array-bracket-spacing': ['error', 'never'],
+    'space-before-function-paren': ['error', 'never'],
+    'keyword-spacing': 'error',
+    'space-infix-ops': 'error',
+    'no-multiple-empty-lines': ['error', { 'max': 1 }],
+    'no-mixed-spaces-and-tabs': 'error',
+    'no-undef': 'warn',
+    'no-unreachable': 'error',
+    'no-duplicate-case': 'error',
+    'no-empty': 'warn',
+    'no-extra-semi': 'error',
+    'no-func-assign': 'error',
+    'no-invalid-regexp': 'error',
+    'no-irregular-whitespace': 'error',
+    'no-obj-calls': 'error',
+    'no-regex-spaces': 'error',
+    'no-sparse-arrays': 'error',
+    'no-unexpected-multiline': 'error',
+    'valid-typeof': 'error'
+  },
+  overrides: [
+    {
+      files: ['api/**/*.js'],
+      rules: {
+        'no-console': 'off'
+      }
+    }
+  ],
+  globals: {
+    'Chart': 'readonly',
+    'Supabase': 'readonly',
+    'google': 'readonly',
+    'gtag': 'readonly',
+    'dataLayer': 'readonly',
+    'GeminiAITools': 'readonly'
+  },
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    '*.min.js',
+    'build.js',
+    'analyze-project.js',
+    'optimize-photos.js',
+    'performance-optimizer.js',
+    'seo-optimizer.js'
+  ]
 };
