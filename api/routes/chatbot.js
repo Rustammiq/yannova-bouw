@@ -520,4 +520,153 @@ async function generateAIQuote(requirements) {
   };
 }
 
+// AI Status endpoint
+router.get("/ai/status", async (req, res) => {
+  try {
+    // Check if AI services are available
+    const aiStatus = {
+      gemini: process.env.GEMINI_API_KEY ? "connected" : "offline",
+      chatbot: "online",
+      quoteGenerator: "online",
+      timestamp: new Date().toISOString(),
+    };
+
+    res.json({
+      success: true,
+      status: aiStatus,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// AI Activity logging endpoint
+router.post("/ai/activity", async (req, res) => {
+  try {
+    const { type, title, description, status, timestamp } = req.body;
+
+    // Store activity in database
+    const { data, error } = await supabase
+      .from("ai_activity_log")
+      .insert({
+        type,
+        title,
+        description,
+        status: status || "success",
+        timestamp: timestamp || new Date().toISOString(),
+        user_agent: req.headers["user-agent"],
+        ip_address: req.ip,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Activity storage error:", error);
+    }
+
+    res.json({
+      success: true,
+      activity: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// Get AI Activity (admin only)
+router.get("/ai/activity", authenticateToken, async (req, res) => {
+  try {
+    const { data: activities, error } = await supabase
+      .from("ai_activity_log")
+      .select("*")
+      .order("timestamp", { ascending: false })
+      .limit(50);
+
+    if (error) {
+      throw new Error("Failed to fetch AI activity");
+    }
+
+    res.json({
+      success: true,
+      activities: activities || [],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// AI Content Generation endpoint
+router.post("/ai/generate-content", async (req, res) => {
+  try {
+    const { type, topic, keywords, tone, length } = req.body;
+
+    // Simulate AI content generation
+    const content = await generateAIContent({
+      type,
+      topic,
+      keywords,
+      tone,
+      length,
+    });
+
+    res.json({
+      success: true,
+      content: content,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// Helper function for AI content generation
+async function generateAIContent({ type, topic, keywords, tone, length }) {
+  // This would integrate with Gemini AI in production
+  const templates = {
+    "project-beschrijving": `Project: ${topic}\n\nYannova Bouw heeft met succes een project afgerond voor ${topic}. Onze ervaren vakmensen hebben hoogwaardige ramen en deuren geplaatst die voldoen aan de hoogste kwaliteitsstandaarden. ${keywords ? "Belangrijke aspecten: " + keywords : ""}`,
+
+    "blog-post": `${topic}: Een Complete Gids door Yannova Bouw\n\nIn dit artikel bespreken we alles wat u moet weten over ${topic}. Als specialist in ramen en deuren met 15+ jaar ervaring delen wij onze expertise. ${keywords ? "Onderwerpen: " + keywords : ""}`,
+
+    "product-pagina": `${topic} - Yannova Bouw\n\nOntdek onze premium ${topic} oplossingen. Yannova Bouw levert topkwaliteit met 10 jaar garantie. ${keywords ? "Voordelen: " + keywords : ""}`,
+
+    "service-omschrijving": `Professionele ${topic} Dienstverlening\n\nYannova Bouw biedt deskundige ${topic} diensten. Ons team van gecertificeerde professionals zorgt voor perfecte resultaten. ${keywords ? "Specialisatie: " + keywords : ""}`,
+
+    "case-study": `Case Study: ${topic}\n\nLees hoe Yannova Bouw succesvol ${topic} heeft gerealiseerd voor onze tevreden klant. Een project dat onze expertise toont. ${keywords ? "Resultaten: " + keywords : ""}`,
+  };
+
+  const baseContent =
+    templates[type] || `Content over ${topic} door Yannova Bouw.`;
+
+  // Adjust length based on requirement
+  let content = baseContent;
+  if (length === "lang") {
+    content += "\n\n" + baseContent + "\n\n" + baseContent;
+  } else if (length === "medium") {
+    content += "\n\n" + baseContent;
+  }
+
+  // Adjust tone
+  const toneAdjustments = {
+    professioneel: "Onze professionele aanpak garandeert kwaliteit.",
+    vriendelijk: "We helpen u graag met een glimlach!",
+    technisch: "Technische specificaties en innovatieve oplossingen.",
+    overtuigend: "Kies voor Yannova Bouw en ervaar het verschil!",
+  };
+
+  content += "\n\n" + (toneAdjustments[tone] || "");
+
+  return content;
+}
+
 module.exports = router;
