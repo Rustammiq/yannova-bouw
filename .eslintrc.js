@@ -13,7 +13,7 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    'no-console': 'warn',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-unused-vars': 'warn',
     'no-var': 'error',
     'prefer-const': 'error',
@@ -46,6 +46,14 @@ module.exports = {
     'no-unexpected-multiline': 'error',
     'valid-typeof': 'error'
   },
+  overrides: [
+    {
+      files: ['api/**/*.js'],
+      rules: {
+        'no-console': 'off'
+      }
+    }
+  ],
   globals: {
     'Chart': 'readonly',
     'Supabase': 'readonly',

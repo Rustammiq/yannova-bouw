@@ -8,6 +8,28 @@ const helmet = require('helmet');
 const validator = require('validator');
 const crypto = require('crypto');
 
+// Simple logging utility
+const logger = {
+  info: (message, data = {}) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[INFO] ${new Date().toISOString()} - ${message}`, data);
+    }
+    // In production, send to logging service
+  },
+  warn: (message, data = {}) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`[WARN] ${new Date().toISOString()} - ${message}`, data);
+    }
+    // In production, send to logging service
+  },
+  error: (message, data = {}) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(`[ERROR] ${new Date().toISOString()} - ${message}`, data);
+    }
+    // In production, send to logging service
+  }
+};
+
 class SecurityMiddleware {
   constructor() {
     this.failedAttempts = new Map();

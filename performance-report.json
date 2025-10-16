@@ -1,0 +1,177 @@
+{
+  "bundleSize": {
+    "js": {
+      "size": 88715,
+      "sizeKB": 87,
+      "sizeMB": 0.08
+    },
+    "css": {
+      "size": 33694,
+      "sizeKB": 33,
+      "sizeMB": 0.03
+    }
+  },
+  "imageOptimization": {
+    "totalFiles": 16,
+    "totalSize": 25952760,
+    "unoptimized": [
+      {
+        "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_7quegp7quegp7que.png",
+        "size": 1989,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_cz0qtacz0qtacz0q.png",
+        "size": 1997,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_jreledjreledjrel.png",
+        "size": 2146,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_tepe3ztepe3ztepe.png",
+        "size": 2124,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_57AM(1).png",
+        "size": 2179,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_57AM.png",
+        "size": 2226,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_58AM.png",
+        "size": 2109,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "gallery/hero/construction-1.jpg",
+        "size": 1989,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "gallery/hero/construction-2.jpg",
+        "size": 1997,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "gallery/hero/construction-3.jpg",
+        "size": 2146,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "gallery/hero/construction-4.jpg",
+        "size": 2124,
+        "recommendation": "Compress or convert to WebP"
+      },
+      {
+        "file": "gallery/hero/construction-5.jpg",
+        "size": 2226,
+        "recommendation": "Compress or convert to WebP"
+      }
+    ],
+    "recommendations": [],
+    "totalSizeKB": 25344,
+    "totalSizeMB": 24.75
+  },
+  "codeOptimization": {
+    "totalFiles": 18,
+    "totalLines": 9227,
+    "issues": [
+      {
+        "file": "quote-generator.js",
+        "type": "console.log",
+        "count": 1
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "type": "images",
+      "priority": "high",
+      "message": "12 large images need optimization",
+      "impact": "Loading performance",
+      "details": [
+        {
+          "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_7quegp7quegp7que.png",
+          "size": 1989,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_cz0qtacz0qtacz0q.png",
+          "size": 1997,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_jreledjreledjrel.png",
+          "size": 2146,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Gemini_Generated_Image_tepe3ztepe3ztepe.png",
+          "size": 2124,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_57AM(1).png",
+          "size": 2179,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_57AM.png",
+          "size": 2226,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "portfolio/2024/ramen-deuren/Generated Image October 16, 2025 - 6_58AM.png",
+          "size": 2109,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "gallery/hero/construction-1.jpg",
+          "size": 1989,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "gallery/hero/construction-2.jpg",
+          "size": 1997,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "gallery/hero/construction-3.jpg",
+          "size": 2146,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "gallery/hero/construction-4.jpg",
+          "size": 2124,
+          "recommendation": "Compress or convert to WebP"
+        },
+        {
+          "file": "gallery/hero/construction-5.jpg",
+          "size": 2226,
+          "recommendation": "Compress or convert to WebP"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "priority": "medium",
+      "message": "Code quality issues found",
+      "impact": "Maintainability",
+      "details": [
+        {
+          "file": "quote-generator.js",
+          "type": "console.log",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

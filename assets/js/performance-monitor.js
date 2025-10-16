@@ -139,7 +139,7 @@ class PerformanceMonitor {
     }
 
     logMetric(name, value) {
-        }ms`);
+        console.log('Performance metric: ' + name + ' = ' + value + 'ms');
 
         // Send to analytics if available
         if (typeof gtag !== 'undefined') {
