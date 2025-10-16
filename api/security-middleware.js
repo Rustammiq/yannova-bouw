@@ -28,9 +28,19 @@ class SecurityMiddleware {
             },
             standardHeaders: true,
             legacyHeaders: false,
+            skip: (req) => {
+                // Skip rate limiting for successful requests
+                return req.user && req.user.role === 'admin';
+            },
             handler: (req, res) => {
                 const ip = req.ip;
                 this.recordFailedAttempt(ip);
+                this.logSecurityEvent('RATE_LIMIT_EXCEEDED', {
+                    ip,
+                    endpoint: req.path,
+                    method: req.method,
+                    userAgent: req.get('User-Agent')
+                });
                 res.status(429).json({
                     success: false,
                     message: 'Te veel inlogpogingen. Probeer het over 15 minuten opnieuw.'
@@ -71,7 +81,10 @@ class SecurityMiddleware {
                     fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
                     objectSrc: ["'none'"],
                     mediaSrc: ["'self'"],
-                    frameSrc: ["'none'"]
+                    frameSrc: ["'none'"],
+                    baseUri: ["'self'"],
+                    formAction: ["'self'"],
+                    frameAncestors: ["'none'"]
                 }
             },
             crossOriginEmbedderPolicy: false,
@@ -79,6 +92,19 @@ class SecurityMiddleware {
                 maxAge: 31536000,
                 includeSubDomains: true,
                 preload: true
+            },
+            noSniff: true,
+            xssFilter: true,
+            referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+            permissionsPolicy: {
+                camera: [],
+                microphone: [],
+                geolocation: [],
+                payment: [],
+                usb: [],
+                magnetometer: [],
+                gyroscope: [],
+                accelerometer: []
             }
         });
     }
