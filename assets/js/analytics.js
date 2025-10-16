@@ -239,12 +239,12 @@ class YannovaAnalytics {
   trackCustomEvent(eventName, eventData) {
     // Validate parameters before sending
     if (!eventName || eventName === 'undefined' || typeof eventName !== 'string') {
-
+      console.warn('Invalid analytics event name:', eventName);
       return;
     }
 
     if (!eventData || typeof eventData !== 'object') {
-
+      console.warn('Invalid analytics event data, using empty object');
       eventData = {};
     }
 
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (eventName && eventName !== 'undefined') {
           window.yannovaAnalytics.trackCustomEvent(eventName, data);
         } else {
-
+          console.warn('Skipping invalid pending analytics event:', eventName);
         }
       });
       window.pendingAnalyticsEvents = [];
