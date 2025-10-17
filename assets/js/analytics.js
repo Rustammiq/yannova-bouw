@@ -1,7 +1,7 @@
 // Analytics en Performance Monitoring voor Yannova
 class YannovaAnalytics {
   constructor() {
-    this.apiBaseUrl = window.location.origin + '/api';
+    this.apiBaseUrl = 'http://localhost:3003/api';
     this.sessionId = this.generateSessionId();
     this.startTime = Date.now();
     this.pageViews = 0;
