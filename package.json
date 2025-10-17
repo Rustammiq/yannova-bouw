@@ -19,6 +19,7 @@
     "format": "prettier --write \"**/*.{js,json,md,html,css}\"",
     "format:check": "prettier --check \"**/*.{js,json,md,html,css}\"",
     "optimize": "npm run build && node scripts/optimize-performance.js",
+    "optimize:ui": "node optimize-ui.js",
     "deploy": "npm run build && echo 'Ready for deployment'",
     "deploy:vercel": "vercel --prod",
     "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist",

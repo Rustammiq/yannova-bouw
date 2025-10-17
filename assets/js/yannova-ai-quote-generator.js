@@ -51,11 +51,11 @@ class YannovaAIQuoteGenerator {
 
         // Complexiteitsfactoren
         this.pricingEngine.setComplexityFactors({
-            moeilijke bereikbaarheid: 1.15,
-            monumentaal pand: 1.25,
-            hoogbouw: 1.10,
-            speciale afmetingen: 1.20,
-            dubbelzijdig werken: 1.10
+            'moeilijke bereikbaarheid': 1.15,
+            'monumentaal pand': 1.25,
+            'hoogbouw': 1.10,
+            'speciale afmetingen': 1.20,
+            'dubbelzijdig werken': 1.10
         });
 
         // Korting structuren

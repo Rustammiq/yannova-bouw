@@ -8,13 +8,13 @@
 class YannovaAIToolsBundle {
   constructor(config = {}) {
     this.config = {
-      apiEndpoint: config.apiEndpoint || "/api/ai-tools",
+      apiEndpoint: config.apiEndpoint || '/api/ai-tools',
       geminiApiKey: config.geminiApiKey || null,
       enableChatbot: config.enableChatbot !== false,
       enableQuoteGenerator: config.enableQuoteGenerator !== false,
       enableGeminiTools: config.enableGeminiTools !== false,
       debugMode: config.debugMode || false,
-      ...config,
+      ...config
     };
 
     this.instances = {};
@@ -26,24 +26,24 @@ class YannovaAIToolsBundle {
 
   async init() {
     try {
-      this.log("Initializing AI Tools Bundle...");
+      this.log('Initializing AI Tools Bundle...');
 
       // Initialize Gemini AI Tools
       if (this.config.enableGeminiTools) {
         this.instances.geminiTools = new GeminiAITools();
-        this.log("Gemini AI Tools initialized");
+        this.log('Gemini AI Tools initialized');
       }
 
       // Initialize AI Chatbot
       if (this.config.enableChatbot) {
         this.instances.chatbot = new YannovaAIChatbot();
-        this.log("AI Chatbot initialized");
+        this.log('AI Chatbot initialized');
       }
 
       // Initialize Quote Generator
       if (this.config.enableQuoteGenerator) {
         this.instances.quoteGenerator = new YannovaAIQuoteGenerator();
-        this.log("AI Quote Generator initialized");
+        this.log('AI Quote Generator initialized');
       }
 
       // Setup global event handlers
@@ -53,167 +53,167 @@ class YannovaAIToolsBundle {
       this.setupErrorHandling();
 
       this.isInitialized = true;
-      this.emit("bundle:initialized", {
-        instances: Object.keys(this.instances),
+      this.emit('bundle:initialized', {
+        instances: Object.keys(this.instances)
       });
-      this.log("AI Tools Bundle initialized successfully");
+      this.log('AI Tools Bundle initialized successfully');
     } catch (error) {
-      this.handleError("Bundle initialization failed", error);
+      this.handleError('Bundle initialization failed', error);
       throw error;
     }
   }
 
   // Gemini AI Tools Methods
   async generateVideo(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("video:generation:start", options);
+      this.emit('video:generation:start', options);
       const result = await this.instances.geminiTools.generateVideo(options);
-      this.emit("video:generation:complete", result);
+      this.emit('video:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Video generation failed", error);
+      this.handleError('Video generation failed', error);
       throw error;
     }
   }
 
   async generateContent(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("content:generation:start", options);
+      this.emit('content:generation:start', options);
       const result = await this.instances.geminiTools.generateContent(options);
-      this.emit("content:generation:complete", result);
+      this.emit('content:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Content generation failed", error);
+      this.handleError('Content generation failed', error);
       throw error;
     }
   }
 
   async generateQuote(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("quote:generation:start", options);
+      this.emit('quote:generation:start', options);
       const result = await this.instances.geminiTools.generateQuote(options);
-      this.emit("quote:generation:complete", result);
+      this.emit('quote:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Quote generation failed", error);
+      this.handleError('Quote generation failed', error);
       throw error;
     }
   }
 
   async generateProjectPlan(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("project-plan:generation:start", options);
+      this.emit('project-plan:generation:start', options);
       const result =
         await this.instances.geminiTools.generateProjectPlan(options);
-      this.emit("project-plan:generation:complete", result);
+      this.emit('project-plan:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Project plan generation failed", error);
+      this.handleError('Project plan generation failed', error);
       throw error;
     }
   }
 
   async generateCustomerResponse(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("customer-response:generation:start", options);
+      this.emit('customer-response:generation:start', options);
       const result =
         await this.instances.geminiTools.generateCustomerResponse(options);
-      this.emit("customer-response:generation:complete", result);
+      this.emit('customer-response:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Customer response generation failed", error);
+      this.handleError('Customer response generation failed', error);
       throw error;
     }
   }
 
   async generateAnalytics(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("analytics:generation:start", options);
+      this.emit('analytics:generation:start', options);
       const result =
         await this.instances.geminiTools.generateAnalytics(options);
-      this.emit("analytics:generation:complete", result);
+      this.emit('analytics:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Analytics generation failed", error);
+      this.handleError('Analytics generation failed', error);
       throw error;
     }
   }
 
   async generateReport(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("report:generation:start", options);
+      this.emit('report:generation:start', options);
       const result = await this.instances.geminiTools.generateReport(options);
-      this.emit("report:generation:complete", result);
+      this.emit('report:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Report generation failed", error);
+      this.handleError('Report generation failed', error);
       throw error;
     }
   }
 
   async generateDesign(options) {
-    this.ensureInitialized("geminiTools");
+    this.ensureInitialized('geminiTools');
     try {
-      this.emit("design:generation:start", options);
+      this.emit('design:generation:start', options);
       const result = await this.instances.geminiTools.generateDesign(options);
-      this.emit("design:generation:complete", result);
+      this.emit('design:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Design generation failed", error);
+      this.handleError('Design generation failed', error);
       throw error;
     }
   }
 
   // AI Chatbot Methods
   async processChatMessage(message, options = {}) {
-    this.ensureInitialized("chatbot");
+    this.ensureInitialized('chatbot');
     try {
-      this.emit("chat:message:start", { message, options });
+      this.emit('chat:message:start', { message, options });
       const result = await this.instances.chatbot.processMessage(message);
-      this.emit("chat:message:complete", result);
+      this.emit('chat:message:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Chat message processing failed", error);
+      this.handleError('Chat message processing failed', error);
       throw error;
     }
   }
 
   getChatSuggestions(intent = null) {
-    this.ensureInitialized("chatbot");
+    this.ensureInitialized('chatbot');
     return this.instances.chatbot.generateSuggestions({ intent });
   }
 
   getChatUserProfile() {
-    this.ensureInitialized("chatbot");
+    this.ensureInitialized('chatbot');
     return this.instances.chatbot.userProfile;
   }
 
   // AI Quote Generator Methods
   async generateDetailedQuote(requirements) {
-    this.ensureInitialized("quoteGenerator");
+    this.ensureInitialized('quoteGenerator');
     try {
-      this.emit("detailed-quote:generation:start", requirements);
+      this.emit('detailed-quote:generation:start', requirements);
       const result =
         await this.instances.quoteGenerator.generateQuote(requirements);
-      this.emit("detailed-quote:generation:complete", result);
+      this.emit('detailed-quote:generation:complete', result);
       return result;
     } catch (error) {
-      this.handleError("Detailed quote generation failed", error);
+      this.handleError('Detailed quote generation failed', error);
       throw error;
     }
   }
 
   getQuoteRecommendations(requirements) {
-    this.ensureInitialized("quoteGenerator");
+    this.ensureInitialized('quoteGenerator');
     return this.instances.quoteGenerator.generateAIRecommendations(
-      requirements,
+      requirements
     );
   }
 
@@ -224,7 +224,7 @@ class YannovaAIToolsBundle {
       instances: Object.keys(this.instances),
       config: this.config,
       uptime: Date.now() - (this.initTime || Date.now()),
-      memory: this.getMemoryUsage(),
+      memory: this.getMemoryUsage()
     };
   }
 
@@ -263,33 +263,33 @@ class YannovaAIToolsBundle {
 
   async testGeminiTools() {
     const testResult = await this.instances.geminiTools.generateContent({
-      contentType: "test",
-      topic: "AI Tools Bundle Test",
-      length: "short",
-      tone: "professional",
-      keywords: ["test", "ai", "bundle"],
+      contentType: 'test',
+      topic: 'AI Tools Bundle Test',
+      length: 'short',
+      tone: 'professional',
+      keywords: ['test', 'ai', 'bundle']
     });
     return { success: true, testResult };
   }
 
   async testChatbot() {
     const testResult =
-      await this.instances.chatbot.processMessage("Test bericht");
+      await this.instances.chatbot.processMessage('Test bericht');
     return { success: true, testResult };
   }
 
   async testQuoteGenerator() {
     const testRequirements = {
-      klant: { naam: "Test Klant" },
-      projectType: "ramen-deuren",
+      klant: { naam: 'Test Klant' },
+      projectType: 'ramen-deuren',
       ramen: [
         {
-          materiaal: "kunststof",
-          glas: "hr++",
+          materiaal: 'kunststof',
+          glas: 'hr++',
           aantal: 1,
-          afmetingen: { breedte: 100, hoogte: 120 },
-        },
-      ],
+          afmetingen: { breedte: 100, hoogte: 120 }
+        }
+      ]
     };
     const testResult =
       await this.instances.quoteGenerator.generateQuote(testRequirements);
@@ -329,24 +329,24 @@ class YannovaAIToolsBundle {
   // Helper Methods
   ensureInitialized(instanceName) {
     if (!this.isInitialized) {
-      throw new Error("AI Tools Bundle is not initialized");
+      throw new Error('AI Tools Bundle is not initialized');
     }
     if (!this.instances[instanceName]) {
       throw new Error(
-        `${instanceName} is not available in this bundle configuration`,
+        `${instanceName} is not available in this bundle configuration`
       );
     }
   }
 
   setupEventHandlers() {
     // Global error handler
-    window.addEventListener("error", (event) => {
-      this.handleError("Global error caught", event.error);
+    window.addEventListener('error', (event) => {
+      this.handleError('Global error caught', event.error);
     });
 
     // Unhandled promise rejection handler
-    window.addEventListener("unhandledrejection", (event) => {
-      this.handleError("Unhandled promise rejection", event.reason);
+    window.addEventListener('unhandledrejection', (event) => {
+      this.handleError('Unhandled promise rejection', event.reason);
     });
   }
 
@@ -355,7 +355,7 @@ class YannovaAIToolsBundle {
     Object.keys(this.instances).forEach((instanceName) => {
       const instance = this.instances[instanceName];
       if (instance.addEventListener) {
-        instance.addEventListener("error", (error) => {
+        instance.addEventListener('error', (error) => {
           this.handleError(`${instanceName} error`, error);
         });
       }
@@ -368,13 +368,13 @@ class YannovaAIToolsBundle {
       error: error?.message || error,
       stack: error?.stack,
       timestamp: new Date().toISOString(),
-      bundleVersion: "1.0.0",
+      bundleVersion: '1.0.0'
     };
 
-    this.emit("bundle:error", errorData);
+    this.emit('bundle:error', errorData);
 
     if (this.config.debugMode) {
-      console.error("[AI Tools Bundle Error]", errorData);
+      console.error('[AI Tools Bundle Error]', errorData);
     }
   }
 
@@ -383,7 +383,7 @@ class YannovaAIToolsBundle {
       return {
         used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
         total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
-        limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024),
+        limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024)
       };
     }
     return null;
@@ -407,7 +407,7 @@ class YannovaAIToolsBundle {
     this.eventListeners.clear();
     this.instances = {};
     this.isInitialized = false;
-    this.log("AI Tools Bundle destroyed");
+    this.log('AI Tools Bundle destroyed');
   }
 }
 
@@ -419,8 +419,8 @@ class AIToolsManager {
     this.activityLog = [];
     this.settings = {
       autoGeneration: false,
-      contentQuality: "high",
-      apiStatus: "checking",
+      contentQuality: 'high',
+      apiStatus: 'checking'
     };
 
     this.init();
@@ -437,44 +437,44 @@ class AIToolsManager {
   async loadAIModules() {
     try {
       // Load AI Chatbot
-      if (typeof YannovaAIChatbot !== "undefined") {
+      if (typeof YannovaAIChatbot !== 'undefined') {
         window.yannovaAIChatbot = new YannovaAIChatbot();
       }
 
       // Load AI Quote Generator
-      if (typeof YannovaAIQuoteGenerator !== "undefined") {
+      if (typeof YannovaAIQuoteGenerator !== 'undefined') {
         window.yannovaAIQuoteGenerator = new YannovaAIQuoteGenerator();
       }
 
       // Load Quote Processor
-      if (typeof YannovaQuoteProcessor !== "undefined") {
+      if (typeof YannovaQuoteProcessor !== 'undefined') {
         window.yannovaQuoteProcessor = new YannovaQuoteProcessor();
       }
 
-      console.log("AI modules loaded successfully");
+      console.log('AI modules loaded successfully');
     } catch (error) {
-      console.error("Failed to load AI modules:", error);
-      this.showNotification("AI modules laden mislukt", "error");
+      console.error('Failed to load AI modules:', error);
+      this.showNotification('AI modules laden mislukt', 'error');
     }
   }
 
   bindEvents() {
     // Modal close events
-    document.querySelector(".modal-close")?.addEventListener("click", () => {
+    document.querySelector('.modal-close')?.addEventListener('click', () => {
       this.closeCurrentTool();
     });
 
     // Settings changes
     document
-      .getElementById("auto-generation")
-      ?.addEventListener("change", (e) => {
+      .getElementById('auto-generation')
+      ?.addEventListener('change', (e) => {
         this.settings.autoGeneration = e.target.checked;
         this.saveSettings();
       });
 
     document
-      .getElementById("content-quality")
-      ?.addEventListener("change", (e) => {
+      .getElementById('content-quality')
+      ?.addEventListener('change', (e) => {
         this.settings.contentQuality = e.target.value;
         this.saveSettings();
       });
@@ -486,36 +486,36 @@ class AIToolsManager {
   }
 
   async checkAPIStatus() {
-    const statusElement = document.getElementById("api-status");
-    const statusText = document.getElementById("api-status-text");
+    const statusElement = document.getElementById('api-status');
+    const statusText = document.getElementById('api-status-text');
 
     try {
-      const response = await fetch("/api/ai/status", {
-        method: "GET",
-        credentials: "include",
+      const response = await fetch('/api/ai/status', {
+        method: 'GET',
+        credentials: 'include'
       });
 
       if (response.ok) {
         const data = await response.json();
-        this.settings.apiStatus = "connected";
-        statusElement.className = "status-indicator online";
-        statusText.textContent = "Connected";
+        this.settings.apiStatus = 'connected';
+        statusElement.className = 'status-indicator online';
+        statusText.textContent = 'Connected';
       } else {
-        throw new Error("API not responding");
+        throw new Error('API not responding');
       }
     } catch (error) {
-      this.settings.apiStatus = "offline";
-      statusElement.className = "status-indicator offline";
-      statusText.textContent = "Offline";
+      this.settings.apiStatus = 'offline';
+      statusElement.className = 'status-indicator offline';
+      statusText.textContent = 'Offline';
     }
   }
 
   async loadRecentActivity() {
-    const activityList = document.getElementById("activity-list");
+    const activityList = document.getElementById('activity-list');
 
     try {
-      const response = await fetch("/api/ai/activity", {
-        credentials: "include",
+      const response = await fetch('/api/ai/activity', {
+        credentials: 'include'
       });
 
       if (response.ok) {
@@ -525,21 +525,21 @@ class AIToolsManager {
       } else {
         // Load from localStorage as fallback
         this.activityLog = JSON.parse(
-          localStorage.getItem("aiActivityLog") || "[]",
+          localStorage.getItem('aiActivityLog') || '[]'
         );
         this.renderActivity();
       }
     } catch (error) {
-      console.error("Failed to load activity:", error);
+      console.error('Failed to load activity:', error);
       this.activityLog = JSON.parse(
-        localStorage.getItem("aiActivityLog") || "[]",
+        localStorage.getItem('aiActivityLog') || '[]'
       );
       this.renderActivity();
     }
   }
 
   renderActivity() {
-    const activityList = document.getElementById("activity-list");
+    const activityList = document.getElementById('activity-list');
 
     if (this.activityLog.length === 0) {
       activityList.innerHTML = `
@@ -565,24 +565,24 @@ class AIToolsManager {
                     <div class="activity-time">${this.formatTime(activity.timestamp)}</div>
                 </div>
                 <div class="activity-status ${activity.status}">
-                    <i class="fas ${activity.status === "success" ? "fa-check" : "fa-exclamation-triangle"}"></i>
+                    <i class="fas ${activity.status === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i>
                 </div>
             </div>
-        `,
+        `
       )
-      .join("");
+      .join('');
   }
 
   getActivityIcon(type) {
     const icons = {
-      quote: "fa-file-invoice",
-      content: "fa-pen-fancy",
-      video: "fa-video",
-      planning: "fa-calendar-alt",
-      analytics: "fa-chart-line",
-      design: "fa-cube",
+      quote: 'fa-file-invoice',
+      content: 'fa-pen-fancy',
+      video: 'fa-video',
+      planning: 'fa-calendar-alt',
+      analytics: 'fa-chart-line',
+      design: 'fa-cube'
     };
-    return icons[type] || "fa-robot";
+    return icons[type] || 'fa-robot';
   }
 
   formatTime(timestamp) {
@@ -590,38 +590,38 @@ class AIToolsManager {
     const time = new Date(timestamp);
     const diff = Math.floor((now - time) / 1000);
 
-    if (diff < 60) return "zojuist";
-    if (diff < 3600) return `${Math.floor(diff / 60)} min geleden`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} uur geleden`;
+    if (diff < 60) {return 'zojuist';}
+    if (diff < 3600) {return `${Math.floor(diff / 60)} min geleden`;}
+    if (diff < 86400) {return `${Math.floor(diff / 3600)} uur geleden`;}
     return `${Math.floor(diff / 86400)} dagen geleden`;
   }
 
   initializeSettings() {
     // Load settings from localStorage
-    const savedSettings = localStorage.getItem("aiToolsSettings");
+    const savedSettings = localStorage.getItem('aiToolsSettings');
     if (savedSettings) {
       this.settings = { ...this.settings, ...JSON.parse(savedSettings) };
     }
 
     // Apply settings to UI
-    document.getElementById("auto-generation").checked =
+    document.getElementById('auto-generation').checked =
       this.settings.autoGeneration;
-    document.getElementById("content-quality").value =
+    document.getElementById('content-quality').value =
       this.settings.contentQuality;
   }
 
   saveSettings() {
-    localStorage.setItem("aiToolsSettings", JSON.stringify(this.settings));
+    localStorage.setItem('aiToolsSettings', JSON.stringify(this.settings));
   }
 
-  logActivity(type, title, description, status = "success") {
+  logActivity(type, title, description, status = 'success') {
     const activity = {
       id: Date.now(),
       type,
       title,
       description,
       status,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
 
     this.activityLog.unshift(activity);
@@ -632,71 +632,71 @@ class AIToolsManager {
     }
 
     // Save to localStorage
-    localStorage.setItem("aiActivityLog", JSON.stringify(this.activityLog));
+    localStorage.setItem('aiActivityLog', JSON.stringify(this.activityLog));
 
     // Update UI
     this.renderActivity();
 
     // Send to server if online
-    if (this.settings.apiStatus === "connected") {
+    if (this.settings.apiStatus === 'connected') {
       this.sendActivityToServer(activity);
     }
   }
 
   async sendActivityToServer(activity) {
     try {
-      await fetch("/api/ai/activity", {
-        method: "POST",
+      await fetch('/api/ai/activity', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        credentials: "include",
-        body: JSON.stringify(activity),
+        credentials: 'include',
+        body: JSON.stringify(activity)
       });
     } catch (error) {
-      console.error("Failed to send activity to server:", error);
+      console.error('Failed to send activity to server:', error);
     }
   }
 
   showLoading() {
-    document.getElementById("loading-overlay").style.display = "flex";
+    document.getElementById('loading-overlay').style.display = 'flex';
   }
 
   hideLoading() {
-    document.getElementById("loading-overlay").style.display = "none";
+    document.getElementById('loading-overlay').style.display = 'none';
   }
 
-  showNotification(message, type = "info") {
+  showNotification(message, type = 'info') {
     // Create notification element
-    const notification = document.createElement("div");
+    const notification = document.createElement('div');
     notification.className = `ai-notification ai-notification-${type}`;
     notification.innerHTML = `
             <div class="notification-content">
-                <i class="fas ${type === "success" ? "fa-check-circle" : type === "error" ? "fa-exclamation-circle" : "fa-info-circle"}"></i>
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
                 <span>${message}</span>
             </div>
         `;
 
     // Style the notification
     Object.assign(notification.style, {
-      position: "fixed",
-      top: "20px",
-      right: "20px",
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
       background:
-        type === "success"
-          ? "#27ae60"
-          : type === "error"
-            ? "#e74c3c"
-            : "#3498db",
-      color: "white",
-      padding: "12px 20px",
-      borderRadius: "8px",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-      zIndex: "10000",
-      maxWidth: "300px",
-      fontSize: "14px",
-      lineHeight: "1.4",
-      animation: "slideInRight 0.3s ease",
+        type === 'success'
+          ? '#27ae60'
+          : type === 'error'
+            ? '#e74c3c'
+            : '#3498db',
+      color: 'white',
+      padding: '12px 20px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      zIndex: '10000',
+      maxWidth: '300px',
+      fontSize: '14px',
+      lineHeight: '1.4',
+      animation: 'slideInRight 0.3s ease'
     });
 
     document.body.appendChild(notification);
@@ -704,7 +704,7 @@ class AIToolsManager {
     // Auto remove after 3 seconds
     setTimeout(() => {
       if (notification.parentNode) {
-        notification.style.animation = "slideOutRight 0.3s ease";
+        notification.style.animation = 'slideOutRight 0.3s ease';
         setTimeout(() => {
           if (notification.parentNode) {
             notification.parentNode.removeChild(notification);
@@ -715,113 +715,113 @@ class AIToolsManager {
   }
 
   closeCurrentTool() {
-    const modal = document.getElementById("ai-tool-modal");
+    const modal = document.getElementById('ai-tool-modal');
     if (modal) {
-      modal.classList.remove("show");
+      modal.classList.remove('show');
     }
     this.currentTool = null;
   }
 }
 
 // Global function to open AI tools
-window.openAITool = async function (toolType) {
+window.openAITool = async function(toolType) {
   if (!window.aiToolsManager) {
     window.aiToolsManager = new AIToolsManager();
   }
 
   const manager = window.aiToolsManager;
-  const modal = document.getElementById("ai-tool-modal");
-  const modalTitle = document.getElementById("modal-title");
-  const modalBody = document.getElementById("modal-body");
+  const modal = document.getElementById('ai-tool-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
 
   // Set current tool
   manager.currentTool = toolType;
 
   // Configure modal based on tool type
   switch (toolType) {
-    case "quote-generator":
-      modalTitle.textContent = "Intelligent Quote Generator";
-      modalBody.innerHTML = await manager.getQuoteGeneratorContent();
-      break;
+  case 'quote-generator':
+    modalTitle.textContent = 'Intelligent Quote Generator';
+    modalBody.innerHTML = await manager.getQuoteGeneratorContent();
+    break;
 
-    case "content-writer":
-      modalTitle.textContent = "Smart Content Writer";
-      modalBody.innerHTML = await manager.getContentWriterContent();
-      break;
+  case 'content-writer':
+    modalTitle.textContent = 'Smart Content Writer';
+    modalBody.innerHTML = await manager.getContentWriterContent();
+    break;
 
-    case "customer-service":
-      modalTitle.textContent = "Customer Service AI";
-      modalBody.innerHTML = await manager.getCustomerServiceContent();
-      break;
+  case 'customer-service':
+    modalTitle.textContent = 'Customer Service AI';
+    modalBody.innerHTML = await manager.getCustomerServiceContent();
+    break;
 
-    default:
-      modalTitle.textContent = "AI Tool";
-      modalBody.innerHTML = "<p>Tool wordt geladen...</p>";
+  default:
+    modalTitle.textContent = 'AI Tool';
+    modalBody.innerHTML = '<p>Tool wordt geladen...</p>';
   }
 
   // Show modal
-  modal.classList.add("show");
+  modal.classList.add('show');
 };
 
 // Global function to close AI tools
-window.closeAITool = function () {
+window.closeAITool = function() {
   if (window.aiToolsManager) {
     window.aiToolsManager.closeCurrentTool();
   }
 };
 
 // Tool action functions
-window.generateAIQuote = async function () {
-  if (!window.aiToolsManager || !window.yannovaAIQuoteGenerator) return;
+window.generateAIQuote = async function() {
+  if (!window.aiToolsManager || !window.yannovaAIQuoteGenerator) {return;}
 
   const manager = window.aiToolsManager;
   manager.showLoading();
 
   try {
     const quoteData = {
-      projectType: document.getElementById("quote-project-type").value,
-      quality: document.getElementById("quote-quality").value,
-      dimensions: document.getElementById("quote-dimensions").value,
-      materials: document.getElementById("quote-materials").value,
-      specialRequirements: document.getElementById("quote-special-requirements")
-        .value,
+      projectType: document.getElementById('quote-project-type').value,
+      quality: document.getElementById('quote-quality').value,
+      dimensions: document.getElementById('quote-dimensions').value,
+      materials: document.getElementById('quote-materials').value,
+      specialRequirements: document.getElementById('quote-special-requirements')
+        .value
     };
 
     const quote = await window.yannovaAIQuoteGenerator.generateQuote(quoteData);
     displayQuoteResult(quote);
     manager.logActivity(
-      "quote",
-      "Offerte Genereerd",
+      'quote',
+      'Offerte Genereerd',
       `${quoteData.projectType} - ${quoteData.materials}`,
-      "success",
+      'success'
     );
   } catch (error) {
-    console.error("Error generating quote:", error);
-    manager.showNotification("Offerte genereren mislukt", "error");
+    console.error('Error generating quote:', error);
+    manager.showNotification('Offerte genereren mislukt', 'error');
     manager.logActivity(
-      "quote",
-      "Offerte Genereren Mislukt",
+      'quote',
+      'Offerte Genereren Mislukt',
       error.message,
-      "error",
+      'error'
     );
   } finally {
     manager.hideLoading();
   }
 };
 
-window.sendAIMessage = async function () {
-  if (!window.aiToolsManager || !window.yannovaAIChatbot) return;
+window.sendAIMessage = async function() {
+  if (!window.aiToolsManager || !window.yannovaAIChatbot) {return;}
 
-  const input = document.getElementById("ai-chat-input");
+  const input = document.getElementById('ai-chat-input');
   const message = input.value.trim();
 
-  if (!message) return;
+  if (!message) {return;}
 
-  const chatMessages = document.getElementById("ai-chat-messages");
+  const chatMessages = document.getElementById('ai-chat-messages');
 
   // Add user message
-  const userMessage = document.createElement("div");
-  userMessage.className = "message user-message";
+  const userMessage = document.createElement('div');
+  userMessage.className = 'message user-message';
   userMessage.innerHTML = `
         <div class="message-content">
             <p>${message}</p>
@@ -829,15 +829,15 @@ window.sendAIMessage = async function () {
     `;
   chatMessages.appendChild(userMessage);
 
-  input.value = "";
+  input.value = '';
 
   try {
     // Get AI response
     const response = await window.yannovaAIChatbot.getResponse(message);
 
     // Add AI message
-    const aiMessage = document.createElement("div");
-    aiMessage.className = "message ai-message";
+    const aiMessage = document.createElement('div');
+    aiMessage.className = 'message ai-message';
     aiMessage.innerHTML = `
             <div class="message-avatar">
                 <i class="fas fa-robot"></i>
@@ -851,10 +851,10 @@ window.sendAIMessage = async function () {
     // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
   } catch (error) {
-    console.error("Error getting AI response:", error);
+    console.error('Error getting AI response:', error);
 
-    const errorMessage = document.createElement("div");
-    errorMessage.className = "message ai-message";
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'message ai-message';
     errorMessage.innerHTML = `
             <div class="message-avatar">
                 <i class="fas fa-robot"></i>
@@ -869,8 +869,8 @@ window.sendAIMessage = async function () {
 
 // Helper functions
 function displayQuoteResult(quote) {
-  const resultDiv = document.getElementById("quote-result");
-  if (!resultDiv) return;
+  const resultDiv = document.getElementById('quote-result');
+  if (!resultDiv) {return;}
 
   resultDiv.innerHTML = `
         <div class="quote-result">
@@ -882,20 +882,20 @@ function displayQuoteResult(quote) {
                 <p><strong>Estimated Duration:</strong> ${quote.duration}</p>
             </div>
             <div class="quote-actions">
-                <button class="btn btn-primary" onclick="saveQuote('${JSON.stringify(quote).replace(/'/g, "\\'")}')">
+                <button class="btn btn-primary" onclick="saveQuote('${JSON.stringify(quote).replace(/'/g, '\\\'')}')">
                     <i class="fas fa-save"></i> Save Quote
                 </button>
-                <button class="btn btn-secondary" onclick="exportQuote('${JSON.stringify(quote).replace(/'/g, "\\'")}')">
+                <button class="btn btn-secondary" onclick="exportQuote('${JSON.stringify(quote).replace(/'/g, '\\\'')}')">
                     <i class="fas fa-download"></i> Export
                 </button>
             </div>
         </div>
     `;
-  resultDiv.style.display = "block";
+  resultDiv.style.display = 'block';
 }
 
 // Add content generation methods to AIToolsManager prototype
-AIToolsManager.prototype.getQuoteGeneratorContent = async function () {
+AIToolsManager.prototype.getQuoteGeneratorContent = async function() {
   return `
         <div class="ai-tool-content">
             <div class="tool-description">
@@ -963,7 +963,7 @@ AIToolsManager.prototype.getQuoteGeneratorContent = async function () {
     `;
 };
 
-AIToolsManager.prototype.getContentWriterContent = async function () {
+AIToolsManager.prototype.getContentWriterContent = async function() {
   return `
         <div class="ai-tool-content">
             <div class="tool-description">
@@ -1028,7 +1028,7 @@ AIToolsManager.prototype.getContentWriterContent = async function () {
     `;
 };
 
-AIToolsManager.prototype.getCustomerServiceContent = async function () {
+AIToolsManager.prototype.getCustomerServiceContent = async function() {
   return `
         <div class="ai-tool-content">
             <div class="tool-description">
@@ -1059,27 +1059,27 @@ AIToolsManager.prototype.getCustomerServiceContent = async function () {
 };
 
 // Auto-initialize if script is loaded directly
-if (typeof window !== "undefined" && !window.yannovaAIBundle) {
+if (typeof window !== 'undefined' && !window.yannovaAIBundle) {
   window.yannovaAIBundle = new YannovaAIToolsBundle();
 }
 
 // Initialize AI Tools Manager for admin dashboard
 if (
-  typeof window !== "undefined" &&
-  window.location.pathname.includes("ai-dashboard")
+  typeof window !== 'undefined' &&
+  window.location.pathname.includes('ai-dashboard')
 ) {
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener('DOMContentLoaded', () => {
     window.aiToolsManager = new AIToolsManager();
   });
 }
 
 // Export for module systems
-if (typeof module !== "undefined" && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = YannovaAIToolsBundle;
 }
 
-if (typeof define === "function" && define.amd) {
-  define([], function () {
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
     return YannovaAIToolsBundle;
   });
 }

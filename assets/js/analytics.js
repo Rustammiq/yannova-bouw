@@ -268,18 +268,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Retry stored events on page load
   window.yannovaAnalytics.retryStoredEvents();
 
-    // Process any pending events from quote generator
-    if (window.pendingAnalyticsEvents) {
-      window.pendingAnalyticsEvents.forEach(({ eventName, data }) => {
-        // Validate pending events before processing
-        if (eventName && eventName !== 'undefined') {
-          window.yannovaAnalytics.trackCustomEvent(eventName, data);
-        } else {
-          console.warn('Skipping invalid pending analytics event:', eventName);
-        }
-      });
-      window.pendingAnalyticsEvents = [];
-    }
+  // Process any pending events from quote generator
+  if (window.pendingAnalyticsEvents) {
+    window.pendingAnalyticsEvents.forEach(({ eventName, data }) => {
+      // Validate pending events before processing
+      if (eventName && eventName !== 'undefined') {
+        window.yannovaAnalytics.trackCustomEvent(eventName, data);
+      } else {
+        console.warn('Skipping invalid pending analytics event:', eventName);
+      }
+    });
+    window.pendingAnalyticsEvents = [];
+  }
 });
 
 // Export for use in other scripts

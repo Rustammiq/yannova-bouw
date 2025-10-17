@@ -166,7 +166,7 @@ Wees altijd eerlijk over prijzen en verwijs door voor exacte offertes.`
             this.conversationContext.push({
                 role: 'assistant',
                 content: response
-            );
+            });
 
             // Beperk context lengte
             if (this.conversationContext.length > 10) {

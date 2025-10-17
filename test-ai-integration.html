@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Integration Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #f5f5f5;
+      }
+      .test-section {
+        background: white;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-result {
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0.25rem;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .loading {
+        color: #666;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🤖 AI Integration Test - Yannova Bouw</h1>
+
+    <div class="test-section">
+      <h2>1. AI Status Check</h2>
+      <button onclick="testAIStatus()">Test AI Status</button>
+      <div id="ai-status-result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>2. Chatbot Test</h2>
+      <input
+        type="text"
+        id="chat-message"
+        placeholder="Type a message..."
+        style="width: 70%; padding: 0.5rem"
+      />
+      <button onclick="testChatbot()">Send Message</button>
+      <div id="chatbot-result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>3. Quote Generator Test</h2>
+      <button onclick="testQuoteGenerator()">Generate Test Quote</button>
+      <div id="quote-result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>4. Content Generation Test</h2>
+      <button onclick="testContentGeneration()">Generate Test Content</button>
+      <div id="content-result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>5. AI Activity Log Test</h2>
+      <button onclick="testActivityLog()">Log Test Activity</button>
+      <button onclick="testGetActivity()">Get Activity Log</button>
+      <div id="activity-result"></div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:3000/api";
+
+      async function makeRequest(endpoint, method = "GET", data = null) {
+        try {
+          const options = {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          };
+
+          if (data) {
+            options.body = JSON.stringify(data);
+          }
+
+          const response = await fetch(`${API_BASE}${endpoint}`, options);
+          const result = await response.json();
+
+          return {
+            success: response.ok,
+            data: result,
+            status: response.status,
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+          };
+        }
+      }
+
+      function showResult(elementId, result, title = "") {
+        const element = document.getElementById(elementId);
+        const className = result.success ? "success" : "error";
+
+        let content = `<div class="test-result ${className}">`;
+        if (title) content += `<strong>${title}</strong><br>`;
+
+        if (result.success) {
+          content += `<pre>${JSON.stringify(result.data, null, 2)}</pre>`;
+        } else {
+          content += `Error: ${result.error || result.data?.error || "Unknown error"}`;
+        }
+
+        content += `</div>`;
+        element.innerHTML = content;
+      }
+
+      function showLoading(elementId) {
+        document.getElementById(elementId).innerHTML =
+          '<div class="test-result info loading">Testing...</div>';
+      }
+
+      async function testAIStatus() {
+        showLoading("ai-status-result");
+        const result = await makeRequest("/chatbot/ai/status");
+        showResult("ai-status-result", result, "AI Status Response");
+      }
+
+      async function testChatbot() {
+        const message = document.getElementById("chat-message").value;
+        if (!message) {
+          showResult("chatbot-result", {
+            success: false,
+            error: "Please enter a message",
+          });
+          return;
+        }
+
+        showLoading("chatbot-result");
+        const result = await makeRequest("/chatbot", "POST", {
+          message: message,
+          sessionId: "test-session-" + Date.now(),
+        });
+        showResult("chatbot-result", result, "Chatbot Response");
+      }
+
+      async function testQuoteGenerator() {
+        showLoading("quote-result");
+        const testRequirements = {
+          klant: {
+            naam: "Test Klant",
+            email: "test@example.com",
+            telefoon: "0612345678",
+          },
+          projectType: "ramen-deuren",
+          ramen: [
+            {
+              materiaal: "kunststof",
+              glas: "hr++",
+              aantal: 2,
+              afmetingen: { breedte: 100, hoogte: 120 },
+            },
+          ],
+        };
+
+        const result = await makeRequest(
+          "/chatbot/generate-quote",
+          "POST",
+          testRequirements,
+        );
+        showResult("quote-result", result, "Quote Generation Response");
+      }
+
+      async function testContentGeneration() {
+        showLoading("content-result");
+        const contentData = {
+          type: "project-beschrijving",
+          topic: "Ramen vervangen Amsterdam",
+          keywords: "ramen, kunststof, isolatie",
+          tone: "professioneel",
+          length: "medium",
+        };
+
+        const result = await makeRequest(
+          "/chatbot/ai/generate-content",
+          "POST",
+          contentData,
+        );
+        showResult("content-result", result, "Content Generation Response");
+      }
+
+      async function testActivityLog() {
+        showLoading("activity-result");
+        const activityData = {
+          type: "test",
+          title: "Integration Test",
+          description: "Testing AI activity logging",
+          status: "success",
+        };
+
+        const result = await makeRequest(
+          "/chatbot/ai/activity",
+          "POST",
+          activityData,
+        );
+        showResult("activity-result", result, "Activity Log Response");
+      }
+
+      async function testGetActivity() {
+        showLoading("activity-result");
+        const result = await makeRequest("/chatbot/ai/activity");
+        showResult("activity-result", result, "Activity Log Retrieved");
+      }
+
+      // Run initial status check on page load
+      window.addEventListener("load", () => {
+        testAIStatus();
+      });
+    </script>
+  </body>
+</html>
